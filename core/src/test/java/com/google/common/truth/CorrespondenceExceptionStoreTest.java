@@ -31,23 +31,19 @@ import org.junit.runners.JUnit4;
  *
  * @author Pete Gillin
  */
-@RunWith(JUnit4.class)
 public final class CorrespondenceExceptionStoreTest extends BaseSubjectTestCase {
 
-  @Test
   public void hasCompareException_empty() {
     Correspondence.ExceptionStore exceptions = Correspondence.ExceptionStore.forIterable();
     assertThat(exceptions.hasCompareException()).isFalse();
   }
 
-  @Test
   public void hasCompareException_hasCompareException() {
     Correspondence.ExceptionStore exceptions = Correspondence.ExceptionStore.forIterable();
     addCompareException(exceptions);
     assertThat(exceptions.hasCompareException()).isTrue();
   }
 
-  @Test
   public void describeAsMainCause_empty() {
     Correspondence.ExceptionStore exceptions = Correspondence.ExceptionStore.forIterable();
     try {
@@ -57,7 +53,6 @@ public final class CorrespondenceExceptionStoreTest extends BaseSubjectTestCase 
     }
   }
 
-  @Test
   public void describeAsMainCause_notEmpty() {
     Correspondence.ExceptionStore exceptions = Correspondence.ExceptionStore.forIterable();
     addCompareException(exceptions);
@@ -66,13 +61,11 @@ public final class CorrespondenceExceptionStoreTest extends BaseSubjectTestCase 
         "one or more exceptions were thrown while comparing elements");
   }
 
-  @Test
   public void describeAsAdditionalInfo_empty() {
     Correspondence.ExceptionStore exceptions = Correspondence.ExceptionStore.forIterable();
     assertThat(exceptions.describeAsAdditionalInfo()).isEmpty();
   }
 
-  @Test
   public void describeAsAdditionalInfo_notEmpty() {
     Correspondence.ExceptionStore exceptions = Correspondence.ExceptionStore.forIterable();
     addCompareException(exceptions);

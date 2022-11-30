@@ -268,7 +268,7 @@ final class ProtoTruthMessageDifferencer {
   // Helper which takes a proto map in List<Message> form, and converts it to a Map<Object, Object>
   // by extracting the keys and values from the generated map-entry submessages.  Returns an empty
   // map if null is passed in.
-  private static ImmutableMap<Object, Object> toProtoMap(@Nullable Object container) {
+  private static ImmutableMap<Object, Object> toProtoMap(Object container) {
     if (container == null) {
       return ImmutableMap.of();
     }
@@ -292,7 +292,7 @@ final class ProtoTruthMessageDifferencer {
 
   // Takes a List<Object> or null, and returns the casted list in the first case, an empty list in
   // the latter case.
-  private static List<?> toProtoList(@Nullable Object container) {
+  private static List<?> toProtoList(Object container) {
     if (container == null) {
       return Collections.emptyList();
     }
@@ -326,8 +326,8 @@ final class ProtoTruthMessageDifferencer {
     ImmutableList.Builder<SingularField> builder =
         ImmutableList.builderWithExpectedSize(actualAndExpectedKeys.size());
     for (Object key : actualAndExpectedKeys) {
-      @Nullable Object actualValue = actualMap.get(key);
-      @Nullable Object expectedValue = expectedMap.get(key);
+      Object actualValue = actualMap.get(key);
+      Object expectedValue = expectedMap.get(key);
       if (ignoreExtraRepeatedFieldElements && !expectedMap.isEmpty() && expectedValue == null) {
         builder.add(
             SingularField.ignored(indexedName(mapFieldDescriptor, key, keyFieldDescriptor)));
@@ -510,7 +510,7 @@ final class ProtoTruthMessageDifferencer {
   // Also removes the index for the matching value from actualIndicies.
   //
   // If there is no match, returns null.
-  private RepeatedField.@Nullable PairResult findMatchingPairResult(
+  private RepeatedField.PairResult findMatchingPairResult(
       Deque<Integer> actualIndices,
       List<?> actualValues,
       int expectedIndex,
@@ -540,12 +540,12 @@ final class ProtoTruthMessageDifferencer {
   }
 
   private RepeatedField.PairResult compareRepeatedFieldElementPair(
-      @Nullable Object actual,
-      @Nullable Object expected,
+      Object actual,
+      Object expected,
       boolean excludeNonRecursive,
       FieldDescriptor fieldDescriptor,
-      @Nullable Integer actualFieldIndex,
-      @Nullable Integer expectedFieldIndex,
+      Integer actualFieldIndex,
+      Integer expectedFieldIndex,
       FluentEqualityConfig config) {
     SingularField comparison =
         compareSingularValue(
@@ -599,8 +599,8 @@ final class ProtoTruthMessageDifferencer {
     int maxSize = Math.max(actualList.size(), expectedList.size());
     ImmutableList.Builder<SingularField> builder = ImmutableList.builderWithExpectedSize(maxSize);
     for (int i = 0; i < maxSize; i++) {
-      @Nullable Object actual = actualList.size() > i ? actualList.get(i) : null;
-      @Nullable Object expected = expectedList.size() > i ? expectedList.get(i) : null;
+      Object actual = actualList.size() > i ? actualList.get(i) : null;
+      Object expected = expectedList.size() > i ? expectedList.get(i) : null;
       builder.add(
           compareSingularValue(
               actual,
@@ -616,9 +616,9 @@ final class ProtoTruthMessageDifferencer {
   }
 
   private SingularField compareSingularValue(
-      @Nullable Object actual,
-      @Nullable Object expected,
-      @Nullable Object defaultValue,
+      Object actual,
+      Object expected,
+      Object defaultValue,
       boolean excludeNonRecursive,
       FieldDescriptor fieldDescriptor,
       String fieldName,
@@ -643,20 +643,20 @@ final class ProtoTruthMessageDifferencer {
   // Replaces 'input' with 'defaultValue' iff input is null and we're ignoring field absence.
   // Otherwise, just returns the input.
   private <T> T orIfIgnoringFieldAbsence(
-      @Nullable T input, @Nullable T defaultValue, boolean ignoreFieldAbsence) {
+      T input, T defaultValue, boolean ignoreFieldAbsence) {
     return (input == null && ignoreFieldAbsence) ? defaultValue : input;
   }
 
   // Returns 'input' if it's non-null, otherwise the default instance of 'other'.
   // Requires at least one parameter is non-null.
-  private static Message orDefaultForType(@Nullable Message input, @Nullable Message other) {
+  private static Message orDefaultForType(Message input, Message other) {
     return (input != null) ? input : other.getDefaultInstanceForType();
   }
 
   private SingularField compareSingularMessage(
-      @Nullable Message actual,
-      @Nullable Message expected,
-      @Nullable Message defaultValue,
+      Message actual,
+      Message expected,
+      Message defaultValue,
       boolean excludeNonRecursive,
       FieldDescriptor fieldDescriptor,
       String fieldName,
@@ -674,7 +674,7 @@ final class ProtoTruthMessageDifferencer {
     result.markAddedIf(expected == null);
 
     // Perform the detailed breakdown only if necessary.
-    @Nullable DiffResult breakdown = null;
+    DiffResult breakdown = null;
     if (result.build() == Result.MATCHED || excludeNonRecursive) {
       actual = orDefaultForType(actual, expected);
       expected = orDefaultForType(expected, actual);
@@ -708,9 +708,9 @@ final class ProtoTruthMessageDifferencer {
   }
 
   private SingularField compareSingularPrimitive(
-      @Nullable Object actual,
-      @Nullable Object expected,
-      @Nullable Object defaultValue,
+      Object actual,
+      Object expected,
+      Object defaultValue,
       FieldDescriptor fieldDescriptor,
       String fieldName,
       FluentEqualityConfig config) {
@@ -844,8 +844,8 @@ final class ProtoTruthMessageDifferencer {
     int maxSize = Math.max(actualValues.size(), expectedValues.size());
     ImmutableList.Builder<SingularField> builder = ImmutableList.builderWithExpectedSize(maxSize);
     for (int i = 0; i < maxSize; i++) {
-      @Nullable Object actual = actualValues.size() > i ? actualValues.get(i) : null;
-      @Nullable Object expected = expectedValues.size() > i ? expectedValues.get(i) : null;
+      Object actual = actualValues.size() > i ? actualValues.get(i) : null;
+      Object expected = expectedValues.size() > i ? expectedValues.get(i) : null;
       builder.add(
           compareUnknownFieldValue(
               actual,
@@ -860,8 +860,8 @@ final class ProtoTruthMessageDifferencer {
   }
 
   private SingularField compareUnknownFieldValue(
-      @Nullable Object actual,
-      @Nullable Object expected,
+      Object actual,
+      Object expected,
       boolean excludeNonRecursive,
       UnknownFieldDescriptor unknownFieldDescriptor,
       String fieldName,
@@ -881,8 +881,8 @@ final class ProtoTruthMessageDifferencer {
   }
 
   private SingularField compareUnknownFieldSet(
-      @Nullable UnknownFieldSet actual,
-      @Nullable UnknownFieldSet expected,
+      UnknownFieldSet actual,
+      UnknownFieldSet expected,
       boolean excludeNonRecursive,
       UnknownFieldDescriptor unknownFieldDescriptor,
       String fieldName,
@@ -894,7 +894,7 @@ final class ProtoTruthMessageDifferencer {
     result.markAddedIf(expected == null);
 
     // Perform the detailed breakdown only if necessary.
-    @Nullable UnknownFieldSetDiff unknownsBreakdown = null;
+    UnknownFieldSetDiff unknownsBreakdown = null;
     if (result.build() == Result.MATCHED || excludeNonRecursive) {
       actual = firstNonNull(actual, UnknownFieldSet.getDefaultInstance());
       expected = firstNonNull(expected, UnknownFieldSet.getDefaultInstance());
@@ -927,8 +927,8 @@ final class ProtoTruthMessageDifferencer {
   }
 
   private SingularField compareUnknownPrimitive(
-      @Nullable Object actual,
-      @Nullable Object expected,
+      Object actual,
+      Object expected,
       UnknownFieldDescriptor unknownFieldDescriptor,
       String fieldName) {
     Result.Builder result = Result.builder();

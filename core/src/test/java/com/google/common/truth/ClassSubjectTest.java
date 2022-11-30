@@ -26,26 +26,21 @@ import org.junit.runners.JUnit4;
  *
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
 public class ClassSubjectTest extends BaseSubjectTestCase {
-  @Test
   public void testIsAssignableTo_same() {
     assertThat(String.class).isAssignableTo(String.class);
   }
 
-  @Test
   public void testIsAssignableTo_parent() {
     assertThat(String.class).isAssignableTo(Object.class);
     assertThat(NullPointerException.class).isAssignableTo(Exception.class);
   }
 
-  @Test
   public void testIsAssignableTo_reversed() {
     expectFailureWhenTestingThat(Object.class).isAssignableTo(String.class);
     assertFailureValue("expected to be assignable to", "java.lang.String");
   }
 
-  @Test
   public void testIsAssignableTo_differentTypes() {
     expectFailureWhenTestingThat(String.class).isAssignableTo(Exception.class);
     assertFailureValue("expected to be assignable to", "java.lang.Exception");

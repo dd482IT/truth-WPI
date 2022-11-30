@@ -34,7 +34,7 @@ public final class PrimitiveDoubleArraySubject extends AbstractArraySubject {
   private final double[] actual;
 
   PrimitiveDoubleArraySubject(
-      FailureMetadata metadata, double @Nullable [] o, @Nullable String typeDescription) {
+      FailureMetadata metadata, double[] o, String typeDescription) {
     super(metadata, o, typeDescription);
     this.actual = o;
   }
@@ -207,7 +207,6 @@ public final class PrimitiveDoubleArraySubject extends AbstractArraySubject {
     /**
      * As {@link #containsAtLeast(Object, Object, Object...)} but taking a primitive double array.
      */
-    @CanIgnoreReturnValue
     public Ordered containsAtLeast(double[] expected) {
       return containsAtLeastElementsIn(Doubles.asList(expected));
     }
@@ -218,7 +217,6 @@ public final class PrimitiveDoubleArraySubject extends AbstractArraySubject {
     }
 
     /** As {@link #containsExactly(Object...)} but taking a primitive double array. */
-    @CanIgnoreReturnValue
     public Ordered containsExactly(double[] expected) {
       return containsExactlyElementsIn(Doubles.asList(expected));
     }

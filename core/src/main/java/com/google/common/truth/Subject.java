@@ -100,13 +100,13 @@ public class Subject {
   private final FailureMetadata metadata;
   private final Object actual;
   private String customName = null;
-  private final @Nullable String typeDescriptionOverride;
+  private final String typeDescriptionOverride;
 
   /**
    * Constructor for use by subclasses. If you want to create an instance of this class itself, call
    * {@link Subject#check(String, Object...) check(...)}{@code .that(actual)}.
    */
-  protected Subject(FailureMetadata metadata, @Nullable Object actual) {
+  protected Subject(FailureMetadata metadata, Object actual) {
     this(metadata, actual, /*typeDescriptionOverride=*/ null);
   }
 
@@ -122,7 +122,7 @@ public class Subject {
    * obfuscated names.
    */
   Subject(
-      FailureMetadata metadata, @Nullable Object actual, @Nullable String typeDescriptionOverride) {
+      FailureMetadata metadata, Object actual, String typeDescriptionOverride) {
     this.metadata = metadata.updateForSubject(this);
     this.actual = actual;
     this.typeDescriptionOverride = typeDescriptionOverride;
@@ -169,11 +169,11 @@ public class Subject {
    * method, they would get a ComparisonFailure and other message niceties, and they'd have less to
    * test.
    */
-  public void isEqualTo(@Nullable Object expected) {
+  public void isEqualTo(Object expected) {
     standardIsEqualTo(expected);
   }
 
-  private void standardIsEqualTo(@Nullable Object expected) {
+  private void standardIsEqualTo(Object expected) {
     ComparisonResult difference = compareForEquality(expected);
     if (!difference.valuesAreEqual()) {
       failEqualityCheck(EqualityCheck.EQUAL, expected, difference);
@@ -184,11 +184,11 @@ public class Subject {
    * Fails if the subject is equal to the given object. The meaning of equality is the same as for
    * the {@link #isEqualTo} method.
    */
-  public void isNotEqualTo(@Nullable Object unexpected) {
+  public void isNotEqualTo(Object unexpected) {
     standardIsNotEqualTo(unexpected);
   }
 
-  private void standardIsNotEqualTo(@Nullable Object unexpected) {
+  private void standardIsNotEqualTo(Object unexpected) {
     ComparisonResult difference = compareForEquality(unexpected);
     if (difference.valuesAreEqual()) {
       String unexpectedAsString = formatActualOrExpected(unexpected);
@@ -210,7 +210,7 @@ public class Subject {
    *
    * <p>The equality check follows the rules described on {@link #isEqualTo}.
    */
-  private ComparisonResult compareForEquality(@Nullable Object expected) {
+  private ComparisonResult compareForEquality(Object expected) {
     if (actual == null && expected == null) {
       return ComparisonResult.equal();
     } else if (actual == null || expected == null) {
@@ -248,7 +248,7 @@ public class Subject {
     }
   }
 
-  private static boolean isIntegralBoxedPrimitive(@Nullable Object o) {
+  private static boolean isIntegralBoxedPrimitive(Object o) {
     return o instanceof Byte
         || o instanceof Short
         || o instanceof Character
@@ -267,7 +267,7 @@ public class Subject {
   }
 
   /** Fails if the subject is not the same instance as the given object. */
-  public final void isSameInstanceAs(@Nullable Object expected) {
+  public final void isSameInstanceAs(Object expected) {
     if (actual != expected) {
       failEqualityCheck(
           SAME_INSTANCE,
@@ -283,7 +283,7 @@ public class Subject {
   }
 
   /** Fails if the subject is the same instance as the given object. */
-  public final void isNotSameInstanceAs(@Nullable Object unexpected) {
+  public final void isNotSameInstanceAs(Object unexpected) {
     if (actual == unexpected) {
       /*
        * We use actualCustomStringRepresentation() because it might be overridden to be better than
@@ -369,7 +369,7 @@ public class Subject {
 
   /** Fails unless the subject is equal to any of the given elements. */
   public void isAnyOf(
-      @Nullable Object first, @Nullable Object second, @Nullable Object @Nullable ... rest) {
+      Object first, Object second, Object ... rest) {
     isIn(accumulate(first, second, rest));
   }
 
@@ -382,7 +382,7 @@ public class Subject {
 
   /** Fails if the subject is equal to any of the given elements. */
   public void isNoneOf(
-      @Nullable Object first, @Nullable Object second, @Nullable Object @Nullable ... rest) {
+      Object first, Object second, Object ... rest) {
     isNotIn(accumulate(first, second, rest));
   }
 
@@ -411,7 +411,6 @@ public class Subject {
    * b/70930431. But note that we are likely to use this from FailureMetadata, at least in the short
    * term, for better or for worse.
    */
-  @ForOverride
   protected String actualCustomStringRepresentation() {
     return formatActualOrExpected(actual);
   }
@@ -420,7 +419,7 @@ public class Subject {
     return actualCustomStringRepresentation();
   }
 
-  private String formatActualOrExpected(@Nullable Object o) {
+  private String formatActualOrExpected(Object o) {
     if (o instanceof byte[]) {
       return base16((byte[]) o);
     } else if (o != null && o.getClass().isArray()) {
@@ -453,7 +452,7 @@ public class Subject {
   private static final Function<Object, Object> STRINGIFY =
       new Function<Object, Object>() {
         @Override
-        public Object apply(@Nullable Object input) {
+        public Object apply(Object input) {
           if (input != null && input.getClass().isArray()) {
             Iterable<?> iterable;
             if (input.getClass() == boolean[].class) {
@@ -513,7 +512,7 @@ public class Subject {
     private static final ComparisonResult DIFFERENT_NO_DESCRIPTION =
         new ComparisonResult(ImmutableList.<Fact>of());
 
-    private final @Nullable ImmutableList<Fact> facts;
+    private final ImmutableList<Fact> facts;
 
     private ComparisonResult(ImmutableList<Fact> facts) {
       this.facts = facts;
@@ -738,7 +737,7 @@ public class Subject {
    * <p>Example usage: The check {@code contains(String)} calls {@code failWithActual("expected to
    * contain", string)}.
    */
-  protected final void failWithActual(String key, @Nullable Object value) {
+  protected final void failWithActual(String key, Object value) {
     failWithActual(fact(key, value));
   }
 
@@ -1114,13 +1113,10 @@ public class Subject {
    * @deprecated {@link Object#equals(Object)} is not supported on Truth subjects. If you are
    *     writing a test assertion (actual vs. expected), use {@link #isEqualTo(Object)} instead.
    */
-  @DoNotCall(
-      "Subject.equals() is not supported. Did you mean to call"
-          + " assertThat(actual).isEqualTo(expected) instead of"
           + " assertThat(actual).equals(expected)?")
   @Deprecated
   @Override
-  public final boolean equals(@Nullable Object o) {
+  public final boolean equals(Object o) {
     throw new UnsupportedOperationException(
         "Subject.equals() is not supported. Did you mean to call"
             + " assertThat(actual).isEqualTo(expected) instead of"
@@ -1131,7 +1127,6 @@ public class Subject {
    * @throws UnsupportedOperationException always
    * @deprecated {@link Object#hashCode()} is not supported on Truth subjects.
    */
-  @DoNotCall("Subject.hashCode() is not supported.")
   @Deprecated
   @Override
   public final int hashCode() {
@@ -1180,7 +1175,7 @@ public class Subject {
   }
 
   private static String typeDescriptionOrGuess(
-      Class<? extends Subject> clazz, @Nullable String typeDescriptionOverride) {
+      Class<? extends Subject> clazz, String typeDescriptionOverride) {
     if (typeDescriptionOverride != null) {
       return typeDescriptionOverride;
     }

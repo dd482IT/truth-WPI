@@ -81,14 +81,11 @@ import org.junit.runners.model.Statement;
  *
  * <p>For more on this class, see <a href="https://truth.dev/expect">the documentation page</a>.
  */
-@GwtIncompatible("JUnit4")
 public final class Expect extends StandardSubjectBuilder implements TestRule {
 
   private static final class ExpectationGatherer implements FailureStrategy {
-    @GuardedBy("this")
     private final List<AssertionError> failures = new ArrayList<AssertionError>();
 
-    @GuardedBy("this")
     private TestPhase inRuleContext = BEFORE;
 
     ExpectationGatherer() {}
@@ -103,7 +100,7 @@ public final class Expect extends StandardSubjectBuilder implements TestRule {
       inRuleContext = DURING;
     }
 
-    synchronized void leaveRuleContext(@Nullable Throwable caught) throws Throwable {
+    synchronized void leaveRuleContext(Throwable caught) throws Throwable {
       try {
         if (caught == null) {
           doLeaveRuleContext();
@@ -173,8 +170,7 @@ public final class Expect extends StandardSubjectBuilder implements TestRule {
       return s.replaceFirst("(?s)^.*?__EXCEPTION_MARKER__.*?Caused by:\\s+", "");
     }
 
-    @GuardedBy("this")
-    private void doCheckInRuleContext(@Nullable AssertionError failure) {
+    private void doCheckInRuleContext(AssertionError failure) {
       switch (inRuleContext) {
         case BEFORE:
           throw new IllegalStateException(
@@ -195,14 +191,12 @@ public final class Expect extends StandardSubjectBuilder implements TestRule {
       throw new AssertionError();
     }
 
-    @GuardedBy("this")
     private void doLeaveRuleContext() {
       if (hasFailures()) {
         throw SimpleAssertionError.createWithNoStack(this.toString());
       }
     }
 
-    @GuardedBy("this")
     private void doLeaveRuleContext(Throwable caught) throws Throwable {
       if (hasFailures()) {
         String message =
@@ -216,7 +210,6 @@ public final class Expect extends StandardSubjectBuilder implements TestRule {
       }
     }
 
-    @GuardedBy("this")
     private void record(AssertionError failure) {
       doCheckInRuleContext(failure);
       failures.add(failure);

@@ -30,13 +30,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 final class ComparisonFailureWithFacts extends PlatformComparisonFailure implements ErrorWithFacts {
   private final ImmutableList<Fact> facts;
 
-  @UsedByReflection
   ComparisonFailureWithFacts(
       ImmutableList<String> messages,
       ImmutableList<Fact> facts,
       String expected,
       String actual,
-      @Nullable Throwable cause) {
+      Throwable cause) {
     super(makeMessage(messages, facts), checkNotNull(expected), checkNotNull(actual), cause);
     this.facts = checkNotNull(facts);
   }

@@ -40,7 +40,6 @@ import java.util.List;
  * identical logical implementations. For this reason, and to ensure every {@link FieldScope} gets
  * an appropriate testing string, we separate the logic components from the public interface.
  */
-@AutoValue
 abstract class FieldScopeImpl extends FieldScope {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////

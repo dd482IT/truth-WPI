@@ -29,62 +29,50 @@ import org.junit.runners.JUnit4;
  * @author Christian Gruber
  * @author Kurt Alfred Kluever
  */
-@RunWith(JUnit4.class)
 public class IntegerSubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void simpleEquality() {
     assertThat(4).isEqualTo(4);
   }
 
-  @Test
   public void simpleInequality() {
     assertThat(4).isNotEqualTo(5);
   }
 
-  @Test
   public void equalityWithLongs() {
     assertThat(0).isEqualTo(0L);
     expectFailureWhenTestingThat(0).isNotEqualTo(0L);
   }
 
-  @Test
   public void equalityFail() {
     expectFailureWhenTestingThat(4).isEqualTo(5);
   }
 
-  @Test
   public void inequalityFail() {
     expectFailureWhenTestingThat(4).isNotEqualTo(4);
   }
 
-  @Test
   public void equalityOfNulls() {
     assertThat((Integer) null).isEqualTo(null);
   }
 
-  @Test
   public void equalityOfNullsFail_nullActual() {
     expectFailureWhenTestingThat(null).isEqualTo(5);
   }
 
-  @Test
   public void equalityOfNullsFail_nullExpected() {
     expectFailureWhenTestingThat(5).isEqualTo(null);
   }
 
-  @Test
   public void inequalityOfNulls() {
     assertThat(4).isNotEqualTo(null);
     assertThat((Integer) null).isNotEqualTo(4);
   }
 
-  @Test
   public void inequalityOfNullsFail() {
     expectFailureWhenTestingThat(null).isNotEqualTo(null);
   }
 
-  @Test
   public void overflowOnPrimitives() {
     assertThat(Long.MIN_VALUE).isNotEqualTo(Integer.MIN_VALUE);
     assertThat(Long.MAX_VALUE).isNotEqualTo(Integer.MAX_VALUE);
@@ -96,28 +84,23 @@ public class IntegerSubjectTest extends BaseSubjectTestCase {
     assertThat(Integer.MAX_VALUE).isEqualTo((long) Integer.MAX_VALUE);
   }
 
-  @Test
   public void overflowOnPrimitives_shouldBeEqualAfterCast_min() {
     expectFailureWhenTestingThat(Integer.MIN_VALUE).isNotEqualTo((long) Integer.MIN_VALUE);
   }
 
-  @Test
   public void overflowOnPrimitives_shouldBeEqualAfterCast_max() {
     expectFailureWhenTestingThat(Integer.MAX_VALUE).isNotEqualTo((long) Integer.MAX_VALUE);
   }
 
-  @Test
   public void overflowBetweenIntegerAndLong_shouldBeDifferent_min() {
     expectFailureWhenTestingThat(Integer.MIN_VALUE).isEqualTo(Long.MIN_VALUE);
   }
 
-  @Test
   public void overflowBetweenIntegerAndLong_shouldBeDifferent_max() {
     expectFailureWhenTestingThat(Integer.MAX_VALUE).isEqualTo(Long.MAX_VALUE);
   }
 
   @SuppressWarnings("TruthSelfEquals")
-  @Test
   public void testPrimitivesVsBoxedPrimitivesVsObject_int() {
     int int42 = 42;
     Integer integer42 = new Integer(42);
@@ -137,7 +120,6 @@ public class IntegerSubjectTest extends BaseSubjectTestCase {
   }
 
   @SuppressWarnings("TruthSelfEquals")
-  @Test
   public void testPrimitivesVsBoxedPrimitivesVsObject_long() {
     long longPrim42 = 42;
     Long long42 = new Long(42);
@@ -156,7 +138,6 @@ public class IntegerSubjectTest extends BaseSubjectTestCase {
     assertThat(object42).isEqualTo(object42);
   }
 
-  @Test
   public void testAllCombinations_pass() {
     assertThat(42).isEqualTo(42L);
     assertThat(42).isEqualTo(new Long(42L));
@@ -177,17 +158,14 @@ public class IntegerSubjectTest extends BaseSubjectTestCase {
     assertThat(new Long(42L)).isEqualTo(new Long(42L));
   }
 
-  @Test
   public void testNumericTypeWithSameValue_shouldBeEqual_int_long() {
     expectFailureWhenTestingThat(42).isNotEqualTo(42L);
   }
 
-  @Test
   public void testNumericTypeWithSameValue_shouldBeEqual_int_int() {
     expectFailureWhenTestingThat(42).isNotEqualTo(42);
   }
 
-  @Test
   public void testNumericPrimitiveTypes_isNotEqual_shouldFail_intToChar() {
     expectFailureWhenTestingThat(42).isNotEqualTo((char) 42);
     // 42 in ASCII is '*'
@@ -195,7 +173,6 @@ public class IntegerSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was; string representation of actual value", "42");
   }
 
-  @Test
   public void testNumericPrimitiveTypes_isNotEqual_shouldFail_charToInt() {
     // Uses Object overload rather than Integer.
     expectFailure.whenTesting().that((char) 42).isNotEqualTo(42);
@@ -217,7 +194,6 @@ public class IntegerSubjectTest extends BaseSubjectTestCase {
     AssertionError unused = ExpectFailure.expectFailureAbout(DEFAULT_SUBJECT_FACTORY, callback);
   }
 
-  @Test
   public void testNumericPrimitiveTypes() {
     byte byte42 = (byte) 42;
     short short42 = (short) 42;

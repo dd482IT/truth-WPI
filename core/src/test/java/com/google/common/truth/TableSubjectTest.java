@@ -31,46 +31,38 @@ import org.junit.runners.JUnit4;
  *
  * @author Kurt Alfred Kluever
  */
-@RunWith(JUnit4.class)
 public class TableSubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void tableIsEmpty() {
     ImmutableTable<String, String, String> table = ImmutableTable.of();
     assertThat(table).isEmpty();
   }
 
-  @Test
   public void tableIsEmptyWithFailure() {
     ImmutableTable<Integer, Integer, Integer> table = ImmutableTable.of(1, 5, 7);
     expectFailureWhenTestingThat(table).isEmpty();
     assertFailureKeys("expected to be empty", "but was");
   }
 
-  @Test
   public void tableIsNotEmpty() {
     ImmutableTable<Integer, Integer, Integer> table = ImmutableTable.of(1, 5, 7);
     assertThat(table).isNotEmpty();
   }
 
-  @Test
   public void tableIsNotEmptyWithFailure() {
     ImmutableTable<Integer, Integer, Integer> table = ImmutableTable.of();
     expectFailureWhenTestingThat(table).isNotEmpty();
     assertFailureKeys("expected not to be empty");
   }
 
-  @Test
   public void hasSize() {
     assertThat(ImmutableTable.of(1, 2, 3)).hasSize(1);
   }
 
-  @Test
   public void hasSizeZero() {
     assertThat(ImmutableTable.of()).hasSize(0);
   }
 
-  @Test
   public void hasSizeNegative() {
     try {
       assertThat(ImmutableTable.of(1, 2, 3)).hasSize(-1);
@@ -79,13 +71,11 @@ public class TableSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void contains() {
     ImmutableTable<String, String, String> table = ImmutableTable.of("row", "col", "val");
     assertThat(table).contains("row", "col");
   }
 
-  @Test
   public void containsFailure() {
     ImmutableTable<String, String, String> table = ImmutableTable.of("row", "col", "val");
     expectFailureWhenTestingThat(table).contains("row", "row");
@@ -94,7 +84,6 @@ public class TableSubjectTest extends BaseSubjectTestCase {
         .isEqualTo("Not true that <{row={col=val}}> contains mapping for row/column <row> <row>");
   }
 
-  @Test
   public void doesNotContain() {
     ImmutableTable<String, String, String> table = ImmutableTable.of("row", "col", "val");
     assertThat(table).doesNotContain("row", "row");
@@ -103,7 +92,6 @@ public class TableSubjectTest extends BaseSubjectTestCase {
     assertThat(table).doesNotContain(null, null);
   }
 
-  @Test
   public void doesNotContainFailure() {
     ImmutableTable<String, String, String> table = ImmutableTable.of("row", "col", "val");
     expectFailureWhenTestingThat(table).doesNotContain("row", "col");
@@ -114,14 +102,12 @@ public class TableSubjectTest extends BaseSubjectTestCase {
                 + "row/column <row> <col>");
   }
 
-  @Test
   public void containsCell() {
     ImmutableTable<String, String, String> table = ImmutableTable.of("row", "col", "val");
     assertThat(table).containsCell("row", "col", "val");
     assertThat(table).containsCell(cell("row", "col", "val"));
   }
 
-  @Test
   public void containsCellFailure() {
     ImmutableTable<String, String, String> table = ImmutableTable.of("row", "col", "val");
     expectFailureWhenTestingThat(table).containsCell("row", "row", "val");
@@ -131,7 +117,6 @@ public class TableSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[(row,col)=val]");
   }
 
-  @Test
   public void doesNotContainCell() {
     ImmutableTable<String, String, String> table = ImmutableTable.of("row", "col", "val");
     assertThat(table).doesNotContainCell("row", "row", "val");
@@ -144,7 +129,6 @@ public class TableSubjectTest extends BaseSubjectTestCase {
     assertThat(table).doesNotContainCell(cell(null, null, null));
   }
 
-  @Test
   public void doesNotContainCellFailure() {
     ImmutableTable<String, String, String> table = ImmutableTable.of("row", "col", "val");
     expectFailureWhenTestingThat(table).doesNotContainCell("row", "col", "val");

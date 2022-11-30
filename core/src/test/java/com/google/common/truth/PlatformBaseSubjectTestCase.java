@@ -19,5 +19,5 @@ import org.junit.Rule;
 
 /** Base class for truth subject tests to extend. */
 public abstract class PlatformBaseSubjectTestCase {
-  @Rule public final ExpectFailure expectFailure = new ExpectFailure();
+  public final ExpectFailure expectFailure = new ExpectFailure();
 }

@@ -77,7 +77,7 @@ public final class ExpectFailure implements Platform.JUnitTestRule {
 
   private boolean inRuleContext = false;
   private boolean failureExpected = false;
-  private @Nullable AssertionError failure = null;
+  private AssertionError failure = null;
 
   /**
    * Creates a new instance for use as a {@code @Rule}. See the class documentation for details, and
@@ -162,7 +162,6 @@ public final class ExpectFailure implements Platform.JUnitTestRule {
    * <p>{@code AssertionError failure = expectFailure(whenTesting ->
    * whenTesting.that(4).isNotEqualTo(4));}
    */
-  @CanIgnoreReturnValue
   public static AssertionError expectFailure(StandardSubjectBuilderCallback assertionCallback) {
     ExpectFailure expectFailure = new ExpectFailure();
     expectFailure.enterRuleContext(); // safe since this instance doesn't leave this method
@@ -177,7 +176,6 @@ public final class ExpectFailure implements Platform.JUnitTestRule {
    * <p>{@code AssertionError failure = expectFailureAbout(myTypes(), whenTesting ->
    * whenTesting.that(myType).hasProperty());}
    */
-  @CanIgnoreReturnValue
   public static <S extends Subject, A> AssertionError expectFailureAbout(
       final Subject.Factory<S, A> factory,
       final SimpleSubjectBuilderCallback<S, A> assertionCallback) {
@@ -200,7 +198,6 @@ public final class ExpectFailure implements Platform.JUnitTestRule {
   }
 
   @Override
-  @GwtIncompatible("org.junit.rules.TestRule")
   public Statement apply(final Statement base, Description description) {
     checkNotNull(base);
     checkNotNull(description);

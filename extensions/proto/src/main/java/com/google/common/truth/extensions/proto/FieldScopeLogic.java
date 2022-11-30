@@ -78,7 +78,6 @@ abstract class FieldScopeLogic implements FieldScopeLogicContainer<FieldScopeLog
    * <p>Throws an {@link UnsupportedOperationException} by default. Subclasses which can return
    * {@code NONRECURSIVE} results must override this method.
    */
-  @ForOverride
   FieldScopeLogic subScopeImpl(Descriptor rootDescriptor, SubScopeId subScopeId) {
     throw new UnsupportedOperationException("subScopeImpl not implemented for " + getClass());
   }

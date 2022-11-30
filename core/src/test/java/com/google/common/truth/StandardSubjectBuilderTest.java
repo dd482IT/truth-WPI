@@ -22,9 +22,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Tests for {@link StandardSubjectBuilder}. */
-@RunWith(JUnit4.class)
 public final class StandardSubjectBuilderTest extends BaseSubjectTestCase {
-  @Test
   public void failNoMessage() {
     expectFailure.whenTesting().fail();
     assertThatFailure().hasMessageThat().isEmpty();

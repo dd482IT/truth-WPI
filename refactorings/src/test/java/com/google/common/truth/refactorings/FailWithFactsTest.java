@@ -23,16 +23,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** @author cpovirk@google.com (Chris Povirk) */
-@RunWith(JUnit4.class)
 public class FailWithFactsTest {
   private CompilationTestHelper compilationHelper;
 
-  @Before
   public void setUp() {
     compilationHelper = CompilationTestHelper.newInstance(FailWithFacts.class, getClass());
   }
 
-  @Test
   public void testPositiveCase() {
     compilationHelper.addSourceFile("FailWithFactsPositiveCases.java").doTest();
   }

@@ -25,23 +25,19 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Tests for chained subjects (produced with {@link Subject#check(String, Object...)}, etc.). */
-@RunWith(JUnit4.class)
 public final class ChainingTest extends BaseSubjectTestCase {
   private static final Throwable throwable = new Throwable("root");
 
-  @Test
   public void noChaining() {
     expectFailureWhenTestingThat("root").isThePresentKingOfFrance();
     assertNoCause("message");
   }
 
-  @Test
   public void oneLevel() {
     expectFailureWhenTestingThat("root").delegatingTo("child").isThePresentKingOfFrance();
     assertNoCause("message");
   }
 
-  @Test
   public void twoLevels() {
     expectFailureWhenTestingThat("root")
         .delegatingTo("child")
@@ -50,19 +46,16 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("message");
   }
 
-  @Test
   public void noChainingRootThrowable() {
     expectFailureWhenTestingThat(throwable).isThePresentKingOfFrance();
     assertHasCause("message");
   }
 
-  @Test
   public void oneLevelRootThrowable() {
     expectFailureWhenTestingThat(throwable).delegatingTo("child").isThePresentKingOfFrance();
     assertHasCause("message");
   }
 
-  @Test
   public void twoLevelsRootThrowable() {
     expectFailureWhenTestingThat(throwable)
         .delegatingTo("child")
@@ -72,13 +65,11 @@ public final class ChainingTest extends BaseSubjectTestCase {
   }
 
   // e.g., future.failureCause()
-  @Test
   public void oneLevelDerivedThrowable() {
     expectFailureWhenTestingThat("root").delegatingTo(throwable).isThePresentKingOfFrance();
     assertHasCause("message");
   }
 
-  @Test
   public void twoLevelsDerivedThrowableMiddle() {
     expectFailureWhenTestingThat("root")
         .delegatingTo(throwable)
@@ -87,7 +78,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertHasCause("message");
   }
 
-  @Test
   public void twoLevelsDerivedThrowableLast() {
     expectFailureWhenTestingThat("root")
         .delegatingTo("child")
@@ -96,7 +86,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertHasCause("message");
   }
 
-  @Test
   public void oneLevelNamed() {
     expectFailureWhenTestingThat("root")
         .delegatingToNamed("child", "child")
@@ -104,7 +93,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("value of    : myObject.child\nmessage\nmyObject was: root");
   }
 
-  @Test
   public void twoLevelsNamed() {
     expectFailureWhenTestingThat("root")
         .delegatingToNamed("child", "child")
@@ -113,7 +101,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("value of    : myObject.child.grandchild\nmessage\nmyObject was: root");
   }
 
-  @Test
   public void twoLevelsOnlyFirstNamed() {
     expectFailureWhenTestingThat("root")
         .delegatingToNamed("child", "child")
@@ -122,7 +109,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("message\nmyObject was: root");
   }
 
-  @Test
   public void twoLevelsOnlySecondNamed() {
     expectFailureWhenTestingThat("root")
         .delegatingTo("child")
@@ -131,7 +117,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("value of    : myObject.grandchild\nmessage\nmyObject was: root");
   }
 
-  @Test
   public void oneLevelNamedNoNeedToDisplayBoth() {
     expectFailureWhenTestingThat("root")
         .delegatingToNamedNoNeedToDisplayBoth("child", "child")
@@ -139,7 +124,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("value of: myObject.child\nmessage");
   }
 
-  @Test
   public void twoLevelsNamedNoNeedToDisplayBoth() {
     expectFailureWhenTestingThat("root")
         .delegatingToNamedNoNeedToDisplayBoth("child", "child")
@@ -148,7 +132,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("value of: myObject.child.grandchild\nmessage");
   }
 
-  @Test
   public void twoLevelsOnlyFirstNamedNoNeedToDisplayBoth() {
     expectFailureWhenTestingThat("root")
         .delegatingToNamedNoNeedToDisplayBoth("child", "child")
@@ -157,7 +140,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("message");
   }
 
-  @Test
   public void twoLevelsOnlySecondNamedNoNeedToDisplayBoth() {
     expectFailureWhenTestingThat("root")
         .delegatingTo("child")
@@ -166,7 +148,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("value of: myObject.grandchild\nmessage");
   }
 
-  @Test
   public void twoLevelsNamedOnlyFirstNoNeedToDisplayBoth() {
     expectFailureWhenTestingThat("root")
         .delegatingToNamedNoNeedToDisplayBoth("child", "child")
@@ -175,7 +156,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("value of    : myObject.child.grandchild\nmessage\nmyObject was: root");
   }
 
-  @Test
   public void twoLevelsNamedOnlySecondNoNeedToDisplayBoth() {
     expectFailureWhenTestingThat("root")
         .delegatingToNamed("child", "child")
@@ -184,7 +164,6 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("value of    : myObject.child.grandchild\nmessage\nmyObject was: root");
   }
 
-  @Test
   public void namedAndMessage() {
     expectFailure
         .whenTesting()
@@ -196,19 +175,16 @@ public final class ChainingTest extends BaseSubjectTestCase {
     assertNoCause("prefix\nvalue of    : myObject.child\nmessage\nmyObject was: root");
   }
 
-  @Test
   public void checkFail() {
     expectFailureWhenTestingThat("root").doCheckFail();
     assertNoCause("message");
   }
 
-  @Test
   public void checkFailWithName() {
     expectFailureWhenTestingThat("root").doCheckFail("child");
     assertNoCause("message\nvalue of    : myObject.child\nmyObject was: root");
   }
 
-  @Test
   public void badFormat() {
     try {
       @SuppressWarnings("LenientFormatStringValidation") // Intentional for testing.

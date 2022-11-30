@@ -144,108 +144,107 @@ public final class Truth {
     return assert_().about(factory);
   }
 
-  public static <T extends Comparable<?>> ComparableSubject<T> assertThat(@Nullable T actual) {
+  public static <T extends Comparable<?>> ComparableSubject<T> assertThat(T actual) {
     return assert_().that(actual);
   }
 
-  public static BigDecimalSubject assertThat(@Nullable BigDecimal actual) {
+  public static BigDecimalSubject assertThat(BigDecimal actual) {
     return assert_().that(actual);
   }
 
-  public static Subject assertThat(@Nullable Object actual) {
+  public static Subject assertThat(Object actual) {
     return assert_().that(actual);
   }
 
-  @GwtIncompatible("ClassSubject.java")
-  public static ClassSubject assertThat(@Nullable Class<?> actual) {
+  public static ClassSubject assertThat(Class<?> actual) {
     return assert_().that(actual);
   }
 
-  public static ThrowableSubject assertThat(@Nullable Throwable actual) {
+  public static ThrowableSubject assertThat(Throwable actual) {
     return assert_().that(actual);
   }
 
-  public static LongSubject assertThat(@Nullable Long actual) {
+  public static LongSubject assertThat(Long actual) {
     return assert_().that(actual);
   }
 
-  public static DoubleSubject assertThat(@Nullable Double actual) {
+  public static DoubleSubject assertThat(Double actual) {
     return assert_().that(actual);
   }
 
-  public static FloatSubject assertThat(@Nullable Float actual) {
+  public static FloatSubject assertThat(Float actual) {
     return assert_().that(actual);
   }
 
-  public static IntegerSubject assertThat(@Nullable Integer actual) {
+  public static IntegerSubject assertThat(Integer actual) {
     return assert_().that(actual);
   }
 
-  public static BooleanSubject assertThat(@Nullable Boolean actual) {
+  public static BooleanSubject assertThat(Boolean actual) {
     return assert_().that(actual);
   }
 
-  public static StringSubject assertThat(@Nullable String actual) {
+  public static StringSubject assertThat(String actual) {
     return assert_().that(actual);
   }
 
-  public static IterableSubject assertThat(@Nullable Iterable<?> actual) {
+  public static IterableSubject assertThat(Iterable<?> actual) {
     return assert_().that(actual);
   }
 
-  public static <T> ObjectArraySubject<T> assertThat(@Nullable T @Nullable [] actual) {
+  public static <T> ObjectArraySubject<T> assertThat(T[] actual) {
     return assert_().that(actual);
   }
 
-  public static PrimitiveBooleanArraySubject assertThat(boolean @Nullable [] actual) {
+  public static PrimitiveBooleanArraySubject assertThat(boolean[] actual) {
     return assert_().that(actual);
   }
 
-  public static PrimitiveShortArraySubject assertThat(short @Nullable [] actual) {
+  public static PrimitiveShortArraySubject assertThat(short[] actual) {
     return assert_().that(actual);
   }
 
-  public static PrimitiveIntArraySubject assertThat(int @Nullable [] actual) {
+  public static PrimitiveIntArraySubject assertThat(int[] actual) {
     return assert_().that(actual);
   }
 
-  public static PrimitiveLongArraySubject assertThat(long @Nullable [] actual) {
+  public static PrimitiveLongArraySubject assertThat(long[] actual) {
     return assert_().that(actual);
   }
 
-  public static PrimitiveByteArraySubject assertThat(byte @Nullable [] actual) {
+  public static PrimitiveByteArraySubject assertThat(byte[] actual) {
     return assert_().that(actual);
   }
 
-  public static PrimitiveCharArraySubject assertThat(char @Nullable [] actual) {
+  public static PrimitiveCharArraySubject assertThat(char[] actual) {
     return assert_().that(actual);
   }
 
-  public static PrimitiveFloatArraySubject assertThat(float @Nullable [] actual) {
+  public static PrimitiveFloatArraySubject assertThat(float[] actual) {
     return assert_().that(actual);
   }
 
-  public static PrimitiveDoubleArraySubject assertThat(double @Nullable [] actual) {
+  public static PrimitiveDoubleArraySubject assertThat(double[] actual) {
     return assert_().that(actual);
   }
 
-  public static GuavaOptionalSubject assertThat(@Nullable Optional<?> actual) {
+  public static GuavaOptionalSubject assertThat(Optional<?> actual) {
     return assert_().that(actual);
   }
 
-  public static MapSubject assertThat(@Nullable Map<?, ?> actual) {
+  public static MapSubject assertThat(Map<?, ?> actual) {
     return assert_().that(actual);
   }
 
-  public static MultimapSubject assertThat(@Nullable Multimap<?, ?> actual) {
+  public static MultimapSubject assertThat(Multimap<?, ?> actual) {
     return assert_().that(actual);
   }
 
-  public static MultisetSubject assertThat(@Nullable Multiset<?> actual) {
+  public static MultisetSubject assertThat(Multiset<?> actual) {
     return assert_().that(actual);
   }
 
-  public static TableSubject assertThat(@Nullable Table<?, ?, ?> actual) {
+  public static TableSubject assertThat(Table<?, ?, ?> actual) {
     return assert_().that(actual);
   }
 
@@ -257,9 +256,9 @@ public final class Truth {
   @SuppressWarnings("OverrideThrowableToString") // We intentionally replace the normal format.
   static final class SimpleAssertionError extends AssertionError {
     /** Separate cause field, in case initCause() fails. */
-    private final @Nullable Throwable cause;
+    private final Throwable cause;
 
-    private SimpleAssertionError(String message, @Nullable Throwable cause) {
+    private SimpleAssertionError(String message, Throwable cause) {
       super(checkNotNull(message));
       this.cause = cause;
 
@@ -285,11 +284,11 @@ public final class Truth {
       }
     }
 
-    static SimpleAssertionError create(String message, @Nullable Throwable cause) {
+    static SimpleAssertionError create(String message, Throwable cause) {
       return new SimpleAssertionError(message, cause);
     }
 
-    static SimpleAssertionError createWithNoStack(String message, @Nullable Throwable cause) {
+    static SimpleAssertionError createWithNoStack(String message, Throwable cause) {
       SimpleAssertionError error = create(message, cause);
       error.setStackTrace(new StackTraceElement[0]);
       return error;

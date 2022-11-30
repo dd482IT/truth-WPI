@@ -69,14 +69,14 @@ public class MultimapSubject extends Subject {
    * Constructor for use by subclasses. If you want to create an instance of this class itself, call
    * {@link Subject#check(String, Object...) check(...)}{@code .that(actual)}.
    */
-  protected MultimapSubject(FailureMetadata metadata, @Nullable Multimap<?, ?> multimap) {
+  protected MultimapSubject(FailureMetadata metadata, Multimap<?, ?> multimap) {
     this(metadata, multimap, null);
   }
 
   MultimapSubject(
       FailureMetadata metadata,
-      @Nullable Multimap<?, ?> multimap,
-      @Nullable String typeDescription) {
+      Multimap<?, ?> multimap,
+      String typeDescription) {
     super(metadata, multimap, typeDescription);
     this.actual = multimap;
   }
@@ -102,17 +102,17 @@ public class MultimapSubject extends Subject {
   }
 
   /** Fails if the multimap does not contain the given key. */
-  public final void containsKey(@Nullable Object key) {
+  public final void containsKey(Object key) {
     check("keySet()").that(actual.keySet()).contains(key);
   }
 
   /** Fails if the multimap contains the given key. */
-  public final void doesNotContainKey(@Nullable Object key) {
+  public final void doesNotContainKey(Object key) {
     check("keySet()").that(actual.keySet()).doesNotContain(key);
   }
 
   /** Fails if the multimap does not contain the given entry. */
-  public final void containsEntry(@Nullable Object key, @Nullable Object value) {
+  public final void containsEntry(Object key, Object value) {
     // TODO(kak): Can we share any of this logic w/ MapSubject.containsEntry()?
     if (!actual.containsEntry(key, value)) {
       Map.Entry<Object, Object> entry = immutableEntry(key, value);
@@ -154,7 +154,7 @@ public class MultimapSubject extends Subject {
   }
 
   /** Fails if the multimap contains the given entry. */
-  public final void doesNotContainEntry(@Nullable Object key, @Nullable Object value) {
+  public final void doesNotContainEntry(Object key, Object value) {
     checkNoNeedToDisplayBothValues("entries()")
         .that(actual.entries())
         .doesNotContain(immutableEntry(key, value));
@@ -176,12 +176,12 @@ public class MultimapSubject extends Subject {
    * would force callers to perform any configuration _before_ the valuesForKey call, while
    * currently they must perform it _after_.
    */
-  public IterableSubject valuesForKey(@Nullable Object key) {
+  public IterableSubject valuesForKey(Object key) {
     return check("valuesForKey(%s)", key).that(((Multimap<Object, Object>) actual).get(key));
   }
 
   @Override
-  public final void isEqualTo(@Nullable Object other) {
+  public final void isEqualTo(Object other) {
     @SuppressWarnings("UndefinedEquals") // the contract of this method is to follow Multimap.equals
     boolean isEqual = Objects.equal(actual, other);
     if (isEqual) {
@@ -218,7 +218,6 @@ public class MultimapSubject extends Subject {
    * the two multimaps iterate fully in the same order. That is, their key sets iterate in the same
    * order, and the value collections for each key iterate in the same order.
    */
-  @CanIgnoreReturnValue
   public final Ordered containsExactlyEntriesIn(Multimap<?, ?> expectedMultimap) {
     checkNotNull(expectedMultimap, "expectedMultimap");
     ListMultimap<?, ?> missing = difference(expectedMultimap, actual);
@@ -273,7 +272,6 @@ public class MultimapSubject extends Subject {
    * order in the key set, and the values for each key are present in the given order order in the
    * value collections.
    */
-  @CanIgnoreReturnValue
   public final Ordered containsAtLeastEntriesIn(Multimap<?, ?> expectedMultimap) {
     checkNotNull(expectedMultimap, "expectedMultimap");
     ListMultimap<?, ?> missing = difference(expectedMultimap, actual);
@@ -292,7 +290,6 @@ public class MultimapSubject extends Subject {
   }
 
   /** Fails if the multimap is not empty. */
-  @CanIgnoreReturnValue
   public final Ordered containsExactly() {
     return check().about(iterableEntries()).that(actual.entries()).containsExactly();
   }
@@ -303,9 +300,8 @@ public class MultimapSubject extends Subject {
    * <p><b>Warning:</b> the use of varargs means that we cannot guarantee an equal number of
    * key/value pairs at compile time. Please make sure you provide varargs in key/value pairs!
    */
-  @CanIgnoreReturnValue
   public final Ordered containsExactly(
-      @Nullable Object k0, @Nullable Object v0, @Nullable Object... rest) {
+      Object k0, Object v0, Object... rest) {
     return containsExactlyEntriesIn(accumulateMultimap(k0, v0, rest));
   }
 
@@ -315,14 +311,13 @@ public class MultimapSubject extends Subject {
    * <p><b>Warning:</b> the use of varargs means that we cannot guarantee an equal number of
    * key/value pairs at compile time. Please make sure you provide varargs in key/value pairs!
    */
-  @CanIgnoreReturnValue
   public final Ordered containsAtLeast(
-      @Nullable Object k0, @Nullable Object v0, @Nullable Object... rest) {
+      Object k0, Object v0, Object... rest) {
     return containsAtLeastEntriesIn(accumulateMultimap(k0, v0, rest));
   }
 
   private static Multimap<Object, Object> accumulateMultimap(
-      @Nullable Object k0, @Nullable Object v0, @Nullable Object... rest) {
+      Object k0, Object v0, Object... rest) {
     checkArgument(
         rest.length % 2 == 0,
         "There must be an equal number of key/value pairs "
@@ -441,7 +436,7 @@ public class MultimapSubject extends Subject {
     return false;
   }
 
-  private static <V> Collection<V> get(Multimap<?, V> multimap, @Nullable Object key) {
+  private static <V> Collection<V> get(Multimap<?, V> multimap, Object key) {
     if (multimap.containsKey(key)) {
       return multimap.asMap().get(key);
     } else {
@@ -554,7 +549,7 @@ public class MultimapSubject extends Subject {
      * Fails if the multimap does not contain an entry with the given key and a value that
      * corresponds to the given value.
      */
-    public void containsEntry(@Nullable Object expectedKey, @Nullable E expectedValue) {
+    public void containsEntry(Object expectedKey, E expectedValue) {
       if (actual.containsKey(expectedKey)) {
         // Found matching key.
         Collection<A> actualValues = getCastActual().asMap().get(expectedKey);
@@ -647,7 +642,7 @@ public class MultimapSubject extends Subject {
      * Fails if the multimap contains an entry with the given key and a value that corresponds to
      * the given value.
      */
-    public void doesNotContainEntry(@Nullable Object excludedKey, @Nullable E excludedValue) {
+    public void doesNotContainEntry(Object excludedKey, E excludedValue) {
       if (actual.containsKey(excludedKey)) {
         Collection<A> actualValues = getCastActual().asMap().get(excludedKey);
         List<A> matchingValues = new ArrayList<>();
@@ -704,7 +699,6 @@ public class MultimapSubject extends Subject {
      * the same order, and the corresponding value collections for each key iterate in the same
      * order.
      */
-    @CanIgnoreReturnValue
     public Ordered containsExactlyEntriesIn(Multimap<?, ? extends E> expectedMultimap) {
       return internalContainsExactlyEntriesIn(expectedMultimap);
     }
@@ -738,7 +732,6 @@ public class MultimapSubject extends Subject {
      * the same order, and the corresponding value collections for each key iterate in the same
      * order.
      */
-    @CanIgnoreReturnValue
     public Ordered containsAtLeastEntriesIn(Multimap<?, ? extends E> expectedMultimap) {
       return internalContainsAtLeastEntriesIn(expectedMultimap);
     }
@@ -769,15 +762,13 @@ public class MultimapSubject extends Subject {
      * <p><b>Warning:</b> the use of varargs means that we cannot guarantee an equal number of
      * key/value pairs at compile time. Please make sure you provide varargs in key/value pairs!
      */
-    @CanIgnoreReturnValue
-    public Ordered containsExactly(@Nullable Object k0, @Nullable E v0, @Nullable Object... rest) {
+    public Ordered containsExactly(Object k0, E v0, Object... rest) {
       @SuppressWarnings("unchecked")
       Multimap<?, E> expectedMultimap = (Multimap<?, E>) accumulateMultimap(k0, v0, rest);
       return containsExactlyEntriesIn(expectedMultimap);
     }
 
     /** Fails if the multimap is not empty. */
-    @CanIgnoreReturnValue
     public Ordered containsExactly() {
       return MultimapSubject.this.containsExactly();
     }
@@ -788,8 +779,7 @@ public class MultimapSubject extends Subject {
      * <p><b>Warning:</b> the use of varargs means that we cannot guarantee an equal number of
      * key/value pairs at compile time. Please make sure you provide varargs in key/value pairs!
      */
-    @CanIgnoreReturnValue
-    public Ordered containsAtLeast(@Nullable Object k0, @Nullable E v0, @Nullable Object... rest) {
+    public Ordered containsAtLeast(Object k0, E v0, Object... rest) {
       @SuppressWarnings("unchecked")
       Multimap<?, E> expectedMultimap = (Multimap<?, E>) accumulateMultimap(k0, v0, rest);
       return containsAtLeastEntriesIn(expectedMultimap);

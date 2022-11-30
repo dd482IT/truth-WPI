@@ -28,21 +28,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Tests for {@link TruthFailureSubject}. */
-@RunWith(JUnit4.class)
 public class TruthFailureSubjectTest extends BaseSubjectTestCase {
   // factKeys()
 
-  @Test
   public void factKeys() {
     assertThat(fact("foo", "the foo")).factKeys().containsExactly("foo");
   }
 
-  @Test
   public void factKeysNoValue() {
     assertThat(simpleFact("foo")).factKeys().containsExactly("foo");
   }
 
-  @Test
   public void factKeysFail() {
     expectFailureWhenTestingThat(fact("foo", "the foo")).factKeys().containsExactly("bar");
     Truth.assertThat(expectFailure.getFailure())
@@ -53,18 +49,15 @@ public class TruthFailureSubjectTest extends BaseSubjectTestCase {
 
   // factValue(String)
 
-  @Test
   public void factValue() {
     assertThat(fact("foo", "the foo")).factValue("foo").isEqualTo("the foo");
   }
 
-  @Test
   public void factValueFailWrongValue() {
     expectFailureWhenTestingThat(fact("foo", "the foo")).factValue("foo").isEqualTo("the bar");
     assertFailureValue("value of", "failure.factValue(foo)");
   }
 
-  @Test
   public void factValueFailNoSuchKey() {
     Object unused = expectFailureWhenTestingThat(fact("foo", "the foo")).factValue("bar");
     assertFailureKeys("expected to contain fact", "but contained only");
@@ -72,7 +65,6 @@ public class TruthFailureSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but contained only", "[foo]");
   }
 
-  @Test
   public void factValueFailMultipleKeys() {
     Object unused =
         expectFailureWhenTestingThat(fact("foo", "the foo"), fact("foo", "the other foo"))
@@ -82,7 +74,6 @@ public class TruthFailureSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but contained multiple", "[foo: the foo, foo: the other foo]");
   }
 
-  @Test
   public void factValueFailNoValue() {
     Object unused = expectFailureWhenTestingThat(simpleFact("foo")).factValue("foo");
     assertFailureKeys(
@@ -95,19 +86,16 @@ public class TruthFailureSubjectTest extends BaseSubjectTestCase {
 
   // factValue(String, int)
 
-  @Test
   public void factValueInt() {
     assertThat(fact("foo", "the foo")).factValue("foo", 0).isEqualTo("the foo");
   }
 
-  @Test
   public void factValueIntMultipleKeys() {
     assertThat(fact("foo", "the foo"), fact("foo", "the other foo"))
         .factValue("foo", 1)
         .isEqualTo("the other foo");
   }
 
-  @Test
   public void factValueIntFailNegative() {
     try {
       assertThat(fact("foo", "the foo")).factValue("foo", -1);
@@ -116,13 +104,11 @@ public class TruthFailureSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void factValueIntFailWrongValue() {
     expectFailureWhenTestingThat(fact("foo", "the foo")).factValue("foo", 0).isEqualTo("the bar");
     assertFailureValue("value of", "failure.factValue(foo, 0)");
   }
 
-  @Test
   public void factValueIntFailNoSuchKey() {
     Object unused = expectFailureWhenTestingThat(fact("foo", "the foo")).factValue("bar", 0);
     assertFailureKeys("expected to contain fact", "but contained only");
@@ -130,7 +116,6 @@ public class TruthFailureSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but contained only", "[foo]");
   }
 
-  @Test
   public void factValueIntFailNotEnoughWithKey() {
     Object unused = expectFailureWhenTestingThat(fact("foo", "the foo")).factValue("foo", 5);
     assertFailureKeys("for key", "index too high", "fact count was");
@@ -139,7 +124,6 @@ public class TruthFailureSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("fact count was", "1");
   }
 
-  @Test
   public void factValueIntFailNoValue() {
     Object unused = expectFailureWhenTestingThat(simpleFact("foo")).factValue("foo", 0);
     assertFailureKeys(
@@ -154,13 +138,11 @@ public class TruthFailureSubjectTest extends BaseSubjectTestCase {
 
   // other tests
 
-  @Test
   public void nonTruthErrorFactKeys() {
     Object unused = expectFailureWhenTestingThat(new AssertionError()).factKeys();
     assertFailureKeys("expected a failure thrown by Truth's failure API", "but was");
   }
 
-  @Test
   public void nonTruthErrorFactValue() {
     Object unused = expectFailureWhenTestingThat(new AssertionError()).factValue("foo");
     assertFailureKeys("expected a failure thrown by Truth's failure API", "but was");

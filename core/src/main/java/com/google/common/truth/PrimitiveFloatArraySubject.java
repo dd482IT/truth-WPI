@@ -34,7 +34,7 @@ public final class PrimitiveFloatArraySubject extends AbstractArraySubject {
   private final float[] actual;
 
   PrimitiveFloatArraySubject(
-      FailureMetadata metadata, float @Nullable [] o, @Nullable String typeDescription) {
+      FailureMetadata metadata, float[] o, String typeDescription) {
     super(metadata, o, typeDescription);
     this.actual = o;
   }
@@ -214,7 +214,6 @@ public final class PrimitiveFloatArraySubject extends AbstractArraySubject {
     /**
      * As {@link #containsAtLeast(Object, Object, Object...)} but taking a primitive float array.
      */
-    @CanIgnoreReturnValue
     public Ordered containsAtLeast(float[] expected) {
       return containsAtLeastElementsIn(Floats.asList(expected));
     }
@@ -225,7 +224,6 @@ public final class PrimitiveFloatArraySubject extends AbstractArraySubject {
     }
 
     /** As {@link #containsExactly(Object...)} but taking a primitive float array. */
-    @CanIgnoreReturnValue
     public Ordered containsExactly(float[] expected) {
       return containsExactlyElementsIn(Floats.asList(expected));
     }

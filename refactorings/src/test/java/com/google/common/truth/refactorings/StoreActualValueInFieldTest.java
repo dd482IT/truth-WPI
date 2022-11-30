@@ -24,12 +24,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** @author cpovirk@google.com (Chris Povirk) */
-@RunWith(JUnit4.class)
 public class StoreActualValueInFieldTest {
   private BugCheckerRefactoringTestHelper refactoringHelper;
   private CompilationTestHelper compilationHelper;
 
-  @Before
   public void setUp() {
     compilationHelper =
         CompilationTestHelper.newInstance(StoreActualValueInField.class, getClass());
@@ -37,17 +35,14 @@ public class StoreActualValueInFieldTest {
         BugCheckerRefactoringTestHelper.newInstance(new StoreActualValueInField(), getClass());
   }
 
-  @Test
   public void testPositiveCase() {
     compilationHelper.addSourceFile("StoreActualValueInFieldPositiveCases.java").doTest();
   }
 
-  @Test
   public void testNegativeCase() {
     compilationHelper.addSourceFile("StoreActualValueInFieldNegativeCases.java").doTest();
   }
 
-  @Test
   public void refactoring() {
     refactoringHelper
         .addInput("StoreActualValueInFieldPositiveCases.java")

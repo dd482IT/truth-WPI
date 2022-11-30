@@ -25,40 +25,33 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Tests for {@link ExpectFailure} */
-@RunWith(JUnit4.class)
 public class ExpectFailureTest {
   private final ExpectFailure expectFailure = new ExpectFailure();
 
-  @Before
   public void setupExpectFailure() {
     expectFailure.enterRuleContext();
   }
 
-  @Test
   public void expectFail() {
     expectFailure.whenTesting().withMessage("abc").fail();
     assertThat(expectFailure.getFailure()).hasMessageThat().isEqualTo("abc");
   }
 
-  @Test
   public void expectFail_withCause() {
     expectFailure.whenTesting().that(new NullPointerException()).isNull();
     assertThat(expectFailure.getFailure()).hasMessageThat().contains("NullPointerException");
     assertThat(expectFailure.getFailure()).hasCauseThat().isInstanceOf(NullPointerException.class);
   }
 
-  @Test
   public void expectFail_about() {
     expectFailure.whenTesting().about(strings()).that("foo").isEqualTo("bar");
     assertThat(expectFailure.getFailure()).hasMessageThat().contains("foo");
   }
 
-  @Test
   public void expectFail_passesIfUnused() {
     assertThat(4).isEqualTo(4);
   }
 
-  @Test
   public void expectFail_failsOnSuccess() {
     expectFailure.whenTesting().that(4).isEqualTo(4);
     try {
@@ -70,7 +63,6 @@ public class ExpectFailureTest {
     }
   }
 
-  @Test
   public void expectFail_failsOnMultipleFailures() {
     try {
       expectFailure.whenTesting().about(BadSubject.badSubject()).that(5).isEqualTo(4);
@@ -82,7 +74,6 @@ public class ExpectFailureTest {
     }
   }
 
-  @Test
   public void expectFail_failsOnMultiplewhenTestings() {
     try {
       expectFailure.whenTesting().that(4).isEqualTo(4);
@@ -96,7 +87,6 @@ public class ExpectFailureTest {
     }
   }
 
-  @Test
   public void expectFail_failsOnMultiplewhenTestings_thatFail() {
     expectFailure.whenTesting().that(5).isEqualTo(4);
     try {
@@ -107,7 +97,6 @@ public class ExpectFailureTest {
     }
   }
 
-  @Test
   public void expectFail_failsAfterTest() {
     try {
       expectFailure.whenTesting().that(4).isEqualTo(4);
@@ -120,7 +109,6 @@ public class ExpectFailureTest {
     }
   }
 
-  @Test
   public void expectFail_whenTestingWithoutInContext_shouldFail() {
     ExpectFailure expectFailure = new ExpectFailure();
     try {

@@ -213,7 +213,6 @@ final class GraphMatching {
      * @param lhs The LHS vertex from which to start the DFS
      * @return Whether or not the DFS was successful
      */
-    @CanIgnoreReturnValue
     private boolean depthFirstSearch(
         BiMap<U, V> matching, Map<U, Integer> layers, int freeRhsVertexLayer, U lhs) {
       // Note that this differs from the method described in the text of the wikipedia article (at

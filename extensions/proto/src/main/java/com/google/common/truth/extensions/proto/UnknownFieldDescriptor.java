@@ -23,7 +23,6 @@ import com.google.protobuf.WireFormat;
 import java.util.List;
 
 /** Convenience class encapsulating type information for unknown fields. */
-@AutoValue
 abstract class UnknownFieldDescriptor {
 
   enum Type {

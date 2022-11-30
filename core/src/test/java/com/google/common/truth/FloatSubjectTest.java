@@ -33,7 +33,6 @@ import org.junit.runners.JUnit4;
  *
  * @author Kurt Alfred Kluever
  */
-@RunWith(JUnit4.class)
 public class FloatSubjectTest extends BaseSubjectTestCase {
   private static final float NEARLY_MAX = 3.4028233E38f;
   private static final float NEGATIVE_NEARLY_MAX = -3.4028233E38f;
@@ -50,14 +49,11 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
         }
       };
 
-  @CanIgnoreReturnValue
   private static AssertionError expectFailure(
       SimpleSubjectBuilderCallback<FloatSubject, Float> callback) {
     return ExpectFailure.expectFailureAbout(FLOAT_SUBJECT_FACTORY, callback);
   }
 
-  @Test
-  @GwtIncompatible("Math.nextAfter")
   public void testFloatConstants_matchNextAfter() {
     assertThat(Math.nextAfter(Float.MAX_VALUE, 0.0f)).isEqualTo(NEARLY_MAX);
     assertThat(Math.nextAfter(-1.0f * Float.MAX_VALUE, 0.0f)).isEqualTo(NEGATIVE_NEARLY_MAX);
@@ -67,14 +63,11 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(Math.nextAfter(1.23f, Float.POSITIVE_INFINITY)).isEqualTo(JUST_OVER_GOLDEN);
   }
 
-  @Test
   public void testJ2clCornerCaseZero() {
     // GWT considers -0.0 to be equal to 0.0. But we've added a special workaround inside Truth.
     assertThatIsEqualToFails(-0.0f, 0.0f);
   }
 
-  @Test
-  @GwtIncompatible("GWT behavior difference")
   public void j2clCornerCaseDoubleVsFloat() {
     // Under GWT, 1.23f.toString() is different than 1.23d.toString(), so the message omits types.
     // TODO(b/35377736): Consider making Truth add the types manually.
@@ -82,7 +75,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertFailureKeys("expected", "an instance of", "but was", "an instance of");
   }
 
-  @Test
   public void isWithinOf() {
     assertThat(2.0f).isWithin(0.0f).of(2.0f);
     assertThat(2.0f).isWithin(0.00001f).of(2.0f);
@@ -115,7 +107,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(failure).factValue("outside tolerance").isEqualTo(floatToString(tolerance));
   }
 
-  @Test
   public void isNotWithinOf() {
     assertThatIsNotWithinFails(2.0f, 0.0f, 2.0f);
     assertThatIsNotWithinFails(2.0f, 0.00001f, 2.0f);
@@ -143,7 +134,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(failure).factValue("within tolerance").isEqualTo(floatToString(tolerance));
   }
 
-  @Test
   public void negativeTolerances() {
     isWithinNegativeToleranceThrowsIAE(5.0f, -0.5f, 4.9f);
     isWithinNegativeToleranceThrowsIAE(5.0f, -0.5f, 4.0f);
@@ -203,7 +193,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void nanTolerances() {
     try {
       assertThat(1.0f).isWithin(Float.NaN).of(1.0f);
@@ -219,7 +208,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void infiniteTolerances() {
     try {
       assertThat(1.0f).isWithin(Float.POSITIVE_INFINITY).of(1.0f);
@@ -235,7 +223,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void isWithinOfZero() {
     assertThat(+0.0f).isWithin(0.00001f).of(+0.0f);
     assertThat(+0.0f).isWithin(0.00001f).of(-0.0f);
@@ -248,7 +235,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(-0.0f).isWithin(0.0f).of(-0.0f);
   }
 
-  @Test
   public void isNotWithinOfZero() {
     assertThat(+0.0f).isNotWithin(0.00001f).of(+1.0f);
     assertThat(+0.0f).isNotWithin(0.00001f).of(-1.0f);
@@ -268,7 +254,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThatIsNotWithinFails(-0.0f, 0.0f, 0.0f);
   }
 
-  @Test
   public void isWithinZeroTolerance() {
     float max = Float.MAX_VALUE;
     assertThat(max).isWithin(0.0f).of(max);
@@ -295,7 +280,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThatIsWithinFails(JUST_UNDER_NEGATIVE_MIN, 0.0f, negativeMin);
   }
 
-  @Test
   public void isNotWithinZeroTolerance() {
     float max = Float.MAX_VALUE;
     assertThatIsNotWithinFails(max, 0.0f, max);
@@ -310,7 +294,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(JUST_OVER_MIN).isNotWithin(0.0f).of(min);
   }
 
-  @Test
   public void isWithinNonFinite() {
     assertThatIsWithinFails(Float.NaN, 0.00001f, Float.NaN);
     assertThatIsWithinFails(Float.NaN, 0.00001f, Float.POSITIVE_INFINITY);
@@ -335,7 +318,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThatIsWithinFails(+1.0f, 0.00001f, Float.NEGATIVE_INFINITY);
   }
 
-  @Test
   public void isNotWithinNonFinite() {
     assertThatIsNotWithinFails(Float.NaN, 0.00001f, Float.NaN);
     assertThatIsNotWithinFails(Float.NaN, 0.00001f, Float.POSITIVE_INFINITY);
@@ -361,7 +343,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
   }
 
   @SuppressWarnings("TruthSelfEquals")
-  @Test
   public void isEqualTo() {
     assertThat(GOLDEN).isEqualTo(GOLDEN);
     assertThatIsEqualToFails(GOLDEN, JUST_OVER_GOLDEN);
@@ -382,7 +363,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     expectFailure(callback);
   }
 
-  @Test
   public void isNotEqualTo() {
     assertThatIsNotEqualToFails(GOLDEN);
     assertThat(GOLDEN).isNotEqualTo(JUST_OVER_GOLDEN);
@@ -394,7 +374,7 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(1.0f).isNotEqualTo(2);
   }
 
-  private static void assertThatIsNotEqualToFails(final @Nullable Float value) {
+  private static void assertThatIsNotEqualToFails(final Float value) {
     ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float> callback =
         new ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float>() {
           @Override
@@ -405,7 +385,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     expectFailure(callback);
   }
 
-  @Test
   public void isZero() {
     assertThat(0.0f).isZero();
     assertThat(-0.0f).isZero();
@@ -416,7 +395,7 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThatIsZeroFails(null);
   }
 
-  private static void assertThatIsZeroFails(final @Nullable Float value) {
+  private static void assertThatIsZeroFails(final Float value) {
     ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float> callback =
         new ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float>() {
           @Override
@@ -428,7 +407,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(failure).factKeys().containsExactly("expected zero", "but was").inOrder();
   }
 
-  @Test
   public void isNonZero() {
     assertThatIsNonZeroFails(0.0f, "expected not to be zero");
     assertThatIsNonZeroFails(-0.0f, "expected not to be zero");
@@ -439,7 +417,7 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThatIsNonZeroFails(null, "expected a float other than zero");
   }
 
-  private static void assertThatIsNonZeroFails(final @Nullable Float value, String factKey) {
+  private static void assertThatIsNonZeroFails(final Float value, String factKey) {
     ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float> callback =
         new ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float>() {
           @Override
@@ -451,7 +429,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(failure).factKeys().containsExactly(factKey, "but was").inOrder();
   }
 
-  @Test
   public void isPositiveInfinity() {
     assertThat(Float.POSITIVE_INFINITY).isPositiveInfinity();
     assertThatIsPositiveInfinityFails(1.23f);
@@ -460,7 +437,7 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThatIsPositiveInfinityFails(null);
   }
 
-  private static void assertThatIsPositiveInfinityFails(final @Nullable Float value) {
+  private static void assertThatIsPositiveInfinityFails(final Float value) {
     ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float> callback =
         new ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float>() {
           @Override
@@ -471,7 +448,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     expectFailure(callback);
   }
 
-  @Test
   public void isNegativeInfinity() {
     assertThat(Float.NEGATIVE_INFINITY).isNegativeInfinity();
     assertThatIsNegativeInfinityFails(1.23f);
@@ -480,7 +456,7 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThatIsNegativeInfinityFails(null);
   }
 
-  private static void assertThatIsNegativeInfinityFails(final @Nullable Float value) {
+  private static void assertThatIsNegativeInfinityFails(final Float value) {
     ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float> callback =
         new ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float>() {
           @Override
@@ -491,7 +467,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     expectFailure(callback);
   }
 
-  @Test
   public void isNaN() {
     assertThat(Float.NaN).isNaN();
     assertThatIsNaNFails(1.23f);
@@ -500,7 +475,7 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThatIsNaNFails(null);
   }
 
-  private static void assertThatIsNaNFails(final @Nullable Float value) {
+  private static void assertThatIsNaNFails(final Float value) {
     ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float> callback =
         new ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float>() {
           @Override
@@ -511,7 +486,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     expectFailure(callback);
   }
 
-  @Test
   public void isFinite() {
     assertThat(1.23f).isFinite();
     assertThat(Float.MAX_VALUE).isFinite();
@@ -522,7 +496,7 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThatIsFiniteFails(null);
   }
 
-  private static void assertThatIsFiniteFails(final @Nullable Float value) {
+  private static void assertThatIsFiniteFails(final Float value) {
     ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float> callback =
         new ExpectFailure.SimpleSubjectBuilderCallback<FloatSubject, Float>() {
           @Override
@@ -534,7 +508,6 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(failure).factKeys().containsExactly("expected to be finite", "but was").inOrder();
   }
 
-  @Test
   public void isNotNaN() {
     assertThat(1.23f).isNotNaN();
     assertThat(Float.MAX_VALUE).isNotNaN();
@@ -543,61 +516,51 @@ public class FloatSubjectTest extends BaseSubjectTestCase {
     assertThat(Float.NEGATIVE_INFINITY).isNotNaN();
   }
 
-  @Test
   public void isNotNaNIsNaN() {
     expectFailureWhenTestingThat(Float.NaN).isNotNaN();
   }
 
-  @Test
   public void isNotNaNIsNull() {
     expectFailureWhenTestingThat(null).isNotNaN();
     assertFailureKeys("expected a float other than NaN", "but was");
   }
 
-  @Test
   public void isGreaterThan_int_strictly() {
     expectFailureWhenTestingThat(2.0f).isGreaterThan(3);
   }
 
-  @Test
   public void isGreaterThan_int() {
     expectFailureWhenTestingThat(2.0f).isGreaterThan(2);
     assertThat(2.0f).isGreaterThan(1);
     assertThat(0x1.0p30f).isGreaterThan((1 << 30) - 1);
   }
 
-  @Test
   public void isLessThan_int_strictly() {
     expectFailureWhenTestingThat(2.0f).isLessThan(1);
   }
 
-  @Test
   public void isLessThan_int() {
     expectFailureWhenTestingThat(2.0f).isLessThan(2);
     assertThat(2.0f).isLessThan(3);
     assertThat(0x1.0p30f).isLessThan((1 << 30) + 1);
   }
 
-  @Test
   public void isAtLeast_int() {
     expectFailureWhenTestingThat(2.0f).isAtLeast(3);
     assertThat(2.0f).isAtLeast(2);
     assertThat(2.0f).isAtLeast(1);
   }
 
-  @Test
   public void isAtLeast_int_withNoExactFloatRepresentation() {
     expectFailureWhenTestingThat(0x1.0p30f).isAtLeast((1 << 30) + 1);
   }
 
-  @Test
   public void isAtMost_int() {
     expectFailureWhenTestingThat(2.0f).isAtMost(1);
     assertThat(2.0f).isAtMost(2);
     assertThat(2.0f).isAtMost(3);
   }
 
-  @Test
   public void isAtMost_int_withNoExactFloatRepresentation() {
     expectFailureWhenTestingThat(0x1.0p30f).isAtMost((1 << 30) - 1);
   }

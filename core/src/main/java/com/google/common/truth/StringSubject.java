@@ -38,7 +38,7 @@ public class StringSubject extends ComparableSubject<String> {
    * Constructor for use by subclasses. If you want to create an instance of this class itself, call
    * {@link Subject#check(String, Object...) check(...)}{@code .that(actual)}.
    */
-  protected StringSubject(FailureMetadata metadata, @Nullable String string) {
+  protected StringSubject(FailureMetadata metadata, String string) {
     super(metadata, string);
     this.actual = string;
   }
@@ -132,7 +132,6 @@ public class StringSubject extends ComparableSubject<String> {
   }
 
   /** Fails if the string does not match the given regex. */
-  @GwtIncompatible("java.util.regex.Pattern")
   public void matches(Pattern regex) {
     checkNotNull(regex);
     if (actual == null) {
@@ -162,7 +161,6 @@ public class StringSubject extends ComparableSubject<String> {
   }
 
   /** Fails if the string matches the given regex. */
-  @GwtIncompatible("java.util.regex.Pattern")
   public void doesNotMatch(Pattern regex) {
     checkNotNull(regex);
     if (actual == null) {
@@ -173,7 +171,6 @@ public class StringSubject extends ComparableSubject<String> {
   }
 
   /** Fails if the string does not contain a match on the given regex. */
-  @GwtIncompatible("java.util.regex.Pattern")
   public void containsMatch(Pattern regex) {
     checkNotNull(regex);
     if (actual == null) {
@@ -194,7 +191,6 @@ public class StringSubject extends ComparableSubject<String> {
   }
 
   /** Fails if the string contains a match on the given regex. */
-  @GwtIncompatible("java.util.regex.Pattern")
   public void doesNotContainMatch(Pattern regex) {
     checkNotNull(regex);
     if (actual == null) {

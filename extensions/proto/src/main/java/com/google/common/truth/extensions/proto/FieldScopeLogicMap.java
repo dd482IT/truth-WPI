@@ -36,7 +36,6 @@ import com.google.protobuf.Descriptors.Descriptor;
  */
 class FieldScopeLogicMap<V> implements FieldScopeLogicContainer<FieldScopeLogicMap<V>> {
 
-  @AutoValue
   abstract static class Entry<V> {
     abstract FieldScopeLogic fieldScopeLogic();
 

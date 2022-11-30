@@ -42,23 +42,18 @@ import org.junit.runners.JUnit4;
  *
  * @author Pete Gillin
  */
-@RunWith(JUnit4.class)
 public final class GraphMatchingTest {
 
-  @Test
   public void maximumCardinalityBipartiteMatching_empty() {
     TestInstance.empty().testAgainstKnownSize(0);
   }
 
-  @Test
   public void maximumCardinalityBipartiteMatching_exhaustive3x4() {
     for (int edgeCombination = 1; edgeCombination < (1L << (3 * 4)); edgeCombination++) {
       TestInstance.fromBits(3, 4, intBits(edgeCombination)).testAgainstBruteForce();
     }
   }
 
-  @Test
-  @GwtIncompatible("slow")
   public void maximumCardinalityBipartiteMatching_exhaustive4x4() {
     if (Platform.isAndroid()) {
       return; // slow
@@ -68,8 +63,6 @@ public final class GraphMatchingTest {
     }
   }
 
-  @Test
-  @GwtIncompatible("slow")
   public void maximumCardinalityBipartiteMatching_exhaustive3x5() {
     if (Platform.isAndroid()) {
       return; // slow
@@ -79,8 +72,6 @@ public final class GraphMatchingTest {
     }
   }
 
-  @Test
-  @GwtIncompatible("slow")
   public void maximumCardinalityBipartiteMatching_exhaustive5x3() {
     if (Platform.isAndroid()) {
       return; // slow
@@ -90,12 +81,10 @@ public final class GraphMatchingTest {
     }
   }
 
-  @Test
   public void maximumCardinalityBipartiteMatching_fullyConnected8x8() {
     TestInstance.fullyConnected(8, 8).testAgainstKnownSize(8);
   }
 
-  @Test
   public void maximumCardinalityBipartiteMatching_random8x8() {
     Random rng = new Random(0x5ca1ab1e);
     for (int i = 0; i < 100; i++) {
@@ -106,7 +95,6 @@ public final class GraphMatchingTest {
     }
   }
 
-  @Test
   public void maximumCardinalityBipartiteMatching_randomSparse8x8() {
     Random rng = new Random(0x0ddba11);
     for (int i = 0; i < 100; i++) {
@@ -116,8 +104,6 @@ public final class GraphMatchingTest {
     }
   }
 
-  @Test
-  @GwtIncompatible("slow")
   public void maximumCardinalityBipartiteMatching_randomDense8x8() {
     if (Platform.isAndroid()) {
       return; // slow
@@ -131,7 +117,6 @@ public final class GraphMatchingTest {
     }
   }
 
-  @Test
   public void maximumCardinalityBipartiteMatching_failsWithNullLhs() {
     ListMultimap<String, String> edges = LinkedListMultimap.create();
     edges.put(null, "R1");
@@ -142,7 +127,6 @@ public final class GraphMatchingTest {
     }
   }
 
-  @Test
   public void maximumCardinalityBipartiteMatching_failsWithNullRhs() {
     ListMultimap<String, String> edges = LinkedListMultimap.create();
     edges.put("L1", null);

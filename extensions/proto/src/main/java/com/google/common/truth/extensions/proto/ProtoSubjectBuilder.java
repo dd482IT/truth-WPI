@@ -50,23 +50,23 @@ public final class ProtoSubjectBuilder extends CustomSubjectBuilder {
     super(failureMetadata);
   }
 
-  public LiteProtoSubject that(@Nullable MessageLite messageLite) {
+  public LiteProtoSubject that(MessageLite messageLite) {
     return new LiteProtoSubject(metadata(), messageLite);
   }
 
-  public ProtoSubject that(@Nullable Message message) {
+  public ProtoSubject that(Message message) {
     return new ProtoSubject(metadata(), message);
   }
 
-  public <M extends Message> IterableOfProtosSubject<M> that(@Nullable Iterable<M> messages) {
+  public <M extends Message> IterableOfProtosSubject<M> that(Iterable<M> messages) {
     return new IterableOfProtosSubject<M>(metadata(), messages);
   }
 
-  public <M extends Message> MapWithProtoValuesSubject<M> that(@Nullable Map<?, M> map) {
+  public <M extends Message> MapWithProtoValuesSubject<M> that(Map<?, M> map) {
     return new MapWithProtoValuesSubject<>(metadata(), map);
   }
 
-  public <M extends Message> MultimapWithProtoValuesSubject<M> that(@Nullable Multimap<?, M> map) {
+  public <M extends Message> MultimapWithProtoValuesSubject<M> that(Multimap<?, M> map) {
     return new MultimapWithProtoValuesSubject<>(metadata(), map);
   }
 }

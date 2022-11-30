@@ -22,9 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-@RunWith(JUnit4.class)
 public class PathSubjectTest {
-  @Test
   public void basicEquality() {
     assertThat(Paths.get("foo")).isEqualTo(Paths.get("foo"));
   }

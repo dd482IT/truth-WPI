@@ -29,10 +29,8 @@ import org.junit.runners.JUnit4;
  *
  * @author Kurt Alfred Kluever
  */
-@RunWith(JUnit4.class)
 public class MultisetSubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void hasCount() {
     ImmutableMultiset<String> multiset = ImmutableMultiset.of("kurt", "kurt", "kluever");
     assertThat(multiset).hasCount("kurt", 2);
@@ -42,7 +40,6 @@ public class MultisetSubjectTest extends BaseSubjectTestCase {
     assertWithMessage("name").that(multiset).hasCount("kurt", 2);
   }
 
-  @Test
   public void hasCountFail() {
     ImmutableMultiset<String> multiset = ImmutableMultiset.of("kurt", "kurt", "kluever");
     expectFailureWhenTestingThat(multiset).hasCount("kurt", 3);

@@ -43,7 +43,6 @@ import org.junit.runners.model.Statement;
  * @author David Saff
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
 public class ExpectTest {
   private final Expect oopsNotARule = Expect.create();
 
@@ -72,7 +71,6 @@ public class ExpectTest {
    */
   private Future<?> taskToAwait = immediateFuture(null);
 
-  @Rule
   public final TestRule wrapper =
       new TestRule() {
         @Override
@@ -84,19 +82,16 @@ public class ExpectTest {
         }
       };
 
-  @Test
   public void expectTrue() {
     expect.that(4).isEqualTo(4);
   }
 
-  @Test
   public void singleExpectationFails() {
     thrown.expectMessage("1 expectation failed:");
     thrown.expectMessage("1. x");
     expect.withMessage("x").fail();
   }
 
-  @Test
   public void expectFail() {
     thrown.expectMessage("3 expectations failed:");
     thrown.expectMessage("1. x");
@@ -107,7 +102,6 @@ public class ExpectTest {
     expect.withMessage("z").fail();
   }
 
-  @Test
   public void expectFail10Aligned() {
     thrown.expectMessage("10 expectations failed:");
     thrown.expectMessage(" 1. x");
@@ -117,7 +111,6 @@ public class ExpectTest {
     }
   }
 
-  @Test
   public void expectFail10WrappedAligned() {
     thrown.expectMessage("10 expectations failed:");
     thrown.expectMessage(" 1. abc\n      xyz");
@@ -127,7 +120,6 @@ public class ExpectTest {
     }
   }
 
-  @Test
   public void expectFailWithExceptionNoMessage() {
     thrown.expectMessage("3 expectations failed:");
     thrown.expectMessage("1. x");
@@ -138,7 +130,6 @@ public class ExpectTest {
     throw new IllegalStateException();
   }
 
-  @Test
   public void expectFailWithExceptionWithMessage() {
     thrown.expectMessage("3 expectations failed:");
     thrown.expectMessage("1. x");
@@ -149,7 +140,6 @@ public class ExpectTest {
     throw new IllegalStateException("testing");
   }
 
-  @Test
   public void expectFailWithExceptionBeforeExpectFailures() {
     thrown.expect(IllegalStateException.class);
     thrown.expectMessage("testing");
@@ -162,7 +152,6 @@ public class ExpectTest {
     throw new IllegalStateException("testing");
   }
 
-  @Test
   public void expectFailWithFailuresBeforeAssume() {
     thrown.expectMessage("3 expectations failed:");
     thrown.expectMessage("1. x");
@@ -173,21 +162,18 @@ public class ExpectTest {
     assume().withMessage("testing").fail();
   }
 
-  @Test
   public void expectSuccessWithFailuresAfterAssume() {
     assume().withMessage("testing").fail();
     expect.withMessage("x").fail();
     expect.withMessage("y").fail();
   }
 
-  @Test
   public void warnWhenExpectIsNotRule() {
     String message = "assertion made on Expect instance, but it's not enabled as a @Rule.";
     thrown.expectMessage(message);
     oopsNotARule.that(true).isEqualTo(true);
   }
 
-  @Test
   public void bash() throws Exception {
     Runnable task =
         new Runnable() {
@@ -208,7 +194,6 @@ public class ExpectTest {
     thrown.expectMessage("1000 expectations failed:");
   }
 
-  @Test
   public void failWhenCallingThatAfterTest() {
     ExecutorService executor = newSingleThreadExecutor();
     taskToAwait =
@@ -227,7 +212,6 @@ public class ExpectTest {
     executor.shutdown();
   }
 
-  @Test
   public void failWhenCallingFailingAssertionMethodAfterTest() {
     ExecutorService executor = newSingleThreadExecutor();
     /*

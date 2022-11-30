@@ -80,7 +80,7 @@ final class Platform {
    * the value passed to {@code assertThat} or {@code that}, as distinct from any later actual
    * values produced by chaining calls like {@code hasMessageThat}.
    */
-  static @Nullable String inferDescription() {
+  static String inferDescription() {
     if (isInferDescriptionDisabled()) {
       return null;
     }
@@ -135,7 +135,7 @@ final class Platform {
 
   private static final String DIFF_KEY = "diff (-expected +actual)";
 
-  static @Nullable ImmutableList<Fact> makeDiff(String expected, String actual) {
+  static ImmutableList<Fact> makeDiff(String expected, String actual) {
     ImmutableList<String> expectedLines = splitLines(expected);
     ImmutableList<String> actualLines = splitLines(actual);
     List<String> unifiedDiff =
@@ -161,10 +161,10 @@ final class Platform {
     private final String message;
 
     /** Separate cause field, in case initCause() fails. */
-    private final @Nullable Throwable cause;
+    private final Throwable cause;
 
     PlatformComparisonFailure(
-        String message, String expected, String actual, @Nullable Throwable cause) {
+        String message, String expected, String actual, Throwable cause) {
       super(message, expected, actual);
       this.message = message;
       this.cause = cause;
@@ -245,7 +245,7 @@ final class Platform {
       ImmutableList<Fact> facts,
       String expected,
       String actual,
-      @Nullable Throwable cause) {
+      Throwable cause) {
     Class<?> comparisonFailureClass;
     try {
       comparisonFailureClass = Class.forName("com.google.common.truth.ComparisonFailureWithFacts");

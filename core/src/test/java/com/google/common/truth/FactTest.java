@@ -27,25 +27,20 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Tests for {@link Fact}. */
-@RunWith(JUnit4.class)
 public class FactTest {
-  @Test
   public void string() {
     assertThat(fact("foo", "bar").toString()).isEqualTo("foo: bar");
   }
 
-  @Test
   public void stringWithoutValue() {
     assertThat(simpleFact("foo").toString()).isEqualTo("foo");
   }
 
-  @Test
   public void oneFacts() {
     assertThat(makeMessage(ImmutableList.<String>of(), ImmutableList.of(fact("foo", "bar"))))
         .isEqualTo("foo: bar");
   }
 
-  @Test
   public void twoFacts() {
     assertThat(
             makeMessage(
@@ -54,13 +49,11 @@ public class FactTest {
         .isEqualTo("foo        : bar\nlonger name: other value");
   }
 
-  @Test
   public void oneFactWithoutValue() {
     assertThat(makeMessage(ImmutableList.<String>of(), ImmutableList.of(simpleFact("foo"))))
         .isEqualTo("foo");
   }
 
-  @Test
   public void twoFactsOneWithoutValue() {
     assertThat(
             makeMessage(
@@ -69,13 +62,11 @@ public class FactTest {
         .isEqualTo("hello: there\nfoo");
   }
 
-  @Test
   public void newline() {
     assertThat(makeMessage(ImmutableList.<String>of(), ImmutableList.of(fact("foo", "bar\nbaz"))))
         .isEqualTo("foo:\n    bar\n    baz");
   }
 
-  @Test
   public void newlineWithoutValue() {
     assertThat(
             makeMessage(
@@ -84,7 +75,6 @@ public class FactTest {
         .isEqualTo("hello:\n    there\n    everyone\nxyz");
   }
 
-  @Test
   public void withMessage() {
     assertThat(makeMessage(ImmutableList.<String>of("hello"), ImmutableList.of(fact("foo", "bar"))))
         .isEqualTo("hello\nfoo: bar");

@@ -36,10 +36,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /** Unit tests for {@link ProtoSubject}. */
-@RunWith(Parameterized.class)
 public class ProtoSubjectTest extends ProtoSubjectTestBase {
 
-  @Parameters(name = "{0}")
   public static Collection<Object[]> parameters() {
     return ProtoSubjectTestBase.parameters();
   }
@@ -48,7 +46,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     super(testType);
   }
 
-  @Test
   public void testDifferentClasses() throws InvalidProtocolBufferException {
     Message message = parse("o_int: 3");
     DynamicMessage dynamicMessage =
@@ -58,7 +55,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThat(dynamicMessage).isEqualTo(message);
   }
 
-  @Test
   public void testDifferentDynamicDescriptors() throws InvalidProtocolBufferException {
     // Only test once.
     if (!isProto3()) {
@@ -78,7 +74,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("different descriptors");
   }
 
-  @Test
   public void testFullDiffOnlyWhenRelevant() {
     // There are no matches, so 'Full diff' should not be printed.
     expectFailureWhenTesting().that(parse("o_int: 3")).isEqualTo(parse("o_int: 4"));
@@ -91,7 +86,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("Full diff");
   }
 
-  @Test
   public void testIgnoringFieldAbsence() {
     Message message = parse("o_int: 3");
     Message diffMessage = parse("o_int: 3 o_enum: DEFAULT");
@@ -132,7 +126,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     }
   }
 
-  @Test
   public void testIgnoringFieldAbsence_anyMessage() {
     Message message = parse("o_int: 3");
     Message diffMessage = parse("o_int: 3 o_any_message: {}");
@@ -150,7 +143,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("matched: o_any_message");
   }
 
-  @Test
   public void testIgnoringFieldAbsence_scoped() {
     Message message = parse("o_sub_test_message: { o_test_message: {} }");
     Message emptyMessage = parse("");
@@ -217,7 +209,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     }
   }
 
-  @Test
   public void testUnknownFields() throws InvalidProtocolBufferException {
     Message message =
         fromUnknownFields(
@@ -242,7 +233,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectIsNotEqualToFailed();
   }
 
-  @Test
   public void testRepeatedFieldOrder() {
     Message message = parse("r_string: \"foo\" r_string: \"bar\"");
     Message eqMessage = parse("r_string: \"bar\" r_string: \"foo\"");
@@ -294,7 +284,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("added: r_string[1]: \"foo\"");
   }
 
-  @Test
   public void testRepeatedFieldOrder_scoped() {
     Message message =
         parse("r_string: 'a' r_string: 'b' o_sub_test_message: { r_string: 'c' r_string: 'd' }");
@@ -351,7 +340,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     }
   }
 
-  @Test
   public void testDoubleTolerance() {
     Message message = parse("o_double: 1.0");
     Message diffMessage = parse("o_double: 1.1");
@@ -362,7 +350,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThat(diffMessage).usingFloatTolerance(0.2f).isNotEqualTo(message);
   }
 
-  @Test
   public void testDoubleTolerance_defaultValue() {
     Message message = parse("o_double: 0.0");
     Message defaultInstance = parse("");
@@ -402,7 +389,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     }
   }
 
-  @Test
   public void testDoubleTolerance_scoped() {
     Message message = parse("o_double: 1.0 o_double2: 1.0");
     Message diffMessage = parse("o_double: 1.1 o_double2: 1.5");
@@ -447,7 +433,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     }
   }
 
-  @Test
   public void testFloatTolerance() {
     Message message = parse("o_float: 1.0");
     Message diffMessage = parse("o_float: 1.1");
@@ -458,7 +443,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThat(diffMessage).usingDoubleTolerance(0.2).isNotEqualTo(message);
   }
 
-  @Test
   public void testFloatTolerance_defaultValue() {
     Message message = parse("o_float: 0.0");
     Message defaultInstance = parse("");
@@ -498,7 +482,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     }
   }
 
-  @Test
   public void testFloatTolerance_scoped() {
     Message message = parse("o_float: 1.0 o_float2: 1.0");
     Message diffMessage = parse("o_float: 1.1 o_float2: 1.5");
@@ -542,7 +525,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     }
   }
 
-  @Test
   public void testComparingExpectedFieldsOnly() {
     Message message = parse("o_int: 3 r_string: 'foo'");
     Message narrowMessage = parse("o_int: 3");
@@ -557,7 +539,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("ignored: r_string");
   }
 
-  @Test
   public void testIgnoringExtraRepeatedFieldElements_respectingOrder() {
     Message message = parse("r_string: 'foo' r_string: 'bar'");
     Message eqMessage = parse("r_string: 'foo' r_string: 'foobar' r_string: 'bar'");
@@ -584,7 +565,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("moved: r_string[0] -> r_string[2]: \"foo\"");
   }
 
-  @Test
   public void testIgnoringExtraRepeatedFieldElements_ignoringOrder() {
     Message message = parse("r_string: 'foo' r_string: 'bar'");
     Message eqMessage = parse("r_string: 'baz' r_string: 'bar' r_string: 'qux' r_string: 'foo'");
@@ -608,7 +588,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("deleted: r_string[1]: \"bar\"");
   }
 
-  @Test
   public void testIgnoringExtraRepeatedFieldElements_empty() {
     Message message = parse("o_int: 2");
     Message diffMessage = parse("o_int: 2 r_string: 'error'");
@@ -630,7 +609,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
         .isEqualTo(message);
   }
 
-  @Test
   public void testIgnoringExtraRepeatedFieldElements_scoped() {
     Message message = parse("r_string: 'a' o_sub_test_message: { r_string: 'c' }");
     Message diffMessage =
@@ -679,7 +657,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     return parse(textProto.toString());
   }
 
-  @Test
   public void testIgnoringExtraRepeatedFieldElements_map() {
     Message message = makeProtoMap(ImmutableMap.of("foo", 2, "bar", 3));
     Message eqMessage = makeProtoMap(ImmutableMap.of("bar", 3, "qux", 4, "foo", 2));
@@ -708,7 +685,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("deleted: test_message_map[\"bar\"]");
   }
 
-  @Test
   public void testReportingMismatchesOnly_isEqualTo() {
     Message message = parse("r_string: \"foo\" r_string: \"bar\"");
     Message diffMessage = parse("r_string: \"foo\" r_string: \"not_bar\"");
@@ -726,7 +702,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("not_bar");
   }
 
-  @Test
   public void testReportingMismatchesOnly_isNotEqualTo() {
     Message message = parse("o_int: 33 r_string: \"foo\" r_string: \"bar\"");
     Message diffMessage = parse("o_int: 33 r_string: \"bar\" r_string: \"foo\"");
@@ -748,7 +723,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().doesNotContain("bar");
   }
 
-  @Test
   public void testHasAllRequiredFields() {
     // Proto 3 doesn't have required fields.
     if (isProto3()) {
@@ -785,7 +759,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
         .contains("r_required_string_message[1].required_string");
   }
 
-  @Test
   public void testAnyMessage_notEqual_diffPrintsExpandedAny() {
     String typeUrl =
         isProto3()
@@ -819,7 +792,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
                 + "}\n");
   }
 
-  @Test
   public void testRepeatedAnyMessage_notEqual_diffPrintsExpandedAny() {
     String typeUrl =
         isProto3()
@@ -870,7 +842,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
                 + "}");
   }
 
-  @Test
   public void testAnyMessagesWithDifferentTypes() {
     String typeUrl =
         isProto3()
@@ -898,7 +869,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
         .containsMatch("modified: o_any_message.value:.*bar.*->.*foo.*");
   }
 
-  @Test
   public void testAnyMessageCompareWithEmptyAnyMessage() {
     String typeUrl =
         isProto3()
@@ -930,7 +900,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().hasMessageThat().contains("modified: o_any_message.value");
   }
 
-  @Test
   public void testAnyMessageComparedWithDynamicMessage() throws InvalidProtocolBufferException {
     String typeUrl =
         isProto3()
@@ -952,7 +921,6 @@ public class ProtoSubjectTest extends ProtoSubjectTestBase {
         .isEqualTo(dynamicMessage);
   }
 
-  @Test
   public void testMapWithDefaultKeysAndValues() throws InvalidProtocolBufferException {
     Descriptor descriptor = getFieldDescriptor("o_int").getContainingType();
     final String defaultString = "";

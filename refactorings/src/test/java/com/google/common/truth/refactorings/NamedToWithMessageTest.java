@@ -23,21 +23,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** @author cpovirk@google.com (Chris Povirk) */
-@RunWith(JUnit4.class)
 public class NamedToWithMessageTest {
   private CompilationTestHelper compilationHelper;
 
-  @Before
   public void setUp() {
     compilationHelper = CompilationTestHelper.newInstance(NamedToWithMessage.class, getClass());
   }
 
-  @Test
   public void testPositiveCase() {
     compilationHelper.addSourceFile("NamedToWithMessagePositiveCases.java").doTest();
   }
 
-  @Test
   public void testNegativeCase() {
     compilationHelper.addSourceFile("NamedToWithMessageNegativeCases.java").doTest();
   }

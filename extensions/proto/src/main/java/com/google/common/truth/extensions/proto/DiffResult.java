@@ -42,7 +42,6 @@ import java.util.Set;
  * <p>These classes form a recursive, hierarchical relationship. Much of the common recursion logic
  * across all the classes is in {@link RecursableDiffEntity}.
  */
-@AutoValue
 abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
 
   /**
@@ -53,7 +52,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
    * FluentEqualityConfig#ignoringFieldAbsence()} enabled, one message had the field explicitly set
    * to the default value, and the other did not.
    */
-  @AutoValue
   abstract static class SingularField extends RecursableDiffEntity.WithResultCode
       implements ProtoPrintable {
     /** The type information for this field. May be absent if result code is {@code IGNORED}. */
@@ -86,12 +84,10 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
     abstract Optional<UnknownFieldSetDiff> unknownsBreakdown();
 
     /** Returns {@code actual().get()}, or {@code expected().get()}, whichever is available. */
-    @Memoized
     Object actualOrExpected() {
       return actual().or(expected()).get();
     }
 
-    @Memoized
     @Override
     Iterable<? extends RecursableDiffEntity> childEntities() {
       return ImmutableList.copyOf(
@@ -177,7 +173,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
     }
 
     /** Builder for {@link SingularField}. */
-    @AutoValue.Builder
     abstract static class Builder {
       abstract Builder setResult(Result result);
 
@@ -205,7 +200,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
    * <p>This is only present if the user specified {@code ignoringRepeatedFieldOrder()}. Otherwise,
    * the repeated elements are compared as singular fields, and there are no 'move' semantics.
    */
-  @AutoValue
   abstract static class RepeatedField extends RecursableDiffEntity.WithoutResultCode {
 
     /**
@@ -216,7 +210,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
      * object is absent, the PairResult represents an extra/missing element in the repeated field.
      * If both are present but the indexes differ, it represents a 'move'.
      */
-    @AutoValue
     abstract static class PairResult extends RecursableDiffEntity.WithResultCode
         implements ProtoPrintable {
       /** The {@link FieldDescriptor} describing the repeated field for this pair. */
@@ -240,14 +233,12 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
        */
       abstract Optional<DiffResult> breakdown();
 
-      @Memoized
       @Override
       Iterable<? extends RecursableDiffEntity> childEntities() {
         return breakdown().asSet();
       }
 
       /** Returns true if actual() and expected() contain Message types. */
-      @Memoized
       boolean isMessage() {
         return actual().orNull() instanceof Message || expected().orNull() instanceof Message;
       }
@@ -384,7 +375,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
         return new AutoValue_DiffResult_RepeatedField_PairResult.Builder();
       }
 
-      @AutoValue.Builder
       abstract static class Builder {
         abstract Builder setResult(Result result);
 
@@ -421,7 +411,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
     /** Pairs of elements which were diffed against each other. */
     abstract ImmutableList<PairResult> pairResults();
 
-    @Memoized
     @Override
     Iterable<? extends RecursableDiffEntity> childEntities() {
       return pairResults();
@@ -445,7 +434,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
       return new AutoValue_DiffResult_RepeatedField.Builder();
     }
 
-    @AutoValue.Builder
     abstract static class Builder {
       abstract Builder setFieldDescriptor(FieldDescriptor fieldDescriptor);
 
@@ -453,10 +441,8 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
 
       abstract Builder setExpected(Iterable<?> expected);
 
-      @ForOverride
       abstract ImmutableList.Builder<PairResult> pairResultsBuilder();
 
-      @CanIgnoreReturnValue
       final Builder addPairResult(PairResult pairResult) {
         pairResultsBuilder().add(pairResult);
         return this;
@@ -467,7 +453,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
   }
 
   /** Structural summary of the difference between two unknown field sets. */
-  @AutoValue
   abstract static class UnknownFieldSetDiff extends RecursableDiffEntity.WithoutResultCode {
     /** The {@link UnknownFieldSet} being tested. */
     abstract Optional<UnknownFieldSet> actual();
@@ -484,7 +469,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
      */
     abstract ImmutableListMultimap<Integer, SingularField> singularFields();
 
-    @Memoized
     @Override
     Iterable<? extends RecursableDiffEntity> childEntities() {
       return singularFields().values();
@@ -512,22 +496,18 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
       return new AutoValue_DiffResult_UnknownFieldSetDiff.Builder();
     }
 
-    @AutoValue.Builder
     abstract static class Builder {
       abstract Builder setActual(UnknownFieldSet actual);
 
       abstract Builder setExpected(UnknownFieldSet expected);
 
-      @ForOverride
       abstract ImmutableListMultimap.Builder<Integer, SingularField> singularFieldsBuilder();
 
-      @CanIgnoreReturnValue
       final Builder addSingularField(int fieldNumber, SingularField singularField) {
         singularFieldsBuilder().put(fieldNumber, singularField);
         return this;
       }
 
-      @CanIgnoreReturnValue
       final Builder addAllSingularFields(int fieldNumber, Iterable<SingularField> singularFields) {
         singularFieldsBuilder().putAll(fieldNumber, singularFields);
         return this;
@@ -602,7 +582,6 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
    */
   abstract Optional<UnknownFieldSetDiff> unknownFields();
 
-  @Memoized
   @Override
   Iterable<? extends RecursableDiffEntity> childEntities() {
     // Assemble the diffs in field number order so it most closely matches the schema.
@@ -665,31 +644,25 @@ abstract class DiffResult extends RecursableDiffEntity.WithoutResultCode {
     return rootFieldPrefix.isEmpty() ? toAdd : (rootFieldPrefix + "." + toAdd);
   }
 
-  @AutoValue.Builder
   abstract static class Builder {
     abstract Builder setActual(Message actual);
 
     abstract Builder setExpected(Message expected);
 
-    @ForOverride
     abstract ImmutableListMultimap.Builder<Integer, SingularField> singularFieldsBuilder();
 
-    @CanIgnoreReturnValue
     final Builder addSingularField(int fieldNumber, SingularField singularField) {
       singularFieldsBuilder().put(fieldNumber, singularField);
       return this;
     }
 
-    @CanIgnoreReturnValue
     final Builder addAllSingularFields(int fieldNumber, Iterable<SingularField> singularFields) {
       singularFieldsBuilder().putAll(fieldNumber, singularFields);
       return this;
     }
 
-    @ForOverride
     abstract ImmutableListMultimap.Builder<Integer, RepeatedField> repeatedFieldsBuilder();
 
-    @CanIgnoreReturnValue
     final Builder addRepeatedField(int fieldNumber, RepeatedField repeatedField) {
       repeatedFieldsBuilder().put(fieldNumber, repeatedField);
       return this;

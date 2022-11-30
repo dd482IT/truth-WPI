@@ -30,10 +30,8 @@ import org.junit.runners.JUnit4;
  * @author Christian Gruber (cgruber@israfil.net)
  */
 @SuppressWarnings("LenientFormatStringValidation") // Intentional for testing
-@RunWith(JUnit4.class)
 public class CustomFailureMessageTest extends BaseSubjectTestCase {
 
-  @Test
   public void assertWithMessageThat() {
     expectFailure.whenTesting().withMessage("This is a custom message").that(false).isTrue();
     assertThat(expectFailure.getFailure())
@@ -41,7 +39,6 @@ public class CustomFailureMessageTest extends BaseSubjectTestCase {
         .startsWith("This is a custom message\n");
   }
 
-  @Test
   public void countPlaceholders() {
     assertThat(LazyMessage.countPlaceholders("")).isEqualTo(0);
     assertThat(LazyMessage.countPlaceholders("%s")).isEqualTo(1);
@@ -57,7 +54,6 @@ public class CustomFailureMessageTest extends BaseSubjectTestCase {
     assertThat(LazyMessage.countPlaceholders("hel%s%slo%s")).isEqualTo(3);
   }
 
-  @Test
   public void assertWithMessageThat_withPlaceholders() {
     expectFailure
         .whenTesting()
@@ -69,7 +65,6 @@ public class CustomFailureMessageTest extends BaseSubjectTestCase {
         .startsWith("This is a custom message\n");
   }
 
-  @Test
   public void extraPlaceholderThrowsIae() {
     try {
       assert_().withMessage("This is a %s %s", "custom").that(true).isTrue();
@@ -78,7 +73,6 @@ public class CustomFailureMessageTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void missingPlaceholderThrowsIae() {
     try {
       assert_().withMessage("This is a %s", "custom", "message").that(true).isTrue();
@@ -87,7 +81,6 @@ public class CustomFailureMessageTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void noPlaceholdersWithArgsThrowsIae() {
     try {
       assert_().withMessage("This is a custom message", "bad arg").that(true).isTrue();
@@ -96,7 +89,6 @@ public class CustomFailureMessageTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void placeholdersArentEagerlyEvaluated() {
     Object toStringThrows =
         new Object() {

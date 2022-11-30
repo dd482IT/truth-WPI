@@ -36,14 +36,12 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /** Unit tests for {@link LiteProtoSubject}. */
-@RunWith(Parameterized.class)
 public class LiteProtoSubjectTest {
 
   /**
    * We run (almost) all the tests for both proto2 and proto3 implementations. This class organizes
    * the parameters much more cleanly than a raw Object[].
    */
-  @AutoValue
   public abstract static class Config {
     abstract MessageLite nonEmptyMessage();
 
@@ -63,7 +61,6 @@ public class LiteProtoSubjectTest {
       return new AutoValue_LiteProtoSubjectTest_Config.Builder();
     }
 
-    @AutoValue.Builder
     public abstract static class Builder {
       abstract Builder setNonEmptyMessage(MessageLite messageLite);
 
@@ -83,7 +80,6 @@ public class LiteProtoSubjectTest {
     }
   }
 
-  @Parameters(name = "{0}")
   public static Collection<Object[]> data() {
     // Missing a required_int field.
     TestMessageLite2WithRequiredFields withoutRequiredFields =
@@ -124,22 +120,21 @@ public class LiteProtoSubjectTest {
         new Object[] {"Proto 2", proto2Config}, new Object[] {"Proto 3", proto3Config});
   }
 
-  @Rule public final Expect expect = Expect.create();
+  public final Expect expect = Expect.create();
   private final Config config;
 
   public LiteProtoSubjectTest(@SuppressWarnings("unused") String name, Config config) {
     this.config = config;
   }
 
-  private LiteProtoSubject expectThat(@Nullable MessageLite m) {
+  private LiteProtoSubject expectThat(MessageLite m) {
     return expect.about(LiteProtoTruth.liteProtos()).that(m);
   }
 
-  private Subject expectThat(@Nullable Object o) {
+  private Subject expectThat(Object o) {
     return expect.that(o);
   }
 
-  @Test
   public void testSubjectMethods() {
     expectThat(config.nonEmptyMessage()).isSameInstanceAs(config.nonEmptyMessage());
     expectThat(config.nonEmptyMessage().toBuilder()).isNotSameInstanceAs(config.nonEmptyMessage());
@@ -158,7 +153,6 @@ public class LiteProtoSubjectTest {
         .isNoneOf(config.nonEmptyMessageOfOtherValue(), config.nonEmptyMessageOfOtherType());
   }
 
-  @Test
   public void testIsEqualTo_success() {
     expectThat(null).isEqualTo(null);
     expectThat(null).isNull();
@@ -172,7 +166,6 @@ public class LiteProtoSubjectTest {
     assertThat(config.nonEmptyMessage()).isNotEqualTo(config.nonEmptyMessageOfOtherValue());
   }
 
-  @Test
   public void testIsEqualTo_failure() {
     try {
       assertThat(config.nonEmptyMessage()).isEqualTo(config.nonEmptyMessageOfOtherValue());
@@ -204,12 +197,10 @@ public class LiteProtoSubjectTest {
     }
   }
 
-  @Test
   public void testHasAllRequiredFields_success() {
     expectThat(config.nonEmptyMessage()).hasAllRequiredFields();
   }
 
-  @Test
   public void testHasAllRequiredFields_failures() {
     if (!config.messageWithoutRequiredFields().isPresent()) {
       return;
@@ -226,7 +217,6 @@ public class LiteProtoSubjectTest {
     }
   }
 
-  @Test
   public void testDefaultInstance_success() {
     expectThat(config.defaultInstance()).isEqualToDefaultInstance();
     expectThat(config.defaultInstanceOfOtherType()).isEqualToDefaultInstance();
@@ -236,7 +226,6 @@ public class LiteProtoSubjectTest {
     expectThat(config.nonEmptyMessage()).isNotEqualToDefaultInstance();
   }
 
-  @Test
   public void testDefaultInstance_failure() {
     try {
       assertThat(config.nonEmptyMessage()).isEqualToDefaultInstance();
@@ -261,14 +250,12 @@ public class LiteProtoSubjectTest {
     }
   }
 
-  @Test
   public void testSerializedSize_success() {
     int size = config.nonEmptyMessage().getSerializedSize();
     expectThat(config.nonEmptyMessage()).serializedSize().isEqualTo(size);
     expectThat(config.defaultInstance()).serializedSize().isEqualTo(0);
   }
 
-  @Test
   public void testSerializedSize_failure() {
     int size = config.nonEmptyMessage().getSerializedSize();
 

@@ -65,12 +65,12 @@ public class MapWithProtoValuesSubject<M extends Message> extends MapSubject {
   private final Map<?, M> actual;
   private final FluentEqualityConfig config;
 
-  protected MapWithProtoValuesSubject(FailureMetadata failureMetadata, @Nullable Map<?, M> map) {
+  protected MapWithProtoValuesSubject(FailureMetadata failureMetadata, Map<?, M> map) {
     this(failureMetadata, FluentEqualityConfig.defaultInstance(), map);
   }
 
   MapWithProtoValuesSubject(
-      FailureMetadata failureMetadata, FluentEqualityConfig config, @Nullable Map<?, M> map) {
+      FailureMetadata failureMetadata, FluentEqualityConfig config, Map<?, M> map) {
     super(failureMetadata, map);
     this.metadata = failureMetadata;
     this.actual = map;
@@ -854,23 +854,22 @@ public class MapWithProtoValuesSubject<M extends Message> extends MapSubject {
     }
 
     @Override
-    public void containsEntry(@Nullable Object expectedKey, @Nullable M expectedValue) {
+    public void containsEntry(Object expectedKey, M expectedValue) {
       subject
           .usingCorrespondence(Arrays.asList(expectedValue))
           .containsEntry(expectedKey, expectedValue);
     }
 
     @Override
-    public void doesNotContainEntry(@Nullable Object excludedKey, @Nullable M excludedValue) {
+    public void doesNotContainEntry(Object excludedKey, M excludedValue) {
       subject
           .usingCorrespondence(Arrays.asList(excludedValue))
           .doesNotContainEntry(excludedKey, excludedValue);
     }
 
     @Override
-    @CanIgnoreReturnValue
     @SuppressWarnings("unchecked") // ClassCastException is fine
-    public Ordered containsExactly(@Nullable Object k0, @Nullable M v0, @Nullable Object... rest) {
+    public Ordered containsExactly(Object k0, M v0, Object... rest) {
       List<M> expectedValues = new ArrayList<>();
       expectedValues.add(v0);
       for (int i = 1; i < rest.length; i += 2) {
@@ -880,7 +879,6 @@ public class MapWithProtoValuesSubject<M extends Message> extends MapSubject {
     }
 
     @Override
-    @CanIgnoreReturnValue
     public Ordered containsExactlyEntriesIn(Map<?, ? extends M> expectedMap) {
       return subject
           .usingCorrespondence(expectedMap.values())

@@ -26,13 +26,11 @@ import org.junit.runners.JUnit4;
 import org.junit.runners.model.Statement;
 
 /** Test that stack traces are included in the error message created by Expect. */
-@RunWith(JUnit4.class)
 public class ExpectFailureWithStackTraceTest {
   private static final String METHOD_NAME = "ExpectFailureWithStackTraceTest.expectTwoFailures";
 
-  @Rule public final FailingExpect failToExpect = new FailingExpect();
+  public final FailingExpect failToExpect = new FailingExpect();
 
-  @Test
   public void expectTwoFailures() {
     failToExpect.delegate.that(4).isNotEqualTo(4);
     failToExpect.delegate.that("abc").contains("x");

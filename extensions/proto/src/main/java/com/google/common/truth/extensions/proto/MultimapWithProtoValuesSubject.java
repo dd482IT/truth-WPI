@@ -69,14 +69,14 @@ public class MultimapWithProtoValuesSubject<M extends Message> extends MultimapS
   private final FluentEqualityConfig config;
 
   protected MultimapWithProtoValuesSubject(
-      FailureMetadata failureMetadata, @Nullable Multimap<?, M> multimap) {
+      FailureMetadata failureMetadata, Multimap<?, M> multimap) {
     this(failureMetadata, FluentEqualityConfig.defaultInstance(), multimap);
   }
 
   MultimapWithProtoValuesSubject(
       FailureMetadata failureMetadata,
       FluentEqualityConfig config,
-      @Nullable Multimap<?, M> multimap) {
+      Multimap<?, M> multimap) {
     super(failureMetadata, multimap);
     this.metadata = failureMetadata;
     this.actual = multimap;
@@ -90,7 +90,7 @@ public class MultimapWithProtoValuesSubject<M extends Message> extends MultimapS
    * <p>This method performs no checks on its own and cannot cause test failures. Subsequent
    * assertions must be chained onto this method call to test properties of the {@link Multimap}.
    */
-  public IterableOfProtosSubject<M> valuesForKey(@Nullable Object key) {
+  public IterableOfProtosSubject<M> valuesForKey(Object key) {
     return check("valuesForKey(%s)", key)
         .about(protos())
         .that(((Multimap<Object, M>) actual).get(key));
@@ -886,21 +886,20 @@ public class MultimapWithProtoValuesSubject<M extends Message> extends MultimapS
     }
 
     @Override
-    public void containsEntry(@Nullable Object expectedKey, @Nullable M expectedValue) {
+    public void containsEntry(Object expectedKey, M expectedValue) {
       subject
           .usingCorrespondence(Arrays.asList(expectedValue))
           .containsEntry(expectedKey, expectedValue);
     }
 
     @Override
-    public void doesNotContainEntry(@Nullable Object excludedKey, @Nullable M excludedValue) {
+    public void doesNotContainEntry(Object excludedKey, M excludedValue) {
       subject
           .usingCorrespondence(Arrays.asList(excludedValue))
           .doesNotContainEntry(excludedKey, excludedValue);
     }
 
     @Override
-    @CanIgnoreReturnValue
     public Ordered containsExactlyEntriesIn(Multimap<?, ? extends M> expectedMap) {
       return subject
           .usingCorrespondence(expectedMap.values())
@@ -908,15 +907,13 @@ public class MultimapWithProtoValuesSubject<M extends Message> extends MultimapS
     }
 
     @Override
-    @CanIgnoreReturnValue
     public Ordered containsExactly() {
       return subject.usingCorrespondence(Collections.<M>emptyList()).containsExactly();
     }
 
     @Override
-    @CanIgnoreReturnValue
     @SuppressWarnings("unchecked") // ClassCastException is fine
-    public Ordered containsExactly(@Nullable Object k0, @Nullable M v0, @Nullable Object... rest) {
+    public Ordered containsExactly(Object k0, M v0, Object... rest) {
       List<M> expectedValues = new ArrayList<>();
       expectedValues.add(v0);
       for (int i = 1; i < rest.length; i += 2) {

@@ -35,9 +35,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * rely on {@linkplain com.google.common.truth.StandardSubjectBuilder#about(Subject.Factory)
  * about(liteProtos())} to begin a chain with those alternative behaviors.
  */
-@CheckReturnValue
 public final class LiteProtoTruth {
-  public static LiteProtoSubject assertThat(@Nullable MessageLite messageLite) {
+  public static LiteProtoSubject assertThat(MessageLite messageLite) {
     return assertAbout(liteProtos()).that(messageLite);
   }
 

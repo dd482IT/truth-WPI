@@ -54,9 +54,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * failWithActual("expected to have foo", expected);
  * }</pre>
  */
-@BugPattern(
-    name = "FailWithFacts",
-    summary = "Use the new key-value-style failure API instead of the deprecated one.",
     severity = SUGGESTION)
 public final class FailWithFacts extends BugChecker implements MethodInvocationTreeMatcher {
   @Override
@@ -97,7 +94,7 @@ public final class FailWithFacts extends BugChecker implements MethodInvocationT
     return describeMatch(tree, fix.build());
   }
 
-  private static @Nullable String newVerb(String oldVerb) {
+  private static String newVerb(String oldVerb) {
     List<String> old = Splitter.on(whitespace()).splitToList(oldVerb);
     String first = old.get(0);
     if (CAPITAL_LETTER.matchesAnyOf(first)) {

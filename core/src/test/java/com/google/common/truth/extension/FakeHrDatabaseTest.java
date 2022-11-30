@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-@RunWith(JUnit4.class)
 public final class FakeHrDatabaseTest {
 
   // Note: not real employee IDs :-)
@@ -39,7 +38,6 @@ public final class FakeHrDatabaseTest {
   // These assertions use the EmployeeSubject.assertThat(Employee) overload and the
   // EmployeeSubject-specific methods.
 
-  @Test
   public void relocatePresent() {
     FakeHrDatabase db = new FakeHrDatabase();
     db.put(KURT);
@@ -52,14 +50,12 @@ public final class FakeHrDatabaseTest {
   // These assertions use the EmployeeSubject.assertThat(Employee) overload but the assertion
   // methods inherited from Subject.
 
-  @Test
   public void getPresent() {
     FakeHrDatabase db = new FakeHrDatabase();
     db.put(KURT);
     assertThat(db.get(KURT.id())).isEqualTo(KURT);
   }
 
-  @Test
   public void getAbsent() {
     FakeHrDatabase db = new FakeHrDatabase();
     db.put(KURT);
@@ -68,7 +64,6 @@ public final class FakeHrDatabaseTest {
 
   // These assertions use Truth.assertThat() overloads
 
-  @Test
   public void getByLocation() {
     FakeHrDatabase db = new FakeHrDatabase();
     db.put(KURT);

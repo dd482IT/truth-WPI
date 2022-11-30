@@ -22,12 +22,10 @@ public abstract class PlatformBaseSubjectTestCase {
 
   final ExpectFailure expectFailure = new ExpectFailure();
 
-  @Before
   public void setupExpectFailure() {
     expectFailure.enterRuleContext(); // safe since @After forces leaving the context
   }
 
-  @After
   public void ensureExpectedFailureCaught() {
     expectFailure.leaveRuleContext();
     expectFailure.ensureFailureCaught();

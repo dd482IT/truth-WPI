@@ -36,7 +36,6 @@ import org.junit.runners.JUnit4;
  * imported. The tests themselves are simple and dumb, as what's really being tested here is whether
  * or not this file compiles.
  */
-@RunWith(JUnit4.class)
 public class OverloadResolutionTest extends ProtoSubjectTestBase {
   public OverloadResolutionTest() {
     // We don't bother testing Proto3 because it's immaterial to this test, and we want to ensure
@@ -49,7 +48,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     return (TestMessage2) super.parse(string);
   }
 
-  @Test
   public void testObjectOverloads_testMessages_normalMethods() {
     TestMessage2 message = parse("r_string: \"foo\" r_string: \"bar\"");
     TestMessage2 eqMessage = parse("r_string: \"foo\" r_string: \"bar\"");
@@ -66,7 +64,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(message).isNotEqualTo(diffObject);
   }
 
-  @Test
   public void testObjectOverloads_testMessages_specializedMethods() {
     TestMessage2 message = parse("r_string: \"foo\" r_string: \"bar\"");
     TestMessage2 diffMessage = parse("r_string: \"bar\" r_string: \"foo\"");
@@ -74,7 +71,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(message).ignoringRepeatedFieldOrder().isEqualTo(diffMessage);
   }
 
-  @Test
   public void testObjectOverloads_objects_actuallyMessages() {
     TestMessage2 message = parse("r_string: \"foo\" r_string: \"bar\"");
     TestMessage2 eqMessage = parse("r_string: \"foo\" r_string: \"bar\"");
@@ -91,7 +87,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(object).isNotEqualTo(diffMessage);
   }
 
-  @Test
   public void testObjectOverloads_objects_actuallyNotMessages() {
     TestMessage2 message = parse("r_string: \"foo\" r_string: \"bar\"");
     Object altObject = 1111;
@@ -101,7 +96,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(altObject).isNotEqualTo(message);
   }
 
-  @Test
   public void testIterableOverloads_assertAbout() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -110,7 +104,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertAbout(protos()).that(listOf(message1, message2)).contains(eqMessage2);
   }
 
-  @Test
   public void testIterableOverloads_testMessages_normalMethods() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -127,7 +120,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(actualMessages).containsAnyOf(message3, eqMessage2, message4);
   }
 
-  @Test
   public void testIterableOverloads_testMessages_specializedMethods() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -141,7 +133,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
         .inOrder();
   }
 
-  @Test
   public void testIterableOverloads_objects_actuallyMessages() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -157,7 +148,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(actualObjects).containsAnyOf(message3, eqMessage2, message4);
   }
 
-  @Test
   public void testIterableOverloads_objects_actuallyNotMessages() {
     TestMessage2 message1 = TestMessage2.newBuilder().setOInt(1).addRString("foo").build();
     TestMessage2 message2 = TestMessage2.newBuilder().setOInt(2).addRString("bar").build();
@@ -167,7 +157,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(altActualObjects).containsNoneOf(message1, message2);
   }
 
-  @Test
   public void testMapOverloads_assertAbout() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -176,7 +165,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertAbout(protos()).that(mapOf(1, message1, 2, message2)).containsEntry(2, eqMessage2);
   }
 
-  @Test
   public void testMapOverloads_testMessages_normalMethods() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -192,7 +180,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(actualMessages).isNotEqualTo(mapOf(1, object2, 2, object1));
   }
 
-  @Test
   public void testMapOverloads_testMessages_specializedMethods() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -206,7 +193,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
         .inOrder();
   }
 
-  @Test
   public void testMapOverloads_objects_actuallyMessages() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -220,7 +206,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(actualObjects).containsEntry("b", eqMessage2);
   }
 
-  @Test
   public void testMapOverloads_objects_actuallyNotMessages() {
     TestMessage2 message1 = TestMessage2.newBuilder().setOInt(1).addRString("foo").build();
     TestMessage2 message2 = TestMessage2.newBuilder().setOInt(2).addRString("bar").build();
@@ -231,7 +216,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(altActualObjects).doesNotContainEntry("b", message2);
   }
 
-  @Test
   public void testMultimapOverloads_assertAbout() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -242,7 +226,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
         .containsEntry(1, eqMessage2);
   }
 
-  @Test
   public void testMultimapOverloads_assertAbout_listAndSet() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -267,7 +250,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertAbout(protos()).that(listMultimap).isNotEqualTo(setMultimap);
   }
 
-  @Test
   public void testMultimapOverloads_testMessages_normalMethods() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -285,7 +267,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(actualMessages).isNotEqualTo(multimapOf(2, object1, 1, object2, 1, object1));
   }
 
-  @Test
   public void testMultimapOverloads_testMessages_normalMethods_listAndSet() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -310,7 +291,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(setMultimap).hasSize(3);
   }
 
-  @Test
   public void testMultimapOverloads_testMessages_specializedMethods() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -330,7 +310,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
         .inOrder();
   }
 
-  @Test
   public void testMultimapOverloads_objects_actuallyMessages() {
     TestMessage2 message1 = parse("o_int: 1 r_string: \"foo\"");
     TestMessage2 message2 = parse("o_int: 2 r_string: \"bar\"");
@@ -347,7 +326,6 @@ public class OverloadResolutionTest extends ProtoSubjectTestBase {
     assertThat(actualObjects).containsEntry("a", eqMessage2);
   }
 
-  @Test
   public void testMultimapOverloads_objects_actuallyNotMessages() {
     TestMessage2 message1 = TestMessage2.newBuilder().setOInt(1).addRString("foo").build();
     TestMessage2 message2 = TestMessage2.newBuilder().setOInt(2).addRString("bar").build();

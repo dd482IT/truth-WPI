@@ -89,9 +89,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * The exact change generated for a given correspondence depends on the details of how it is defined
  * and used.
  */
-@BugPattern(
-    name = "CorrespondenceSubclassToFactoryCall",
-    summary = "Use the factory methods on Correspondence instead of defining a subclass.",
     severity = SUGGESTION)
 public final class CorrespondenceSubclassToFactoryCall extends BugChecker
     implements ClassTreeMatcher {
@@ -292,7 +289,7 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
       private ParentType parentType = ParentType.OTHER;
 
       @Override
-      public @Nullable Void visitMethodInvocation(MethodInvocationTree node, Void unused) {
+      public Void visitMethodInvocation(MethodInvocationTree node, Void unused) {
         boolean isComparingElementsUsing =
             Optional.of(node.getMethodSelect())
                 .filter(t -> t.getKind() == MEMBER_SELECT)
@@ -311,7 +308,7 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
       }
 
       @Override
-      public @Nullable Void visitNewClass(NewClassTree node, Void unused) {
+      public Void visitNewClass(NewClassTree node, Void unused) {
         if (getSymbol(node.getIdentifier()).equals(classSymbol)) {
           calls.put(parentType, node);
         }
@@ -331,7 +328,7 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
     Set<Tree> references = new HashSet<>();
     new TreeScanner<Void, Void>() {
       @Override
-      public @Nullable Void scan(Tree node, Void unused) {
+      public Void scan(Tree node, Void unused) {
         if (equal(getSymbol(node), classSymbol)
             && getDeclaredSymbol(node) == null // Don't touch the ClassTree that we're replacing.
         ) {
@@ -341,7 +338,7 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
       }
 
       @Override
-      public @Nullable Void visitNewClass(NewClassTree node, Void aVoid) {
+      public Void visitNewClass(NewClassTree node, Void aVoid) {
         scan(node.getEnclosingExpression(), null);
         // Do NOT scan node.getIdentifier().
         scan(node.getTypeArguments(), null);
@@ -452,7 +449,7 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
    * Converts the given method into a lambda, either expression or block, if "appropriate." For
    * details about the various cases, see implementation comments.
    */
-  private static @Nullable Tree maybeMakeLambdaBody(MethodTree compareMethod, VisitorState state) {
+  private static Tree maybeMakeLambdaBody(MethodTree compareMethod, VisitorState state) {
     ExpressionTree comparison = returnExpression(compareMethod);
     if (comparison != null) {
       // compare() is defined as simply `return something;`. Create a lambda.
@@ -479,7 +476,7 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
     boolean[] referenceFound = new boolean[1];
     new TreeScanner<Void, Void>() {
       @Override
-      public @Nullable Void scan(Tree node, Void aVoid) {
+      public Void scan(Tree node, Void aVoid) {
         if (paramsOfEnclosingMethod.contains(getSymbol(node))) {
           referenceFound[0] = true;
         }
@@ -505,7 +502,7 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
   }
 
   /** Like {@link VisitorState#findEnclosing} but doesn't consider the leaf to enclose itself. */
-  private static <T extends Tree> @Nullable T findStrictlyEnclosing(
+  private static <T extends Tree> T findStrictlyEnclosing(
       VisitorState state, Class<T> clazz) {
     return stream(state.getPath().getParentPath())
         .filter(clazz::isInstance)
@@ -519,7 +516,7 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
    * path. For example, if called with {@code ClassTree}, it might return a {@code MethodTree}
    * inside the class.
    */
-  private static @Nullable Tree findChildOfStrictlyEnclosing(
+  private static Tree findChildOfStrictlyEnclosing(
       VisitorState state, Class<? extends Tree> clazz) {
     Tree previous = state.getPath().getLeaf();
     for (Tree t : state.getPath().getParentPath()) {
@@ -536,7 +533,6 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
    * Correspondence}. Often the call is self-contained (if it's a lambda), but sometimes it's a
    * method reference, in which case it's accompanied by a separate method definition.
    */
-  @AutoValue
   abstract static class CorrespondenceCode {
     static CorrespondenceCode create(BinaryPredicateCode binaryPredicate, String description) {
       return new AutoValue_CorrespondenceSubclassToFactoryCall_CorrespondenceCode(
@@ -561,14 +557,13 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
    * it's a lambda, but sometimes it's a method reference, in which case it's accompanied by a
    * separate method definition.
    */
-  @AutoValue
   abstract static class BinaryPredicateCode {
     static BinaryPredicateCode fromParamsAndExpression(
         CharSequence param0, CharSequence param1, String expression) {
       return create(String.format("(%s, %s) -> %s", param0, param1, expression), null);
     }
 
-    static BinaryPredicateCode create(String usage, @Nullable String supportingMethodDefinition) {
+    static BinaryPredicateCode create(String usage, String supportingMethodDefinition) {
       return new AutoValue_CorrespondenceSubclassToFactoryCall_BinaryPredicateCode(
           usage, Optional.ofNullable(supportingMethodDefinition));
     }
@@ -578,7 +573,7 @@ public final class CorrespondenceSubclassToFactoryCall extends BugChecker
     abstract Optional<String> supportingMethodDefinition();
   }
 
-  private static @Nullable ExpressionTree returnExpression(MethodTree method) {
+  private static ExpressionTree returnExpression(MethodTree method) {
     List<? extends StatementTree> statements = method.getBody().getStatements();
     if (statements.size() != 1) {
       return null;

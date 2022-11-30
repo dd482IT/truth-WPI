@@ -29,10 +29,8 @@ import org.junit.runners.JUnit4;
 import org.junit.runners.model.Statement;
 
 /** Tests for {@link ActualValueInference}. */
-@GwtIncompatible // Inference doesn't work under GWT.
-@RunWith(JUnit4.class)
+// Inference doesn't work under GWT.
 public final class ActualValueInferenceTest {
-  @Test
   public void simple() {
     AssertionError failure;
 
@@ -55,7 +53,6 @@ public final class ActualValueInferenceTest {
     assertThat(failure).factValue("value of").isEqualTo("instanceOneArg(...)");
   }
 
-  @Test
   public void autoBox() {
     AssertionError failure;
 
@@ -84,7 +81,6 @@ public final class ActualValueInferenceTest {
     assertThat(failure).factValue("value of").isEqualTo("someChar()");
   }
 
-  @Test
   public void otherValueOfOverloads() {
     AssertionError failure;
 
@@ -99,7 +95,6 @@ public final class ActualValueInferenceTest {
     assertThat(failure).factKeys().doesNotContain("value of");
   }
 
-  @Test
   public void variable() {
     AssertionError failure;
 
@@ -112,7 +107,6 @@ public final class ActualValueInferenceTest {
     assertThat(failure).factValue("value of").isEqualTo("staticNoArg()");
   }
 
-  @Test
   public void chaining() {
     AssertionError failure;
 
@@ -124,7 +118,6 @@ public final class ActualValueInferenceTest {
     assertThat(failure).factValue("value of").isEqualTo("makeException().getMessage()");
   }
 
-  @Test
   public void multipleOnOneLine() {
     AssertionError failure;
 
@@ -138,7 +131,6 @@ public final class ActualValueInferenceTest {
     assertThat(failure).factValue("value of").isEqualTo("oneTwoThree()");
   }
 
-  @Test
   public void boringNames() {
     AssertionError failure;
 
@@ -147,7 +139,6 @@ public final class ActualValueInferenceTest {
     assertThat(failure).factKeys().doesNotContain("value of");
   }
 
-  @Test
   public void loop() {
     AssertionError failure;
 
@@ -165,7 +156,6 @@ public final class ActualValueInferenceTest {
     assertThat(failure).factKeys().doesNotContain("value of");
   }
 
-  @Test
   public void tryCatch() {
     AssertionError failure;
 
@@ -183,7 +173,6 @@ public final class ActualValueInferenceTest {
     assertThat(failure).factKeys().doesNotContain("value of");
   }
 
-  @Test
   public void expect() {
     Expect expect = Expect.create();
     Statement testMethod =

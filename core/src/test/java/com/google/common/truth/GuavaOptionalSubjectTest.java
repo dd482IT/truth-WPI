@@ -28,57 +28,47 @@ import org.junit.runners.JUnit4;
  *
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
 public class GuavaOptionalSubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void isPresent() {
     assertThat(Optional.of("foo")).isPresent();
   }
 
-  @Test
   public void isPresentFailing() {
     expectFailureWhenTestingThat(Optional.absent()).isPresent();
     assertFailureKeys("expected to be present");
   }
 
-  @Test
   public void isPresentFailingNull() {
     expectFailureWhenTestingThat(null).isPresent();
     assertFailureKeys("expected present optional", "but was");
   }
 
-  @Test
   public void isAbsent() {
     assertThat(Optional.absent()).isAbsent();
   }
 
-  @Test
   public void isAbsentFailing() {
     expectFailureWhenTestingThat(Optional.of("foo")).isAbsent();
     assertFailureKeys("expected to be absent", "but was present with value");
     assertFailureValue("but was present with value", "foo");
   }
 
-  @Test
   public void isAbsentFailingNull() {
     expectFailureWhenTestingThat(null).isAbsent();
     assertFailureKeys("expected absent optional", "but was");
   }
 
-  @Test
   public void hasValue() {
     assertThat(Optional.of("foo")).hasValue("foo");
   }
 
-  @Test
   public void hasValue_failingWithAbsent() {
     expectFailureWhenTestingThat(Optional.absent()).hasValue("foo");
     assertFailureKeys("expected to have value", "but was absent");
     assertFailureValue("expected to have value", "foo");
   }
 
-  @Test
   public void hasValue_npeWithNullParameter() {
     try {
       assertThat(Optional.of("foo")).hasValue(null);
@@ -88,7 +78,6 @@ public class GuavaOptionalSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void hasValue_failingWithWrongValue() {
     expectFailureWhenTestingThat(Optional.of("foo")).hasValue("boo");
     assertFailureValue("value of", "optional.get()");

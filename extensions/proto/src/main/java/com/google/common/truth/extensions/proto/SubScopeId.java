@@ -19,7 +19,6 @@ package com.google.common.truth.extensions.proto;
 import com.google.auto.value.AutoOneOf;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 
-@AutoOneOf(SubScopeId.Kind.class)
 abstract class SubScopeId {
   enum Kind {
     FIELD_DESCRIPTOR,

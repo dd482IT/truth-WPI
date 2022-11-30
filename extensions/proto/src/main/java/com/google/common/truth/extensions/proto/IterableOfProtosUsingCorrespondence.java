@@ -65,10 +65,10 @@ public interface IterableOfProtosUsingCorrespondence<M extends Message> {
    * Checks that the subject contains at least one element that corresponds to the given expected
    * element.
    */
-  void contains(@Nullable M expected);
+  void contains(M expected);
 
   /** Checks that none of the actual elements correspond to the given element. */
-  void doesNotContain(@Nullable M excluded);
+  void doesNotContain(M excluded);
 
   /**
    * Checks that subject contains exactly elements that correspond to the expected elements, i.e.
@@ -82,8 +82,7 @@ public interface IterableOfProtosUsingCorrespondence<M extends Message> {
    * #containsExactlyElementsIn(Message[])}. It makes clear that the given array is a list of
    * elements, not an element itself.
    */
-  @CanIgnoreReturnValue
-  Ordered containsExactly(@Nullable M... expected);
+  Ordered containsExactly(M... expected);
 
   /**
    * Checks that subject contains exactly elements that correspond to the expected elements, i.e.
@@ -93,7 +92,6 @@ public interface IterableOfProtosUsingCorrespondence<M extends Message> {
    * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
    * on the object returned by this method.
    */
-  @CanIgnoreReturnValue
   Ordered containsExactlyElementsIn(Iterable<? extends M> expected);
 
   /**
@@ -104,7 +102,6 @@ public interface IterableOfProtosUsingCorrespondence<M extends Message> {
    * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
    * on the object returned by this method.
    */
-  @CanIgnoreReturnValue
   Ordered containsExactlyElementsIn(M[] expected);
 
   /**
@@ -116,8 +113,7 @@ public interface IterableOfProtosUsingCorrespondence<M extends Message> {
    * on the object returned by this method. The elements must appear in the given order within the
    * subject, but they are not required to be consecutive.
    */
-  @CanIgnoreReturnValue
-  Ordered containsAtLeast(@Nullable M first, @Nullable M second, @Nullable M... rest);
+  Ordered containsAtLeast(M first, M second, M... rest);
 
   /**
    * Checks that the subject contains elements that corresponds to all of the expected elements,
@@ -128,7 +124,6 @@ public interface IterableOfProtosUsingCorrespondence<M extends Message> {
    * on the object returned by this method. The elements must appear in the given order within the
    * subject, but they are not required to be consecutive.
    */
-  @CanIgnoreReturnValue
   Ordered containsAtLeastElementsIn(Iterable<? extends M> expected);
 
   /**
@@ -140,14 +135,13 @@ public interface IterableOfProtosUsingCorrespondence<M extends Message> {
    * on the object returned by this method. The elements must appear in the given order within the
    * subject, but they are not required to be consecutive.
    */
-  @CanIgnoreReturnValue
   Ordered containsAtLeastElementsIn(M[] expected);
 
   /**
    * Checks that the subject contains at least one element that corresponds to at least one of the
    * expected elements.
    */
-  void containsAnyOf(@Nullable M first, @Nullable M second, @Nullable M... rest);
+  void containsAnyOf(M first, M second, M... rest);
 
   /**
    * Checks that the subject contains at least one element that corresponds to at least one of the
@@ -167,7 +161,7 @@ public interface IterableOfProtosUsingCorrespondence<M extends Message> {
    * to any of the given elements.)
    */
   void containsNoneOf(
-      @Nullable M firstExcluded, @Nullable M secondExcluded, @Nullable M... restOfExcluded);
+      M firstExcluded, M secondExcluded, M... restOfExcluded);
 
   /**
    * Checks that the subject contains no elements that correspond to any of the given elements.

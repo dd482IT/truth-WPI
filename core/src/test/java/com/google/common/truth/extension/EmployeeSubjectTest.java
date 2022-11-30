@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-@RunWith(JUnit4.class)
 public final class EmployeeSubjectTest {
 
   // Note: not real employee IDs :-)
@@ -35,19 +34,16 @@ public final class EmployeeSubjectTest {
   private static final Employee KURT =
       Employee.create("kak", 37802, "Kurt Alfred Kluever", Location.NYC, false);
 
-  @Test
   public void id() {
     assertThat(KURT).hasId(37802);
     expectFailure(whenTesting -> whenTesting.that(KURT).hasId(12345));
   }
 
-  @Test
   public void name() {
     assertThat(KURT).hasName("Kurt Alfred Kluever");
     expectFailure(whenTesting -> whenTesting.that(KURT).hasName("Sundar Pichai"));
   }
 
-  @Test
   public void username() {
     assertThat(KURT).hasUsername("kak");
     // Here's an example of asserting on the failure message.

@@ -39,7 +39,7 @@ public final class FloatSubject extends ComparableSubject<Float> {
   private final Float actual;
   private final DoubleSubject asDouble;
 
-  FloatSubject(FailureMetadata metadata, @Nullable Float actual) {
+  FloatSubject(FailureMetadata metadata, Float actual) {
     super(metadata, actual);
     this.actual = actual;
     /*
@@ -74,7 +74,7 @@ public final class FloatSubject extends ComparableSubject<Float> {
      */
     @Deprecated
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(Object o) {
       throw new UnsupportedOperationException(
           "If you meant to compare floats, use .of(float) instead.");
     }
@@ -186,7 +186,7 @@ public final class FloatSubject extends ComparableSubject<Float> {
    * #isZero}.
    */
   @Override
-  public final void isEqualTo(@Nullable Object other) {
+  public final void isEqualTo(Object other) {
     super.isEqualTo(other);
   }
 
@@ -200,7 +200,7 @@ public final class FloatSubject extends ComparableSubject<Float> {
    * #isNonZero}.
    */
   @Override
-  public final void isNotEqualTo(@Nullable Object other) {
+  public final void isNotEqualTo(Object other) {
     super.isNotEqualTo(other);
   }
 

@@ -30,33 +30,27 @@ import org.junit.runners.JUnit4;
  *
  * @author Ben Douglass
  */
-@RunWith(JUnit4.class)
 public class OptionalDoubleSubjectTest {
 
-  @Test
   public void failOnNullSubject() {
     AssertionError expected = expectFailure(whenTesting -> whenTesting.that(null).isEmpty());
     assertThat(expected).factKeys().containsExactly("expected empty optional", "but was").inOrder();
   }
 
-  @Test
   public void isPresent() {
     assertThat(OptionalDouble.of(1337.0)).isPresent();
   }
 
-  @Test
   public void isPresentFailing() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(OptionalDouble.empty()).isPresent());
     assertThat(expected).factKeys().containsExactly("expected to be present");
   }
 
-  @Test
   public void isEmpty() {
     assertThat(OptionalDouble.empty()).isEmpty();
   }
 
-  @Test
   public void isEmptyFailing() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(OptionalDouble.of(1337.0)).isEmpty());
@@ -64,18 +58,15 @@ public class OptionalDoubleSubjectTest {
     assertThat(expected).factValue("but was present with value").isEqualTo("1337.0");
   }
 
-  @Test
   public void isEmptyFailingNull() {
     AssertionError expected = expectFailure(whenTesting -> whenTesting.that(null).isEmpty());
     assertThat(expected).factKeys().containsExactly("expected empty optional", "but was").inOrder();
   }
 
-  @Test
   public void hasValue() {
     assertThat(OptionalDouble.of(1337.0)).hasValue(1337.0);
   }
 
-  @Test
   public void hasValue_FailingWithEmpty() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(OptionalDouble.empty()).hasValue(1337.0));
@@ -86,7 +77,6 @@ public class OptionalDoubleSubjectTest {
     assertThat(expected).factValue("expected to have value").isEqualTo("1337.0");
   }
 
-  @Test
   public void hasValue_FailingWithWrongValue() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(OptionalDouble.of(1337.0)).hasValue(42.0));

@@ -32,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public final class TableSubject extends Subject {
   private final Table<?, ?, ?> actual;
 
-  TableSubject(FailureMetadata metadata, @Nullable Table<?, ?, ?> table) {
+  TableSubject(FailureMetadata metadata, Table<?, ?, ?> table) {
     super(metadata, table);
     this.actual = table;
   }
@@ -58,14 +58,14 @@ public final class TableSubject extends Subject {
   }
 
   /** Fails if the table does not contain a mapping for the given row key and column key. */
-  public void contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public void contains(Object rowKey, Object columnKey) {
     if (!actual.contains(rowKey, columnKey)) {
       fail("contains mapping for row/column", rowKey, columnKey);
     }
   }
 
   /** Fails if the table contains a mapping for the given row key and column key. */
-  public void doesNotContain(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public void doesNotContain(Object rowKey, Object columnKey) {
     if (actual.contains(rowKey, columnKey)) {
       fail("does not contain mapping for row/column", rowKey, columnKey);
     }
@@ -73,7 +73,7 @@ public final class TableSubject extends Subject {
 
   /** Fails if the table does not contain the given cell. */
   public void containsCell(
-      @Nullable Object rowKey, @Nullable Object colKey, @Nullable Object value) {
+      Object rowKey, Object colKey, Object value) {
     containsCell(Tables.<Object, Object, Object>immutableCell(rowKey, colKey, value));
   }
 
@@ -85,7 +85,7 @@ public final class TableSubject extends Subject {
 
   /** Fails if the table contains the given cell. */
   public void doesNotContainCell(
-      @Nullable Object rowKey, @Nullable Object colKey, @Nullable Object value) {
+      Object rowKey, Object colKey, Object value) {
     doesNotContainCell(Tables.<Object, Object, Object>immutableCell(rowKey, colKey, value));
   }
 
@@ -96,17 +96,17 @@ public final class TableSubject extends Subject {
   }
 
   /** Fails if the table does not contain the given row key. */
-  public void containsRow(@Nullable Object rowKey) {
+  public void containsRow(Object rowKey) {
     check("rowKeySet()").that(actual.rowKeySet()).contains(rowKey);
   }
 
   /** Fails if the table does not contain the given column key. */
-  public void containsColumn(@Nullable Object columnKey) {
+  public void containsColumn(Object columnKey) {
     check("columnKeySet()").that(actual.columnKeySet()).contains(columnKey);
   }
 
   /** Fails if the table does not contain the given value. */
-  public void containsValue(@Nullable Object value) {
+  public void containsValue(Object value) {
     check("values()").that(actual.values()).contains(value);
   }
 }

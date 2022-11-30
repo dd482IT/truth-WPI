@@ -26,59 +26,48 @@ import org.junit.runners.JUnit4;
  *
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
 public class PrimitiveBooleanArraySubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void isEqualTo() {
     assertThat(array(true, false, true)).isEqualTo(array(true, false, true));
   }
 
   @SuppressWarnings("TruthSelfEquals")
-  @Test
   public void isEqualTo_Same() {
     boolean[] same = array(true, false, true);
     assertThat(same).isEqualTo(same);
   }
 
-  @Test
   public void asList() {
     assertThat(array(true, true, false)).asList().containsAtLeast(true, false);
   }
 
-  @Test
   public void isEqualTo_Fail_UnequalOrdering() {
     expectFailureWhenTestingThat(array(true, false, true)).isEqualTo(array(false, true, true));
     assertFailureValue("differs at index", "[0]");
   }
 
-  @Test
   public void isEqualTo_Fail_NotAnArray() {
     expectFailureWhenTestingThat(array(true, false, true)).isEqualTo(new Object());
   }
 
-  @Test
   public void isNotEqualTo_SameLengths() {
     assertThat(array(true, false)).isNotEqualTo(array(true, true));
   }
 
-  @Test
   public void isNotEqualTo_DifferentLengths() {
     assertThat(array(true, false)).isNotEqualTo(array(true, false, true));
   }
 
-  @Test
   public void isNotEqualTo_DifferentTypes() {
     assertThat(array(true, false)).isNotEqualTo(new Object());
   }
 
-  @Test
   public void isNotEqualTo_FailEquals() {
     expectFailureWhenTestingThat(array(true, false)).isNotEqualTo(array(true, false));
   }
 
   @SuppressWarnings("TruthSelfEquals")
-  @Test
   public void isNotEqualTo_FailSame() {
     boolean[] same = array(true, false);
     expectFailureWhenTestingThat(same).isNotEqualTo(same);

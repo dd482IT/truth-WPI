@@ -26,13 +26,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.model.Statement;
 
-@RunWith(JUnit4.class)
 public class ExpectWithStackTest {
   private final Expect expectWithTrace = Expect.create();
 
-  @Rule public final TestRuleVerifier verifyAssertionError = new TestRuleVerifier(expectWithTrace);
+  public final TestRuleVerifier verifyAssertionError = new TestRuleVerifier(expectWithTrace);
 
-  @Test
   public void testExpectTrace_simpleCase() {
     verifyAssertionError.setErrorVerifier(
         new ErrorVerifier() {
@@ -48,7 +46,6 @@ public class ExpectWithStackTest {
     expectWithTrace.that(1).isEqualTo(2);
   }
 
-  @Test
   public void testExpectTrace_loop() {
     verifyAssertionError.setErrorVerifier(
         new ErrorVerifier() {
@@ -67,7 +64,6 @@ public class ExpectWithStackTest {
     }
   }
 
-  @Test
   public void testExpectTrace_callerException() {
     verifyAssertionError.setErrorVerifier(
         new ErrorVerifier() {
@@ -84,7 +80,6 @@ public class ExpectWithStackTest {
         .isEqualTo(5);
   }
 
-  @Test
   public void testExpectTrace_onlyCallerException() {
     verifyAssertionError.setErrorVerifier(
         new ErrorVerifier() {

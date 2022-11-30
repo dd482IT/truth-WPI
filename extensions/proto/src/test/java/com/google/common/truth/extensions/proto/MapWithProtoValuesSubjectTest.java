@@ -33,7 +33,6 @@ import org.junit.runners.Parameterized.Parameters;
  * simply check that all of the exposed methods work in basic cases, and trust that the
  * implementation ensures correctness in the cross-product of the many ways one can do things.
  */
-@RunWith(Parameterized.class)
 public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
 
   private final Message message1 = parse("o_int: 1 r_string: \"foo\" r_string: \"bar\"");
@@ -47,7 +46,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
 
   private final int ignoreFieldNumber = getFieldNumber("o_int");
 
-  @Parameters(name = "{0}")
   public static Collection<Object[]> parameters() {
     return ProtoSubjectTestBase.parameters();
   }
@@ -56,7 +54,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     super(testType);
   }
 
-  @Test
   public void testPlain_isEqualTo() {
     expectThat(mapOf(1, message1, 2, message2)).isEqualTo(mapOf(2, eqMessage2, 1, eqMessage1));
     expectThat(mapOf(1, message2)).isNotEqualTo(mapOf(1, message1));
@@ -70,7 +67,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_isEmpty() {
     expectThat(ImmutableMap.<Object, Message>of()).isEmpty();
     expectThat(mapOf(1, message1)).isNotEmpty();
@@ -82,7 +78,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_hasSize() {
     expectThat(mapOf(1, message1, 2, message2)).hasSize(2);
 
@@ -90,7 +85,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsKey() {
     expectThat(mapOf(1, message1, 2, message2)).containsKey(1);
     expectThat(mapOf(1, message1, 2, message2)).doesNotContainKey(3);
@@ -102,7 +96,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsEntry() {
     expectThat(mapOf(1, message1, 2, message2)).containsEntry(2, eqMessage2);
     expectThat(mapOf(1, message1, 2, message2)).doesNotContainEntry(1, eqMessage2);
@@ -116,7 +109,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsExactly() {
     expectThat(mapOf(1, message1, 2, message2)).containsExactly(2, eqMessage2, 1, eqMessage1);
     expectThat(mapOf(1, message1, 2, message2))
@@ -151,7 +143,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testFluent_containsEntry() {
     expectThat(mapOf(1, message1, 2, message2))
         .ignoringFieldsForValues(ignoreFieldNumber)
@@ -185,7 +176,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
                 + "assertThat(proto).ignoringRepeatedFieldOrder().isEqualTo(target)");
   }
 
-  @Test
   public void testFluent_containsExactly() {
     expectThat(mapOf(1, message1, 2, message2))
         .ignoringFieldsForValues(ignoreFieldNumber)
@@ -229,7 +219,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testCompareMultipleMessageTypes() {
     // Don't run this test twice.
     if (!testIsRunOnce()) {
@@ -248,7 +237,6 @@ public class MapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
             2, TestMessage2.newBuilder().addRString("bar").addRString("foo").build());
   }
 
-  @Test
   public void testMethodNamesEndWithForValues() {
     checkMethodNamesEndWithForValues(MapWithProtoValuesSubject.class, MapSubject.class);
     checkMethodNamesEndWithForValues(MapWithProtoValuesFluentAssertion.class, MapSubject.class);

@@ -68,11 +68,11 @@ final class Platform {
     // Do nothing. See notes in StackTraceCleanerTest.
   }
 
-  static @Nullable String inferDescription() {
+  static String inferDescription() {
     return null;
   }
 
-  static @Nullable ImmutableList<Fact> makeDiff(String expected, String actual) {
+  static ImmutableList<Fact> makeDiff(String expected, String actual) {
     /*
      * IIUC, GWT messages lose their newlines by the time users see them. Given that, users are
      * likely better served by showing the expected and actual values with mangled newlines than by
@@ -88,7 +88,7 @@ final class Platform {
         String message,
         String unusedUnderGwtExpected,
         String unusedUnderGwtActual,
-        @Nullable Throwable cause) {
+        Throwable cause) {
       super(message, cause);
     }
 
@@ -137,12 +137,10 @@ final class Platform {
     return ((NativeNumber) (Object) value).toLocaleString("en-US", JavaLikeOptions.INSTANCE);
   }
 
-  @JsType(isNative = true, namespace = "proto.im")
   private static class Message {
     public native String serialize();
   }
 
-  @JsMethod(namespace = "proto.im.debug")
   private static native Object dump(Message msg) /*-{
     // Emtpy stub to make GWT happy. This will never get executed under GWT.
     throw new Error();
@@ -194,27 +192,22 @@ final class Platform {
     return new NativeRegExp(pattern);
   }
 
-  @JsType(isNative = true, name = "RegExp", namespace = GLOBAL)
   private static class NativeRegExp {
     public NativeRegExp(String pattern) {}
 
     public native boolean test(String input);
   }
 
-  @JsType(isNative = true, name = "Number", namespace = GLOBAL)
   private interface NativeNumber {
     String toLocaleString(Object locales, ToLocaleStringOptions options);
   }
 
-  @JsType(isNative = true, name = "?", namespace = GLOBAL) // "structural type"; see JsType Javadoc
+  // "structural type"; see JsType Javadoc
   private interface ToLocaleStringOptions {
-    @JsProperty
     int getMinimumFractionDigits();
 
-    @JsProperty
     int getMaximumFractionDigits();
 
-    @JsProperty
     boolean getUseGrouping();
   }
 
@@ -242,7 +235,7 @@ final class Platform {
       ImmutableList<Fact> facts,
       String expected,
       String actual,
-      @Nullable Throwable cause) {
+      Throwable cause) {
     /*
      * Despite the name, the class we're creating extends AssertionError but not ComparisonFailure
      * under GWT: See its supertype, PlatformComparisonFailure, above.

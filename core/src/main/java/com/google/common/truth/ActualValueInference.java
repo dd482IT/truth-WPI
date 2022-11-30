@@ -64,10 +64,9 @@ import org.objectweb.asm.Type;
  * {@code ActualValueInference} accomplishes this by examining the bytecode of the test. Naturally,
  * this is all best-effort.
  */
-@GwtIncompatible
 final class ActualValueInference {
   /** <b>Call {@link Platform#inferDescription} rather than calling this directly.</b> */
-  static @Nullable String describeActualValue(String className, String methodName, int lineNumber) {
+  static String describeActualValue(String className, String methodName, int lineNumber) {
     InferenceClassVisitor visitor;
     try {
       // TODO(cpovirk): Verify that methodName is correct for constructors and static initializers.
@@ -140,15 +139,12 @@ final class ActualValueInference {
       throw new ClassCastException(getClass().getName());
     }
 
-    @Nullable String description() {
+    String description() {
       return null;
     }
   }
 
   /** An entry that we know nothing about except for its type. */
-  @AutoValue
-  @CopyAnnotations
-  @GwtIncompatible
   abstract static class OpaqueEntry extends StackEntry {
     @Override
     public final String toString() {
@@ -165,9 +161,6 @@ final class ActualValueInference {
    * we provide a description is when the value comes from a method call whose name looks
    * "interesting."
    */
-  @AutoValue
-  @CopyAnnotations
-  @GwtIncompatible
   abstract static class DescribedEntry extends StackEntry {
     @Override
     abstract String description();
@@ -190,9 +183,6 @@ final class ActualValueInference {
    * assertThat(e).hasMessageThat().contains("foo")}, the root actual value is the {@code Throwable}
    * {@code e}, even though the {@code contains} assertion operates on a string message.
    */
-  @AutoValue
-  @CopyAnnotations
-  @GwtIncompatible
   abstract static class SubjectEntry extends StackEntry {
     @Override
     abstract StackEntry actualValue();
@@ -1014,13 +1004,11 @@ final class ActualValueInference {
       push(invocation == null ? opaque(type) : invocation.deriveEntry(type, hasParams));
     }
 
-    @CanIgnoreReturnValue
     private StackEntry pop() {
       return pop(1);
     }
 
     /** Pop elements from the end of the operand stack, and return the last popped element. */
-    @CanIgnoreReturnValue
     private StackEntry pop(int count) {
       checkArgument(
           count >= 1, "The count should be at least one: %s (In %s)", count, methodSignature);
@@ -1216,9 +1204,6 @@ final class ActualValueInference {
   }
 
   /** A value class to represent a frame. */
-  @AutoValue
-  @CopyAnnotations
-  @GwtIncompatible
   abstract static class FrameInfo {
 
     static FrameInfo create(ImmutableList<StackEntry> locals, ImmutableList<StackEntry> stack) {
@@ -1231,26 +1216,20 @@ final class ActualValueInference {
   }
 
   /** A method invocation. */
-  @AutoValue
-  @CopyAnnotations
-  @GwtIncompatible
   abstract static class Invocation {
     static Builder builder(String name) {
       return new AutoValue_ActualValueInference_Invocation.Builder().setName(name);
     }
 
     /** The receiver of this call, if it is an instance call. */
-    @Nullable
     abstract StackEntry receiver();
 
     /** The value being passed to this call if it is an {@code assertThat} or {@code that} call. */
-    @Nullable
     abstract StackEntry actualValue();
 
     /**
      * The value being passed to this call if it is a boxing call (e.g., {@code Integer.valueOf}).
      */
-    @Nullable
     abstract StackEntry boxingInput();
 
     abstract String name();
@@ -1277,7 +1256,6 @@ final class ActualValueInference {
       return receiver() != null && receiver().isSubject();
     }
 
-    @AutoValue.Builder
     abstract static class Builder {
       abstract Builder setReceiver(StackEntry receiver);
 
@@ -1292,9 +1270,6 @@ final class ActualValueInference {
   }
 
   /** This is the type used for type inference. */
-  @AutoValue
-  @CopyAnnotations
-  @GwtIncompatible
   abstract static class InferredType {
 
     static final String UNINITIALIZED_PREFIX = "UNINIT@";
@@ -1409,7 +1384,7 @@ final class ActualValueInference {
     }
 
     @Override
-    public @Nullable MethodVisitor visitMethod(
+    public MethodVisitor visitMethod(
         int access, String name, String desc, String signature, String[] exceptions) {
       /*
        * Each InferenceMethodVisitor instance may be used only once. Still, it might seem like we

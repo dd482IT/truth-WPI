@@ -43,7 +43,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>Can be used to compare lists, maps, and multimaps of protos as well by conversion to a {@link
  * Correspondence}.
  */
-@AutoValue
 abstract class FluentEqualityConfig implements FieldScopeLogicContainer<FluentEqualityConfig> {
 
   private static final FluentEqualityConfig DEFAULT_INSTANCE =
@@ -373,7 +372,7 @@ abstract class FluentEqualityConfig implements FieldScopeLogicContainer<FluentEq
             //     ProtoTruth.assertThat(a).usingConfig(FluentEqualityConfig.this).testIsEqualTo(e),
             new Correspondence.BinaryPredicate<M, M>() {
               @Override
-              public boolean apply(@Nullable M actual, @Nullable M expected) {
+              public boolean apply(M actual, M expected) {
                 return ProtoTruth.assertThat(actual)
                     .usingConfig(FluentEqualityConfig.this)
                     .testIsEqualTo(expected);
@@ -386,13 +385,13 @@ abstract class FluentEqualityConfig implements FieldScopeLogicContainer<FluentEq
             // If we were allowed method references, this would be this::formatDiff.
             new Correspondence.DiffFormatter<M, M>() {
               @Override
-              public String formatDiff(@Nullable M actual, @Nullable M expected) {
+              public String formatDiff(M actual, M expected) {
                 return FluentEqualityConfig.this.formatDiff(actual, expected);
               }
             });
   }
 
-  private <M extends Message> String formatDiff(@Nullable M actual, @Nullable M expected) {
+  private <M extends Message> String formatDiff(M actual, M expected) {
     if (actual == null || expected == null) {
       return "";
     }
@@ -408,7 +407,6 @@ abstract class FluentEqualityConfig implements FieldScopeLogicContainer<FluentEq
 
   abstract Builder toBuilder();
 
-  @AutoValue.Builder
   abstract static class Builder {
     abstract Builder setIgnoreFieldAbsenceScope(FieldScopeLogic fieldScopeLogic);
 
@@ -431,7 +429,6 @@ abstract class FluentEqualityConfig implements FieldScopeLogicContainer<FluentEq
 
     abstract Builder setReportMismatchesOnly(boolean reportMismatchesOnly);
 
-    @CanIgnoreReturnValue
     final Builder setUnpackingAnyUsing(
         TypeRegistry typeRegistry, ExtensionRegistry extensionRegistry) {
       setUseTypeRegistry(typeRegistry);
@@ -453,13 +450,11 @@ abstract class FluentEqualityConfig implements FieldScopeLogicContainer<FluentEq
     // Lazy formatting methods.
     // These allow us to print raw integer field numbers with meaningful names.
 
-    @CanIgnoreReturnValue
     final Builder addUsingCorrespondenceString(String string) {
       return setUsingCorrespondenceStringFunction(
           FieldScopeUtil.concat(usingCorrespondenceStringFunction(), Functions.constant(string)));
     }
 
-    @CanIgnoreReturnValue
     final Builder addUsingCorrespondenceFieldNumbersString(
         String fmt, Iterable<Integer> fieldNumbers) {
       return setUsingCorrespondenceStringFunction(
@@ -468,7 +463,6 @@ abstract class FluentEqualityConfig implements FieldScopeLogicContainer<FluentEq
               FieldScopeUtil.fieldNumbersFunction(fmt, fieldNumbers)));
     }
 
-    @CanIgnoreReturnValue
     final Builder addUsingCorrespondenceFieldDescriptorsString(
         String fmt, Iterable<FieldDescriptor> fieldDescriptors) {
       return setUsingCorrespondenceStringFunction(
@@ -477,7 +471,6 @@ abstract class FluentEqualityConfig implements FieldScopeLogicContainer<FluentEq
               Functions.constant(String.format(fmt, join(fieldDescriptors)))));
     }
 
-    @CanIgnoreReturnValue
     final Builder addUsingCorrespondenceFieldScopeString(String fmt, FieldScope fieldScope) {
       return setUsingCorrespondenceStringFunction(
           FieldScopeUtil.concat(

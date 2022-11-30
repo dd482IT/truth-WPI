@@ -506,13 +506,13 @@ public interface MultimapWithProtoValuesFluentAssertion<M extends Message> {
    * Fails if the multimap does not contain an entry with the given key and a value that corresponds
    * to the given value.
    */
-  void containsEntry(@Nullable Object expectedKey, @Nullable M expectedValue);
+  void containsEntry(Object expectedKey, M expectedValue);
 
   /**
    * Fails if the multimap contains an entry with the given key and a value that corresponds to the
    * given value.
    */
-  void doesNotContainEntry(@Nullable Object excludedKey, @Nullable M excludedValue);
+  void doesNotContainEntry(Object excludedKey, M excludedValue);
 
   /**
    * Fails if the map does not contain exactly the keys in the given multimap, mapping to values
@@ -522,11 +522,9 @@ public interface MultimapWithProtoValuesFluentAssertion<M extends Message> {
    * the two Multimaps iterate fully in the same order. That is, their key sets iterate in the same
    * order, and the corresponding value collections for each key iterate in the same order.
    */
-  @CanIgnoreReturnValue
   Ordered containsExactlyEntriesIn(Multimap<?, ? extends M> expectedMultimap);
 
   /** Fails if the multimap is not empty. */
-  @CanIgnoreReturnValue
   public Ordered containsExactly();
 
   /**
@@ -535,8 +533,7 @@ public interface MultimapWithProtoValuesFluentAssertion<M extends Message> {
    * <p><b>Warning:</b> the use of varargs means that we cannot guarantee an equal number of
    * key/value pairs at compile time. Please make sure you provide varargs in key/value pairs!
    */
-  @CanIgnoreReturnValue
-  public Ordered containsExactly(@Nullable Object k0, @Nullable M v0, @Nullable Object... rest);
+  public Ordered containsExactly(Object k0, M v0, Object... rest);
 
   /**
    * @deprecated Do not call {@code equals()} on a {@code MultimapWithProtoValuesFluentAssertion}.

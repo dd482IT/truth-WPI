@@ -38,10 +38,8 @@ import org.junit.runners.JUnit4;
  * @author Christian Gruber
  * @author Kurt Alfred Kluever
  */
-@RunWith(JUnit4.class)
 public class MapSubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void containsExactlyWithNullKey() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put(null, "value");
@@ -52,7 +50,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsExactlyEntriesIn(actual).inOrder();
   }
 
-  @Test
   public void containsExactlyWithNullValue() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put("key", null);
@@ -63,7 +60,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsExactlyEntriesIn(actual).inOrder();
   }
 
-  @Test
   public void containsExactlyEmpty() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of();
 
@@ -73,7 +69,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsExactlyEntriesIn(actual).inOrder();
   }
 
-  @Test
   public void containsExactlyEmpty_fails() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1);
 
@@ -81,7 +76,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureKeys("expected to be empty", "but was");
   }
 
-  @Test
   public void containsExactlyEntriesInEmpty_fails() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1);
 
@@ -89,7 +83,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureKeys("expected to be empty", "but was");
   }
 
-  @Test
   public void containsExactlyOneEntry() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1);
 
@@ -99,7 +92,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsExactlyEntriesIn(actual).inOrder();
   }
 
-  @Test
   public void containsExactlyMultipleEntries() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
 
@@ -109,7 +101,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsExactlyEntriesIn(actual).inOrder();
   }
 
-  @Test
   public void containsExactlyDuplicateKeys() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
 
@@ -123,7 +114,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void containsExactlyMultipleDuplicateKeys() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
 
@@ -137,7 +127,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void containsExactlyExtraKey() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     expectFailureWhenTestingThat(actual).containsExactly("feb", 2, "jan", 1);
@@ -149,7 +138,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "{jan=1, feb=2, march=3}");
   }
 
-  @Test
   public void containsExactlyExtraKeyInOrder() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     expectFailureWhenTestingThat(actual).containsExactly("feb", 2, "jan", 1).inOrder();
@@ -159,7 +147,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "3");
   }
 
-  @Test
   public void containsExactlyMissingKey() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2);
     expectFailureWhenTestingThat(actual).containsExactly("jan", 1, "march", 3, "feb", 2);
@@ -168,7 +155,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected value", "3");
   }
 
-  @Test
   public void containsExactlyWrongValue() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     expectFailureWhenTestingThat(actual).containsExactly("jan", 1, "march", 33, "feb", 2);
@@ -185,7 +171,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "3");
   }
 
-  @Test
   public void containsExactlyWrongValueWithNull() {
     // Test for https://github.com/google/truth/issues/468
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
@@ -203,7 +188,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "3");
   }
 
-  @Test
   public void containsExactlyExtraKeyAndMissingKey() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "march", 3);
     expectFailureWhenTestingThat(actual).containsExactly("jan", 1, "feb", 2);
@@ -223,7 +207,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "3");
   }
 
-  @Test
   public void containsExactlyExtraKeyAndWrongValue() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     expectFailureWhenTestingThat(actual).containsExactly("jan", 1, "march", 33);
@@ -245,7 +228,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "2");
   }
 
-  @Test
   public void containsExactlyMissingKeyAndWrongValue() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "march", 3);
     expectFailureWhenTestingThat(actual).containsExactly("jan", 1, "march", 33, "feb", 2);
@@ -267,7 +249,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValueIndexed("expected value", 1, "2");
   }
 
-  @Test
   public void containsExactlyExtraKeyAndMissingKeyAndWrongValue() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "march", 3);
     expectFailureWhenTestingThat(actual).containsExactly("march", 33, "feb", 2);
@@ -294,7 +275,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "1");
   }
 
-  @Test
   public void containsExactlyNotInOrder() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     assertThat(actual).containsExactlyEntriesIn(actual);
@@ -307,7 +287,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "{jan=1, feb=2, march=3}");
   }
 
-  @Test
   @SuppressWarnings("ShouldHaveEvenArgs")
   public void containsExactlyBadNumberOfArgs() {
     ImmutableMap<String, Integer> actual =
@@ -328,7 +307,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void containsExactlyWrongValue_sameToStringForValues() {
     expectFailureWhenTestingThat(ImmutableMap.of("jan", 1L, "feb", 2L))
         .containsExactly("jan", 1, "feb", 2);
@@ -351,7 +329,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValueIndexed("but got value", 1, "2 (java.lang.Long)");
   }
 
-  @Test
   public void containsExactlyWrongValue_sameToStringForKeys() {
     expectFailureWhenTestingThat(ImmutableMap.of(1L, "jan", 1, "feb"))
         .containsExactly(1, "jan", 1L, "feb");
@@ -374,7 +351,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValueIndexed("but got value", 1, "jan");
   }
 
-  @Test
   public void containsExactlyExtraKeyAndMissingKey_failsWithSameToStringForKeys() {
     expectFailureWhenTestingThat(ImmutableMap.of(1L, "jan", 2, "feb"))
         .containsExactly(1, "jan", 2, "feb");
@@ -394,7 +370,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "jan");
   }
 
-  @Test
   public void containsAtLeastWithNullKey() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put(null, "value");
@@ -408,7 +383,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsAtLeastEntriesIn(expected).inOrder();
   }
 
-  @Test
   public void containsAtLeastWithNullValue() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put("key", null);
@@ -422,7 +396,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsAtLeastEntriesIn(expected).inOrder();
   }
 
-  @Test
   public void containsAtLeastEmpty() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("key", 1);
 
@@ -430,7 +403,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsAtLeastEntriesIn(ImmutableMap.of()).inOrder();
   }
 
-  @Test
   public void containsAtLeastOneEntry() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1);
 
@@ -440,7 +412,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsAtLeastEntriesIn(actual).inOrder();
   }
 
-  @Test
   public void containsAtLeastMultipleEntries() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "mar", 3, "apr", 4);
 
@@ -450,7 +421,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).containsAtLeastEntriesIn(actual).inOrder();
   }
 
-  @Test
   public void containsAtLeastDuplicateKeys() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
 
@@ -464,7 +434,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void containsAtLeastMultipleDuplicateKeys() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
 
@@ -478,7 +447,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void containsAtLeastMissingKey() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2);
     expectFailureWhenTestingThat(actual).containsAtLeast("jan", 1, "march", 3);
@@ -494,7 +462,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected to contain at least", "{jan=1, march=3}");
   }
 
-  @Test
   public void containsAtLeastWrongValue() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     expectFailureWhenTestingThat(actual).containsAtLeast("jan", 1, "march", 33);
@@ -511,7 +478,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "3");
   }
 
-  @Test
   public void containsAtLeastWrongValueWithNull() {
     // Test for https://github.com/google/truth/issues/468
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
@@ -529,7 +495,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "3");
   }
 
-  @Test
   public void containsAtLeastExtraKeyAndMissingKeyAndWrongValue() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "march", 3);
     expectFailureWhenTestingThat(actual).containsAtLeast("march", 33, "feb", 2);
@@ -551,7 +516,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValueIndexed("expected value", 1, "2");
   }
 
-  @Test
   public void containsAtLeastNotInOrder() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
 
@@ -565,7 +529,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "{jan=1, feb=2, march=3}");
   }
 
-  @Test
   @SuppressWarnings("ShouldHaveEvenArgs")
   public void containsAtLeastBadNumberOfArgs() {
     ImmutableMap<String, Integer> actual =
@@ -584,7 +547,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void containsAtLeastWrongValue_sameToStringForValues() {
     expectFailureWhenTestingThat(ImmutableMap.of("jan", 1L, "feb", 2L, "mar", 3L))
         .containsAtLeast("jan", 1, "feb", 2);
@@ -607,7 +569,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValueIndexed("but got value", 1, "2 (java.lang.Long)");
   }
 
-  @Test
   public void containsAtLeastWrongValue_sameToStringForKeys() {
     expectFailureWhenTestingThat(ImmutableMap.of(1L, "jan", 1, "feb"))
         .containsAtLeast(1, "jan", 1L, "feb");
@@ -630,7 +591,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValueIndexed("but got value", 1, "jan");
   }
 
-  @Test
   public void containsAtLeastExtraKeyAndMissingKey_failsWithSameToStringForKeys() {
     expectFailureWhenTestingThat(ImmutableMap.of(1L, "jan", 2, "feb"))
         .containsAtLeast(1, "jan", 2, "feb");
@@ -645,7 +605,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected value", "jan");
   }
 
-  @Test
   public void isEqualToPass() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     ImmutableMap<String, Integer> expectedMap = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
@@ -653,7 +612,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).isEqualTo(expectedMap);
   }
 
-  @Test
   public void isEqualToFailureExtraMissingAndDiffering() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     ImmutableMap<String, Integer> expectedMap = ImmutableMap.of("jan", 1, "april", 4, "march", 5);
@@ -684,7 +642,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "{jan=1, feb=2, march=3}");
   }
 
-  @Test
   public void isEqualToFailureDiffering() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     ImmutableMap<String, Integer> expectedMap = ImmutableMap.of("jan", 1, "feb", 2, "march", 4);
@@ -703,7 +660,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "3");
   }
 
-  @Test
   public void isEqualToFailureExtra() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     ImmutableMap<String, Integer> expectedMap = ImmutableMap.of("jan", 1, "feb", 2);
@@ -715,7 +671,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "3");
   }
 
-  @Test
   public void isEqualToFailureMissing() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2);
     ImmutableMap<String, Integer> expectedMap = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
@@ -726,7 +681,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected value", "3");
   }
 
-  @Test
   public void isEqualToFailureExtraAndMissing() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     ImmutableMap<String, Integer> expectedMap = ImmutableMap.of("jan", 1, "feb", 2, "mar", 3);
@@ -748,7 +702,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "3");
   }
 
-  @Test
   public void isEqualToFailureDiffering_sameToString() {
     ImmutableMap<String, Number> actual =
         ImmutableMap.<String, Number>of("jan", 1, "feb", 2, "march", 3L);
@@ -768,14 +721,12 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "3 (java.lang.Long)");
   }
 
-  @Test
   public void isEqualToNonMap() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     expectFailureWhenTestingThat(actual).isEqualTo("something else");
     assertFailureKeys("expected", "but was");
   }
 
-  @Test
   public void isEqualToNotConsistentWithEquals() {
     TreeMap<String, Integer> actual = new TreeMap<>(CASE_INSENSITIVE_ORDER);
     TreeMap<String, Integer> expected = new TreeMap<>(CASE_INSENSITIVE_ORDER);
@@ -788,7 +739,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).isEqualTo(expected);
   }
 
-  @Test
   public void isEqualToNotConsistentWithEquals_failure() {
     TreeMap<String, Integer> actual = new TreeMap<>(CASE_INSENSITIVE_ORDER);
     TreeMap<String, Integer> expected = new TreeMap<>(CASE_INSENSITIVE_ORDER);
@@ -799,17 +749,14 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     // The exact message generated is unspecified.
   }
 
-  @Test
   public void isEqualToActualNullOtherMap() {
     expectFailureWhenTestingThat(null).isEqualTo(ImmutableMap.of());
   }
 
-  @Test
   public void isEqualToActualMapOtherNull() {
     expectFailureWhenTestingThat(ImmutableMap.of()).isEqualTo(null);
   }
 
-  @Test
   public void isNotEqualTo() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
     ImmutableMap<String, Integer> unexpected = ImmutableMap.of("jan", 1, "feb", 2, "march", 3);
@@ -817,43 +764,36 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     expectFailureWhenTestingThat(actual).isNotEqualTo(unexpected);
   }
 
-  @Test
   public void isEmpty() {
     ImmutableMap<String, String> actual = ImmutableMap.of();
     assertThat(actual).isEmpty();
   }
 
-  @Test
   public void isEmptyWithFailure() {
     ImmutableMap<Integer, Integer> actual = ImmutableMap.of(1, 5);
     expectFailureWhenTestingThat(actual).isEmpty();
     assertFailureKeys("expected to be empty", "but was");
   }
 
-  @Test
   public void isNotEmpty() {
     ImmutableMap<Integer, Integer> actual = ImmutableMap.of(1, 5);
     assertThat(actual).isNotEmpty();
   }
 
-  @Test
   public void isNotEmptyWithFailure() {
     ImmutableMap<Integer, Integer> actual = ImmutableMap.of();
     expectFailureWhenTestingThat(actual).isNotEmpty();
     assertFailureKeys("expected not to be empty");
   }
 
-  @Test
   public void hasSize() {
     assertThat(ImmutableMap.of(1, 2, 3, 4)).hasSize(2);
   }
 
-  @Test
   public void hasSizeZero() {
     assertThat(ImmutableMap.of()).hasSize(0);
   }
 
-  @Test
   public void hasSizeNegative() {
     try {
       assertThat(ImmutableMap.of(1, 2)).hasSize(-1);
@@ -862,13 +802,11 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void containsKey() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     assertThat(actual).containsKey("kurt");
   }
 
-  @Test
   public void containsKeyFailure() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     expectFailureWhenTestingThat(actual).containsKey("greg");
@@ -878,7 +816,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[kurt]");
   }
 
-  @Test
   public void containsKeyNullFailure() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     expectFailureWhenTestingThat(actual).containsKey(null);
@@ -888,7 +825,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[kurt]");
   }
 
-  @Test
   public void containsKey_failsWithSameToString() {
     expectFailureWhenTestingThat(ImmutableMap.of(1L, "value1", 2L, "value2", "1", "value3"))
         .containsKey(1);
@@ -904,7 +840,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected to contain", "1");
   }
 
-  @Test
   public void containsKey_failsWithNullStringAndNull() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put("null", "value1");
@@ -922,21 +857,18 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected to contain", "null");
   }
 
-  @Test
   public void containsNullKey() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put(null, "null");
     assertThat(actual).containsKey(null);
   }
 
-  @Test
   public void doesNotContainKey() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     assertThat(actual).doesNotContainKey("greg");
     assertThat(actual).doesNotContainKey(null);
   }
 
-  @Test
   public void doesNotContainKeyFailure() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     expectFailureWhenTestingThat(actual).doesNotContainKey("kurt");
@@ -946,7 +878,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[kurt]");
   }
 
-  @Test
   public void doesNotContainNullKey() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put(null, "null");
@@ -957,13 +888,11 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[null]");
   }
 
-  @Test
   public void containsEntry() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     assertThat(actual).containsEntry("kurt", "kluever");
   }
 
-  @Test
   public void containsEntryFailure() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     expectFailureWhenTestingThat(actual).containsEntry("greg", "kick");
@@ -972,7 +901,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "{kurt=kluever}");
   }
 
-  @Test
   public void containsEntry_failsWithSameToStringOfKey() {
     expectFailureWhenTestingThat(ImmutableMap.of(1L, "value1", 2L, "value2"))
         .containsEntry(1, "value1");
@@ -986,7 +914,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("though it did contain keys", "[1] (java.lang.Long)");
   }
 
-  @Test
   public void containsEntry_failsWithSameToStringOfValue() {
     // Does not contain the correct key, but does contain a value which matches by toString.
     expectFailureWhenTestingThat(ImmutableMap.of(1, "null")).containsEntry(2, null);
@@ -1000,7 +927,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("though it did contain values", "[null] (java.lang.String)");
   }
 
-  @Test
   public void containsNullKeyAndValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     expectFailureWhenTestingThat(actual).containsEntry(null, null);
@@ -1009,14 +935,12 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "{kurt=kluever}");
   }
 
-  @Test
   public void containsNullEntry() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put(null, null);
     assertThat(actual).containsEntry(null, null);
   }
 
-  @Test
   public void containsNullEntryValue() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put(null, null);
@@ -1033,7 +957,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
   private static final String KEY_IS_PRESENT_WITH_DIFFERENT_VALUE =
       "key is present but with a different value";
 
-  @Test
   public void containsNullEntryKey() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put(null, null);
@@ -1047,7 +970,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .contains(KEY_IS_PRESENT_WITH_DIFFERENT_VALUE);
   }
 
-  @Test
   public void containsExactly_bothExactAndToStringKeyMatches_showsExactKeyMatch() {
     ImmutableMap<Number, String> actual = ImmutableMap.of(1, "actual int", 1L, "actual long");
     expectFailureWhenTestingThat(actual).containsEntry(1L, "expected long");
@@ -1058,7 +980,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "actual long");
   }
 
-  @Test
   public void doesNotContainEntry() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     assertThat(actual).doesNotContainEntry("greg", "kick");
@@ -1067,7 +988,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).doesNotContainEntry(null, "kluever");
   }
 
-  @Test
   public void doesNotContainEntryFailure() {
     ImmutableMap<String, String> actual = ImmutableMap.of("kurt", "kluever");
     expectFailureWhenTestingThat(actual).doesNotContainEntry("kurt", "kluever");
@@ -1077,7 +997,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[kurt=kluever]");
   }
 
-  @Test
   public void doesNotContainNullEntry() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put(null, null);
@@ -1085,7 +1004,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertThat(actual).doesNotContainEntry(null, "kluever");
   }
 
-  @Test
   public void doesNotContainNullEntryFailure() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put(null, null);
@@ -1096,7 +1014,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[null=null]");
   }
 
-  @Test
   public void failMapContainsKey() {
     ImmutableMap<String, String> actual = ImmutableMap.of("a", "A");
     expectFailureWhenTestingThat(actual).containsKey("b");
@@ -1106,7 +1023,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[a]");
   }
 
-  @Test
   public void failMapContainsKeyWithNull() {
     ImmutableMap<String, String> actual = ImmutableMap.of("a", "A");
     expectFailureWhenTestingThat(actual).containsKey(null);
@@ -1116,7 +1032,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[a]");
   }
 
-  @Test
   public void failMapLacksKey() {
     ImmutableMap<String, String> actual = ImmutableMap.of("a", "A");
     expectFailureWhenTestingThat(actual).doesNotContainKey("a");
@@ -1126,20 +1041,17 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "[a]");
   }
 
-  @Test
   public void containsKeyWithValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("a", "A");
     assertThat(actual).containsEntry("a", "A");
   }
 
-  @Test
   public void containsKeyWithNullValueNullExpected() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put("a", null);
     assertThat(actual).containsEntry("a", null);
   }
 
-  @Test
   public void failMapContainsKeyWithValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("a", "A");
     expectFailureWhenTestingThat(actual).containsEntry("a", "a");
@@ -1152,7 +1064,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .doesNotContain(KEY_IS_PRESENT_WITH_DIFFERENT_VALUE);
   }
 
-  @Test
   public void failMapContainsKeyWithNullValuePresentExpected() {
     Map<String, String> actual = Maps.newHashMap();
     actual.put("a", null);
@@ -1166,7 +1077,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .contains(KEY_IS_PRESENT_WITH_DIFFERENT_VALUE);
   }
 
-  @Test
   public void failMapContainsKeyWithPresentValueNullExpected() {
     ImmutableMap<String, String> actual = ImmutableMap.of("a", "A");
     expectFailureWhenTestingThat(actual).containsEntry("a", null);
@@ -1179,7 +1089,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .contains(KEY_IS_PRESENT_WITH_DIFFERENT_VALUE);
   }
 
-  @Test
   public void comparingValuesUsing_containsEntry_success() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     assertThat(actual)
@@ -1187,7 +1096,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsEntry("def", 456);
   }
 
-  @Test
   public void comparingValuesUsing_containsEntry_failsExpectedKeyHasWrongValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "+123", "def", "+456");
     expectFailureWhenTestingThat(actual)
@@ -1201,7 +1109,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("full map", "{abc=+123, def=+456}");
   }
 
-  @Test
   public void comparingValuesUsing_containsEntry_failsWrongKeyHasExpectedValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "+123", "def", "+456");
     expectFailureWhenTestingThat(actual)
@@ -1217,7 +1124,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("other keys with matching values", "[def]");
   }
 
-  @Test
   public void comparingValuesUsing_containsEntry_failsMissingExpectedKeyAndValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "+123", "def", "+456");
     expectFailureWhenTestingThat(actual)
@@ -1227,7 +1133,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         "for key", "expected value", "testing whether", "but was missing", "full map");
   }
 
-  @Test
   public void comparingValuesUsing_containsEntry_diffExpectedKeyHasWrongValue() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("abc", 35, "def", 71);
     expectFailureWhenTestingThat(actual)
@@ -1241,7 +1146,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("diff", "11");
   }
 
-  @Test
   public void comparingValuesUsing_containsEntry_handlesFormatDiffExceptions() {
     Map<String, Integer> actual = new LinkedHashMap<>();
     actual.put("abc", 35);
@@ -1267,7 +1171,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("formatDiff(null, 60) threw java.lang.NullPointerException");
   }
 
-  @Test
   public void comparingValuesUsing_containsEntry_handlesExceptions_expectedKeyHasWrongValue() {
     Map<Integer, String> actual = new LinkedHashMap<>();
     actual.put(1, "one");
@@ -1290,7 +1193,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(null, TWO) threw java.lang.NullPointerException");
   }
 
-  @Test
   public void comparingValuesUsing_containsEntry_handlesExceptions_wrongKeyHasExpectedValue() {
     Map<Integer, String> actual = new LinkedHashMap<>();
     actual.put(1, null);
@@ -1316,7 +1218,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(null, THREE) threw java.lang.NullPointerException");
   }
 
-  @Test
   public void comparingValuesUsing_doesNotContainEntry_successExcludedKeyHasWrongValues() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "+123", "def", "+456");
     assertThat(actual)
@@ -1324,7 +1225,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .doesNotContainEntry("def", 123);
   }
 
-  @Test
   public void comparingValuesUsing_doesNotContainEntry_successWrongKeyHasExcludedValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "+123", "def", "+456");
     assertThat(actual)
@@ -1332,7 +1232,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .doesNotContainEntry("xyz", 456);
   }
 
-  @Test
   public void comparingValuesUsing_doesNotContainEntry_successMissingExcludedKeyAndValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     assertThat(actual)
@@ -1340,7 +1239,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .doesNotContainEntry("xyz", 321);
   }
 
-  @Test
   public void comparingValuesUsing_doesNotContainEntry_failure() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "+123", "def", "+456");
     expectFailureWhenTestingThat(actual)
@@ -1352,7 +1250,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("full map", "{abc=+123, def=+456}");
   }
 
-  @Test
   public void comparingValuesUsing_doesNotContainEntry_handlesException() {
     Map<Integer, String> actual = new LinkedHashMap<>();
     actual.put(1, "one");
@@ -1374,7 +1271,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(null, TWO) threw java.lang.NullPointerException");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_success() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     assertThat(actual)
@@ -1382,7 +1278,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsExactly("def", 456, "abc", 123);
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_inOrder_success() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     assertThat(actual)
@@ -1391,7 +1286,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .inOrder();
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_failsExtraEntry() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     expectFailureWhenTestingThat(actual)
@@ -1412,7 +1306,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "{abc=123, def=456}");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_failsMissingEntry() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     expectFailureWhenTestingThat(actual)
@@ -1430,7 +1323,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected value", "999");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_failsWrongKey() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     expectFailureWhenTestingThat(actual)
@@ -1453,7 +1345,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "123");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_failsWrongValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     expectFailureWhenTestingThat(actual)
@@ -1473,7 +1364,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "123");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_handlesExceptions() {
     Map<Integer, String> actual = new LinkedHashMap<>();
     actual.put(1, "one");
@@ -1497,7 +1387,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(null, TWO) threw java.lang.NullPointerException");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_inOrder_failsOutOfOrder() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     expectFailureWhenTestingThat(actual)
@@ -1510,7 +1399,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "{abc=123, def=456}");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_wrongValueTypeInActual() {
     ImmutableMap<String, Object> actual = ImmutableMap.<String, Object>of("abc", "123", "def", 456);
     expectFailureWhenTestingThat(actual)
@@ -1532,7 +1420,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(456, 456) threw java.lang.ClassCastException");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactly_wrongValueTypeInExpected() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     expectFailureWhenTestingThat(actual)
@@ -1554,7 +1441,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(123, 123) threw java.lang.ClassCastException");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_success() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "abc", 123);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
@@ -1563,7 +1449,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsExactlyEntriesIn(expected);
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_inOrder_success() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("abc", 123, "def", 456);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
@@ -1573,7 +1458,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .inOrder();
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_failsExtraEntry() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
@@ -1592,7 +1476,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "123");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_failsMissingEntry() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "xyz", 999, "abc", 123);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
@@ -1611,7 +1494,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected value", "999");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_failsWrongKey() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "cab", 123);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
@@ -1635,7 +1517,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("unexpected value", "123");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_failsWrongValue() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "abc", 321);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
@@ -1656,7 +1537,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "123");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_diffMissingAndExtraAndWrongValue() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("abc", 30, "def", 60, "ghi", 90);
     ImmutableMap<String, Integer> actual = ImmutableMap.of("abc", 35, "fed", 60, "ghi", 101);
@@ -1685,7 +1565,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("diff", "11");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_handlesFormatDiffExceptions() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("abc", 30, "def", 60, "ghi", 90);
     Map<String, Integer> actual = new LinkedHashMap<>();
@@ -1716,7 +1595,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("formatDiff(null, 60) threw java.lang.NullPointerException");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_inOrder_failsOutOfOrder() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "abc", 123);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
@@ -1728,7 +1606,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         "entries match, but order was wrong", "expected", "testing whether", "but was");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_empty() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of();
     ImmutableMap<String, String> actual = ImmutableMap.of();
@@ -1737,7 +1614,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsExactlyEntriesIn(expected);
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_failsEmpty() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of();
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123");
@@ -1747,7 +1623,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureKeys("expected to be empty", "but was");
   }
 
-  @Test
   public void comparingValuesUsing_containsExactlyEntriesIn_wrongValueTypeInActual() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "abc", 123);
     ImmutableMap<String, Object> actual = ImmutableMap.<String, Object>of("abc", "123", "def", 456);
@@ -1770,7 +1645,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(456, 456) threw java.lang.ClassCastException");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_success() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456", "ghi", "789");
     assertThat(actual)
@@ -1778,7 +1652,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsAtLeast("def", 456, "abc", 123);
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_inOrder_success() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "ghi", "789", "def", "456");
     assertThat(actual)
@@ -1787,7 +1660,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .inOrder();
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_failsMissingEntry() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456", "ghi", "789");
     expectFailureWhenTestingThat(actual)
@@ -1806,7 +1678,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected to contain at least", "{def=456, xyz=999, abc=123}");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_failsWrongKey() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     expectFailureWhenTestingThat(actual)
@@ -1824,7 +1695,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected value", "123");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_failsWrongValue() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
     expectFailureWhenTestingThat(actual)
@@ -1844,7 +1714,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "123");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_handlesExceptions() {
     Map<Integer, String> actual = new LinkedHashMap<>();
     actual.put(1, "one");
@@ -1869,7 +1738,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(null, TWO) threw java.lang.NullPointerException");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_inOrder_failsOutOfOrder() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456", "ghi", "789");
     expectFailureWhenTestingThat(actual)
@@ -1885,7 +1753,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "{abc=123, def=456, ghi=789}");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_wrongValueTypeInExpectedActual() {
     ImmutableMap<String, Object> actual = ImmutableMap.<String, Object>of("abc", "123", "def", 456);
     expectFailureWhenTestingThat(actual)
@@ -1907,7 +1774,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(456, 456) threw java.lang.ClassCastException");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_wrongValueTypeInUnexpectedActual_success() {
     ImmutableMap<String, Object> actual = ImmutableMap.<String, Object>of("abc", "123", "def", 456);
     assertThat(actual)
@@ -1915,7 +1781,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsAtLeast("abc", 123);
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeast_wrongValueTypeInExpected() {
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456", "ghi", "789");
     expectFailureWhenTestingThat(actual)
@@ -1937,7 +1802,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(123, 123) threw java.lang.ClassCastException");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_success() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "abc", 123);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456", "ghi", "789");
@@ -1946,7 +1810,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsAtLeastEntriesIn(expected);
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_inOrder_success() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("abc", 123, "ghi", 789);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456", "ghi", "789");
@@ -1956,7 +1819,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .inOrder();
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_failsMissingEntry() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "xyz", 999, "abc", 123);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456", "ghi", "789");
@@ -1975,7 +1837,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected value", "999");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_failsWrongKey() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "cab", 123);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
@@ -1994,7 +1855,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected value", "123");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_failsWrongValue() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456, "abc", 321);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456", "ghi", "789");
@@ -2015,7 +1875,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but got value", "123");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_diffMissingAndWrongValue() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("abc", 30, "def", 60, "ghi", 90);
     ImmutableMap<String, Integer> actual = ImmutableMap.of("abc", 35, "fed", 60, "ghi", 101);
@@ -2043,7 +1902,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
     assertFailureValueIndexed("expected value", 1, "60");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_handlesFormatDiffExceptions() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("abc", 30, "def", 60, "ghi", 90);
     Map<String, Integer> actual = new LinkedHashMap<>();
@@ -2074,7 +1932,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("formatDiff(null, 60) threw java.lang.NullPointerException");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_inOrder_failsOutOfOrder() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("ghi", 789, "abc", 123);
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456", "ghi", "789");
@@ -2089,7 +1946,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         "but was");
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_empty() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of();
     ImmutableMap<String, String> actual = ImmutableMap.of("abc", "123", "def", "456");
@@ -2098,7 +1954,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsAtLeastEntriesIn(expected);
   }
 
-  @Test
   public void comparingValuesUsing_containsAtLeastEntriesIn_wrongValueTypeInExpectedActual() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("def", 456);
     ImmutableMap<String, Object> actual = ImmutableMap.<String, Object>of("abc", "123", "def", 456);
@@ -2121,7 +1976,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .startsWith("compare(456, 456) threw java.lang.ClassCastException");
   }
 
-  @Test
   public void
       comparingValuesUsing_containsAtLeastEntriesIn_wrongValueTypeInUnexpectedActual_success() {
     ImmutableMap<String, Integer> expected = ImmutableMap.of("abc", 123);
@@ -2131,7 +1985,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsAtLeastEntriesIn(expected);
   }
 
-  @Test
   public void formattingDiffsUsing_success() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("ghi", 300, "def", 200, "abc", 100);
     assertThat(actual)
@@ -2139,7 +1992,6 @@ public class MapSubjectTest extends BaseSubjectTestCase {
         .containsExactly("abc", 100, "def", 200, "ghi", 300);
   }
 
-  @Test
   public void formattingDiffsUsing_failure() {
     ImmutableMap<String, Integer> actual = ImmutableMap.of("ghi", 300, "def", 201, "abc", 100);
     expectFailure

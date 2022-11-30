@@ -76,7 +76,6 @@ public final class Re2jSubjects {
     }
 
     /** Fails if the string does not match the given regex. */
-    @GwtIncompatible("com.google.re2j.Pattern")
     public void matches(Pattern regex) {
       if (!regex.matcher(actual).matches()) {
         failWithActual("expected to match ", regex);
@@ -91,7 +90,6 @@ public final class Re2jSubjects {
     }
 
     /** Fails if the string matches the given regex. */
-    @GwtIncompatible("com.google.re2j.Pattern")
     public void doesNotMatch(Pattern regex) {
       if (regex.matcher(actual).matches()) {
         failWithActual("expected to fail to match", regex);
@@ -99,7 +97,6 @@ public final class Re2jSubjects {
     }
 
     /** Fails if the string does not contain a match on the given regex. */
-    @GwtIncompatible("com.google.re2j.Pattern")
     public void containsMatch(Pattern pattern) {
       if (!pattern.matcher(actual).find()) {
         failWithActual("expected to contain a match for", pattern);
@@ -114,7 +111,6 @@ public final class Re2jSubjects {
     }
 
     /** Fails if the string contains a match on the given regex. */
-    @GwtIncompatible("com.google.re2j.Pattern")
     public void doesNotContainMatch(Pattern pattern) {
       if (pattern.matcher(actual).find()) {
         failWithActual("expected not to contain a match for", pattern);

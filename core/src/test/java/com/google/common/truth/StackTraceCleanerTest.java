@@ -40,9 +40,7 @@ import org.junit.runners.model.Statement;
  * Also note that j2cl includes some extra frames at the _top_, even beyond the ones that we try to
  * remove: b/71355096
  */
-@RunWith(JUnit4.class)
 public class StackTraceCleanerTest extends BaseSubjectTestCase {
-  @Test
   public void realWorld() {
     try {
       assertThat(0).isEqualTo(1);
@@ -57,7 +55,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
     assertThat(failure.getStackTrace().length).isIn(Range.closed(3, 4));
   }
 
-  @Test
   public void emptyTrace() {
     Throwable throwable = createThrowableWithStackTrace();
 
@@ -66,7 +63,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
     assertThat(throwable.getStackTrace()).isEqualTo(new StackTraceElement[0]);
   }
 
-  @Test
   public void collapseStreaks() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -89,21 +85,18 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void assertionsActuallyUseCleaner() {
     expectFailure.whenTesting().that(1).isEqualTo(2);
     assertThat(expectFailure.getFailure().getStackTrace()[0].getClassName())
         .isEqualTo(getClass().getName());
   }
 
-  @Test
   public void assertionsActuallyUseCleaner_ComparisonFailure() {
     expectFailure.whenTesting().that("1").isEqualTo("2");
     assertThat(expectFailure.getFailure().getStackTrace()[0].getClassName())
         .isEqualTo(getClass().getName());
   }
 
-  @Test
   public void dontCollapseStreaksOfOneFrame() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -132,7 +125,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void mixedStreaks() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -160,7 +152,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void classNestedInSubject() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -175,7 +166,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void removesTestingAndReflectiveFramesOnBottom() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -200,7 +190,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void packagesAreIgnoredForTestClasses() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -218,7 +207,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void allFramesAboveStandardSubjectBuilderCleaned() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -236,7 +224,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void allFramesAboveSubjectCleaned() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -254,7 +241,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void allFramesBelowJUnitStatementCleaned() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -272,7 +258,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void failureFromJUnitInfrastructureIncludesItInStack() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -290,7 +275,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void allFramesBelowJUnitRunnerCleaned() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -317,7 +301,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
    * StandardSubjectBuilder} in the call stack should not happen in practical, testing anyway to
    * make sure even if it does, the behavior should match expectation.
    */
-  @Test
   public void truthFrameWithOutSubject_shouldNotCleaned() {
     Throwable throwable =
         createThrowableWithStackTrace(
@@ -337,7 +320,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
             });
   }
 
-  @Test
   public void causingThrowablesAreAlsoCleaned() {
     Throwable cause2 = createThrowableWithStackTrace("com.example.Foo", "org.junit.FilterMe");
     Throwable cause1 =
@@ -352,7 +334,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
     assertThat(cause2.getStackTrace()).isEqualTo(createStackTrace("com.example.Foo"));
   }
 
-  @Test
   public void suppressedThrowablesAreAlsoCleaned() {
     if (Platform.isAndroid()) {
       return; // suppressed exceptions aren't supported under Ice Cream Sandwich, where we test
@@ -370,7 +351,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
     assertThat(suppressed2.getStackTrace()).isEqualTo(createStackTrace("com.example.Car"));
   }
 
-  @Test
   public void mixedCausingAndSuppressThrowablesAreCleaned() {
     if (Platform.isAndroid()) {
       return; // suppressed exceptions aren't supported under Ice Cream Sandwich, where we test
@@ -394,7 +374,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
     assertThat(cause2.getStackTrace()).isEqualTo(createStackTrace("com.example.Bar"));
   }
 
-  @Test
   public void cleaningTraceIsIdempotent() {
     Throwable throwable = createThrowableWithStackTrace("com.example.Foo", "org.junit.FilterMe");
 
@@ -404,7 +383,6 @@ public class StackTraceCleanerTest extends BaseSubjectTestCase {
     assertThat(throwable.getStackTrace()).isEqualTo(createStackTrace("com.example.Foo"));
   }
 
-  @Test
   public void cyclesAreHandled() {
     SelfReferencingThrowable selfReferencingThrowable =
         new SelfReferencingThrowable("com.example.Foo", "org.junit.FilterMe");

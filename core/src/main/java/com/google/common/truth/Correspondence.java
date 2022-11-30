@@ -401,7 +401,6 @@ public abstract class Correspondence<A, E> {
      * Returns a {@link String} describing the difference between the {@code actual} and {@code
      * expected} values, if possible, or {@code null} if not.
      */
-    @Nullable
     String formatDiff(A actual, E expected);
   }
 
@@ -421,7 +420,7 @@ public abstract class Correspondence<A, E> {
     }
 
     @Override
-    public @Nullable String formatDiff(A actual, E expected) {
+    public String formatDiff(A actual, E expected) {
       return formatter.formatDiff(actual, expected);
     }
 
@@ -744,7 +743,7 @@ public abstract class Correspondence<A, E> {
    * exception and continue to describe the original failure as if this method had returned null,
    * mentioning the failure from this method as additional information.
    */
-  public @Nullable String formatDiff(A actual, E expected) {
+  public String formatDiff(A actual, E expected) {
     return null;
   }
 
@@ -753,7 +752,7 @@ public abstract class Correspondence<A, E> {
    * the result. If it does throw, adds the exception to the given {@link ExceptionStore} and
    * returns null.
    */
-  final @Nullable String safeFormatDiff(A actual, E expected, ExceptionStore exceptions) {
+  final String safeFormatDiff(A actual, E expected, ExceptionStore exceptions) {
     try {
       return formatDiff(actual, expected);
     } catch (RuntimeException e) {
@@ -822,7 +821,7 @@ public abstract class Correspondence<A, E> {
    */
   @Deprecated
   @Override
-  public final boolean equals(@Nullable Object o) {
+  public final boolean equals(Object o) {
     throw new UnsupportedOperationException(
         "Correspondence.equals(object) is not supported. If you meant to compare objects, use"
             + " .compare(actual, expected) instead.");

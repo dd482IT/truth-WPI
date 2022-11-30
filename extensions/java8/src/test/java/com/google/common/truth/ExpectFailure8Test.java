@@ -26,10 +26,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Tests of {@link ExpectFailure}'s Java 8 support. */
-@RunWith(JUnit4.class)
 public final class ExpectFailure8Test {
 
-  @Test
   public void testExpectFailure() throws Exception {
     AssertionError failure1 = expectFailure(whenTesting -> whenTesting.that(4).isEqualTo(5));
     assertThat(failure1).factValue("expected").isEqualTo("5");
@@ -39,7 +37,6 @@ public final class ExpectFailure8Test {
     assertThat(failure2).factValue("expected").isEqualTo("4");
   }
 
-  @Test
   public void testExpectFailureAbout() {
     AssertionError unused =
         expectFailureAbout(

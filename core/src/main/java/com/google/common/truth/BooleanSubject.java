@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public final class BooleanSubject extends Subject {
   private final Boolean actual;
 
-  BooleanSubject(FailureMetadata metadata, @Nullable Boolean actual) {
+  BooleanSubject(FailureMetadata metadata, Boolean actual) {
     super(metadata, actual);
     this.actual = actual;
   }

@@ -26,15 +26,12 @@ import org.junit.runners.JUnit4;
  *
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
 public class BooleanSubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void isTrue() {
     assertThat(true).isTrue();
   }
 
-  @Test
   public void nullIsTrueFailing() {
     expectFailureWhenTestingThat(null).isTrue();
     assertFailureKeys("expected", "but was");
@@ -42,7 +39,6 @@ public class BooleanSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "null");
   }
 
-  @Test
   public void nullIsFalseFailing() {
     expectFailureWhenTestingThat(null).isFalse();
     assertFailureKeys("expected", "but was");
@@ -50,18 +46,15 @@ public class BooleanSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("but was", "null");
   }
 
-  @Test
   public void isTrueFailing() {
     expectFailureWhenTestingThat(false).isTrue();
     assertFailureKeys("expected to be true");
   }
 
-  @Test
   public void isFalse() {
     assertThat(false).isFalse();
   }
 
-  @Test
   public void isFalseFailing() {
     expectFailureWhenTestingThat(true).isFalse();
     assertFailureKeys("expected to be false");

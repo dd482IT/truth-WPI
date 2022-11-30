@@ -36,7 +36,6 @@ import org.junit.runners.JUnit4;
  *
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
 public class TruthAssertThatTest {
   private static final Function<Method, TypeToken<?>> METHOD_TO_RETURN_TYPE_TOKEN =
       new Function<Method, TypeToken<?>>() {
@@ -46,7 +45,6 @@ public class TruthAssertThatTest {
         }
       };
 
-  @Test
   public void staticAssertThatMethodsMatchStandardSubjectBuilderInstanceMethods() {
     ImmutableSet<TypeToken<?>> verbTypes =
         FluentIterable.from(asList(StandardSubjectBuilder.class.getMethods()))

@@ -48,12 +48,12 @@ public final class ProtoTruth {
   }
 
   /** Assert on a single {@link MessageLite} instance. */
-  public static LiteProtoSubject assertThat(@Nullable MessageLite messageLite) {
+  public static LiteProtoSubject assertThat(MessageLite messageLite) {
     return assertAbout(protos()).that(messageLite);
   }
 
   /** Assert on a single {@link Message} instance. */
-  public static ProtoSubject assertThat(@Nullable Message message) {
+  public static ProtoSubject assertThat(Message message) {
     return assertAbout(protos()).that(message);
   }
 
@@ -69,7 +69,7 @@ public final class ProtoTruth {
   // would result in method ambiguity errors.
   // See http://stackoverflow.com/a/8467804 for a more thorough explanation.
   public static <M extends Message> IterableOfProtosSubject<M> assertThat(
-      @Nullable Iterable<M> messages) {
+      Iterable<M> messages) {
     return assertAbout(protos()).that(messages);
   }
 
@@ -80,7 +80,7 @@ public final class ProtoTruth {
    * comparison tests available on {@link MapSubject.UsingCorrespondence}.
    */
   public static <M extends Message> MapWithProtoValuesSubject<M> assertThat(
-      @Nullable Map<?, M> map) {
+      Map<?, M> map) {
     return assertAbout(protos()).that(map);
   }
 
@@ -91,7 +91,7 @@ public final class ProtoTruth {
    * comparison tests available on {@link MultimapSubject.UsingCorrespondence}.
    */
   public static <M extends Message> MultimapWithProtoValuesSubject<M> assertThat(
-      @Nullable Multimap<?, M> multimap) {
+      Multimap<?, M> multimap) {
     return assertAbout(protos()).that(multimap);
   }
 

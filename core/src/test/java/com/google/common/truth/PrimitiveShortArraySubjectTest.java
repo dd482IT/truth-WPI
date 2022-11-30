@@ -26,27 +26,22 @@ import org.junit.runners.JUnit4;
  *
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
 public class PrimitiveShortArraySubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void isEqualTo() {
     assertThat(array(1, 0, 1)).isEqualTo(array(1, 0, 1));
   }
 
   @SuppressWarnings("TruthSelfEquals")
-  @Test
   public void isEqualTo_Same() {
     short[] same = array(1, 0, 1);
     assertThat(same).isEqualTo(same);
   }
 
-  @Test
   public void asList() {
     assertThat(array(1, 1, 0)).asList().containsAtLeast((short) 1, (short) 0);
   }
 
-  @Test
   public void asListWithoutCastingFails() {
     expectFailureWhenTestingThat(array(1, 1, 0)).asList().containsAtLeast(1, 0);
     assertFailureKeys(
@@ -58,7 +53,6 @@ public class PrimitiveShortArraySubjectTest extends BaseSubjectTestCase {
         "but was");
   }
 
-  @Test
   public void isEqualTo_Fail_UnequalOrdering() {
     expectFailureWhenTestingThat(array(1, 0, 1)).isEqualTo(array(0, 1, 1));
     assertFailureKeys("expected", "but was", "differs at index");
@@ -67,33 +61,27 @@ public class PrimitiveShortArraySubjectTest extends BaseSubjectTestCase {
     assertFailureValue("differs at index", "[0]");
   }
 
-  @Test
   public void isEqualTo_Fail_NotAnArray() {
     expectFailureWhenTestingThat(array(1, 0, 1)).isEqualTo(new Object());
   }
 
-  @Test
   public void isNotEqualTo_SameLengths() {
     assertThat(array(1, 0)).isNotEqualTo(array(1, 1));
   }
 
-  @Test
   public void isNotEqualTo_DifferentLengths() {
     assertThat(array(1, 0)).isNotEqualTo(array(1, 0, 1));
   }
 
-  @Test
   public void isNotEqualTo_DifferentTypes() {
     assertThat(array(1, 0)).isNotEqualTo(new Object());
   }
 
-  @Test
   public void isNotEqualTo_FailEquals() {
     expectFailureWhenTestingThat(array(1, 0)).isNotEqualTo(array(1, 0));
   }
 
   @SuppressWarnings("TruthSelfEquals")
-  @Test
   public void isNotEqualTo_FailSame() {
     short[] same = array(1, 0);
     expectFailureWhenTestingThat(same).isNotEqualTo(same);

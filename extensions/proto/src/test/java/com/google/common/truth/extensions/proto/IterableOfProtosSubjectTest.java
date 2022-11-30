@@ -34,7 +34,6 @@ import org.junit.runners.Parameterized.Parameters;
  * Thus, we simply check that all of the exposed methods work in basic cases, and trust that the
  * implementation ensures correctness in the cross-product of the many ways one can do things.
  */
-@RunWith(Parameterized.class)
 public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
 
   private final Message message1 = parse("o_int: 1 r_string: \"foo\" r_string: \"bar\"");
@@ -48,7 +47,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
 
   private final int ignoreFieldNumber = getFieldNumber("o_int");
 
-  @Parameters(name = "{0}")
   public static Collection<Object[]> parameters() {
     return ProtoSubjectTestBase.parameters();
   }
@@ -57,7 +55,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     super(testType);
   }
 
-  @Test
   public void testPlain_isEmpty() {
     expectThat(ImmutableList.<Message>of()).isEmpty();
     expectThat(listOf(message1)).isNotEmpty();
@@ -69,7 +66,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_hasSize() {
     expectThat(listOf(message1, message2)).hasSize(2);
 
@@ -77,7 +73,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsNoDuplicates() {
     expectThat(listOf(message1, message2)).containsNoDuplicates();
 
@@ -85,7 +80,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_contains() {
     expectThat(listOf(message1, message2)).contains(eqMessage2);
     expectThat(listOf(message1, message2)).doesNotContain(eqIgnoredMessage1);
@@ -97,7 +91,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsAny() {
     expectThat(listOf(message1, message2)).containsAnyOf(eqIgnoredMessage1, eqMessage2);
     expectThat(listOf(message1, message2)).containsAnyIn(listOf(eqIgnoredMessage1, eqMessage2));
@@ -119,7 +112,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsAtLeast() {
     expectThat(listOf(message1, message2, eqIgnoredMessage1))
         .containsAtLeast(eqMessage1, eqMessage2);
@@ -142,7 +134,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsExactly() {
     expectThat(listOf(message1, message2)).containsExactly(eqMessage2, eqMessage1);
     expectThat(listOf(message1, message2)).containsExactly(eqMessage1, eqMessage2).inOrder();
@@ -189,7 +180,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsNone() {
     expectThat(listOf(message1)).containsNoneOf(eqMessage2, eqIgnoredMessage1);
     expectThat(listOf(message1)).containsNoneIn(listOf(eqMessage2, eqIgnoredMessage1));
@@ -211,7 +201,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_isInOrder() {
     expectThat(listOf(message1, eqMessage1, message2)).isInOrder(compareByOIntAscending());
     expectThat(listOf(message1, message2)).isInStrictOrder(compareByOIntAscending());
@@ -225,7 +214,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testFluent_contains() {
     expectThat(listOf(message1, message2))
         .ignoringFields(ignoreFieldNumber)
@@ -259,7 +247,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
                 + "assertThat(proto).ignoringRepeatedFieldOrder().isEqualTo(target)");
   }
 
-  @Test
   public void testFluent_containsAny() {
     expectThat(listOf(message1, message2))
         .ignoringFields(ignoreFieldNumber)
@@ -293,7 +280,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
                 + "assertThat(proto).ignoringRepeatedFieldOrder().isEqualTo(target)");
   }
 
-  @Test
   public void testFluent_containsAtLeast() {
     expectThat(listOf(message1, message2, eqRepeatedMessage2))
         .ignoringFields(ignoreFieldNumber)
@@ -323,7 +309,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
                 + "assertThat(proto).ignoringRepeatedFieldOrder().isEqualTo(target)");
   }
 
-  @Test
   public void testFluent_containsExactly() {
     expectThat(listOf(message1, message2))
         .ignoringFields(ignoreFieldNumber)
@@ -367,7 +352,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testFluent_containsNone() {
     expectThat(listOf(message1))
         .ignoringFields(ignoreFieldNumber)
@@ -401,7 +385,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
                 + "assertThat(proto).ignoringRepeatedFieldOrder().isEqualTo(target)");
   }
 
-  @Test
   public void testFluent_correspondenceToString() {
     // Some arbitrary tests to ensure Correspondence.toString() is well-behaved.
     // Not intended to be comprehensive.
@@ -462,7 +445,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
                 + ".isEqualTo(target)");
   }
 
-  @Test
   public void testFormatDiff() {
     expectFailureWhenTesting()
         .that(listOf(message1))
@@ -479,7 +461,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
                 + "deleted: r_string[1]: \"qux\"\n");
   }
 
-  @Test
   public void testDisplayingDiffsPairedBy() {
     Message actualInt3 = parse("o_int: 3 r_string: 'foo'");
     Message actualInt4 = parse("o_int: 4 r_string: 'bar'");
@@ -502,7 +483,6 @@ public class IterableOfProtosSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().factValue("diff", 1).contains("modified: r_string[0]: \"qux\" -> \"bar\"");
   }
 
-  @Test
   public void testCompareMultipleMessageTypes() {
     // Don't run this test twice.
     if (!testIsRunOnce()) {

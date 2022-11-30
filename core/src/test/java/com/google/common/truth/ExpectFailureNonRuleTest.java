@@ -30,10 +30,8 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.JUnit4;
 
 /** Tests for {@link ExpectFailure} not used as JUnit's TestRule. */
-@RunWith(JUnit4.class)
 public class ExpectFailureNonRuleTest {
 
-  @Test
   public void testExpect_userThrowExceptionInSubject_shouldPropagate() throws Exception {
     final List<Failure> reportedFailure = Lists.newArrayList();
     RunNotifier runNotifier = new RunNotifier();
@@ -57,7 +55,6 @@ public class ExpectFailureNonRuleTest {
         .contains("ExpectFailure.whenTesting() invoked, but no failure was caught.");
   }
 
-  @Test
   public void testExpect_userThrowExceptionAfterSubject_shouldPropagate() throws Exception {
     final List<Failure> reportedFailure = Lists.newArrayList();
     RunNotifier runNotifier = new RunNotifier();
@@ -88,18 +85,15 @@ public class ExpectFailureNonRuleTest {
 
     final ExpectFailure expectFailure = new ExpectFailure();
 
-    @Before
     public void setupExpectFailure() {
       expectFailure.enterRuleContext();
     }
 
-    @After
     public void ensureFailureCaught() {
       expectFailure.ensureFailureCaught();
       expectFailure.leaveRuleContext();
     }
 
-    @Test
     public void testExpect_throwInSubject_shouldPropagate() {
       expectFailure.whenTesting().that(throwingMethod()).isEqualTo(4);
     }
@@ -113,18 +107,15 @@ public class ExpectFailureNonRuleTest {
 
     final ExpectFailure expectFailure = new ExpectFailure();
 
-    @Before
     public void setupExpectFailure() {
       expectFailure.enterRuleContext();
     }
 
-    @After
     public void ensureFailureCaught() {
       expectFailure.ensureFailureCaught();
       expectFailure.leaveRuleContext();
     }
 
-    @Test
     public void testExpect_throwInSubject_shouldPropagate() {
       expectFailure.whenTesting().that(4).isEqualTo(4); // No failure being caught
       long unused = throwingMethod();

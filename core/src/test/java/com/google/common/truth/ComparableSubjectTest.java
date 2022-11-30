@@ -32,10 +32,8 @@ import org.junit.runners.JUnit4;
  *
  * @author Kurt Alfred Kluever
  */
-@RunWith(JUnit4.class)
 public class ComparableSubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void testNulls() {
     try {
       assertThat(6).isEquivalentAccordingToCompareTo(null);
@@ -64,7 +62,6 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void isInRange() {
     Range<Integer> oneToFive = Range.closed(1, 5);
     assertThat(4).isIn(oneToFive);
@@ -75,7 +72,6 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
         .isEqualTo(oneToFive.toString());
   }
 
-  @Test
   public void isNotInRange() {
     Range<Integer> oneToFive = Range.closed(1, 5);
     assertThat(6).isNotIn(oneToFive);
@@ -86,7 +82,6 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
         .isEqualTo(oneToFive.toString());
   }
 
-  @Test
   public void isEquivalentAccordingToCompareTo() {
     assertThat(new StringComparedByLength("abc"))
         .isEquivalentAccordingToCompareTo(new StringComparedByLength("xyz"));
@@ -114,7 +109,6 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void isGreaterThan_failsEqual() {
     assertThat(5).isGreaterThan(4);
 
@@ -122,13 +116,11 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected to be greater than", "4");
   }
 
-  @Test
   public void isGreaterThan_failsSmaller() {
     expectFailureWhenTestingThat(3).isGreaterThan(4);
     assertFailureValue("expected to be greater than", "4");
   }
 
-  @Test
   public void isLessThan_failsEqual() {
     assertThat(4).isLessThan(5);
 
@@ -136,13 +128,11 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected to be less than", "4");
   }
 
-  @Test
   public void isLessThan_failsGreater() {
     expectFailureWhenTestingThat(4).isLessThan(3);
     assertFailureValue("expected to be less than", "3");
   }
 
-  @Test
   public void isAtMost() {
     assertThat(5).isAtMost(5);
     assertThat(5).isAtMost(6);
@@ -151,7 +141,6 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
     assertFailureValue("expected to be at most", "3");
   }
 
-  @Test
   public void isAtLeast() {
     assertThat(4).isAtLeast(3);
     assertThat(4).isAtLeast(4);
@@ -162,7 +151,6 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
 
   // Brief tests with other comparable types (no negative test cases)
 
-  @Test
   public void longs() {
     assertThat(5L).isGreaterThan(4L);
     assertThat(4L).isLessThan(5L);
@@ -177,7 +165,6 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
     assertThat(5L).isNotIn(range);
   }
 
-  @Test
   public void strings() {
     assertThat("kak").isGreaterThan("gak");
     assertThat("gak").isLessThan("kak");
@@ -192,13 +179,11 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
     assertThat("d").isNotIn(range);
   }
 
-  @Test
   public void comparableType() {
     assertThat(new ComparableType(4)).isGreaterThan(new ComparableType(3));
     assertThat(new ComparableType(3)).isLessThan(new ComparableType(4));
   }
 
-  @Test
   public void namedComparableType() {
     assertWithMessage("comparable").that(new ComparableType(2)).isLessThan(new ComparableType(3));
   }
@@ -216,7 +201,6 @@ public class ComparableSubjectTest extends BaseSubjectTestCase {
     }
   }
 
-  @Test
   public void rawComparableType() {
     assertThat(new RawComparableType(3)).isLessThan(new RawComparableType(4));
   }

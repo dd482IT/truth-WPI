@@ -26,27 +26,22 @@ import org.junit.runners.JUnit4;
  *
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
 public class PrimitiveCharArraySubjectTest extends BaseSubjectTestCase {
 
-  @Test
   public void isEqualTo() {
     assertThat(array('a', 'q')).isEqualTo(array('a', 'q'));
   }
 
   @SuppressWarnings("TruthSelfEquals")
-  @Test
   public void isEqualTo_Same() {
     char[] same = array('a', 'q');
     assertThat(same).isEqualTo(same);
   }
 
-  @Test
   public void asList() {
     assertThat(array('a', 'q', 'z')).asList().containsAtLeast('a', 'z');
   }
 
-  @Test
   public void isEqualTo_Fail_UnequalOrdering() {
     expectFailureWhenTestingThat(array('a', 'q')).isEqualTo(array('q', 'a'));
     assertFailureKeys("expected", "but was", "differs at index");
@@ -55,7 +50,6 @@ public class PrimitiveCharArraySubjectTest extends BaseSubjectTestCase {
     assertFailureValue("differs at index", "[0]");
   }
 
-  @Test
   public void isEqualTo_Fail_DifferentKindOfArray() {
     expectFailureWhenTestingThat(array('a', 'q')).isEqualTo(new int[] {});
     assertFailureKeys("expected", "but was", "wrong type", "expected", "but was");
@@ -63,28 +57,23 @@ public class PrimitiveCharArraySubjectTest extends BaseSubjectTestCase {
     assertFailureValueIndexed("but was", 1, "char[]");
   }
 
-  @Test
   public void isNotEqualTo_SameLengths() {
     assertThat(array('a', 'q')).isNotEqualTo(array('q', 'a'));
   }
 
-  @Test
   public void isNotEqualTo_DifferentLengths() {
     assertThat(array('a', 'q')).isNotEqualTo(array('q', 'a', 'b'));
   }
 
-  @Test
   public void isNotEqualTo_DifferentTypes() {
     assertThat(array('a', 'q')).isNotEqualTo(new Object());
   }
 
-  @Test
   public void isNotEqualTo_FailEquals() {
     expectFailureWhenTestingThat(array('a', 'q')).isNotEqualTo(array('a', 'q'));
   }
 
   @SuppressWarnings("TruthSelfEquals")
-  @Test
   public void isNotEqualTo_FailSame() {
     char[] same = array('a', 'q');
     expectFailureWhenTestingThat(same).isNotEqualTo(same);

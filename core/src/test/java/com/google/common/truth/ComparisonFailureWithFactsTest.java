@@ -31,23 +31,19 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Test for {@link ComparisonFailureWithFacts}. */
-@RunWith(JUnit4.class)
 public class ComparisonFailureWithFactsTest {
-  @Test
   public void formatAllDifferent() {
     runFormatTest(
         "foo", "bar",
         "foo", "bar");
   }
 
-  @Test
   public void formatShortOverlap() {
     runFormatTest(
         "bar", "baz",
         "bar", "baz");
   }
 
-  @Test
   public void formatLongOverlapStart() {
     runFormatTest(
         repeat("b", 100) + "aa",
@@ -56,7 +52,6 @@ public class ComparisonFailureWithFactsTest {
         "…" + repeat("b", 20) + "oo");
   }
 
-  @Test
   public void formatLongOverlapEnd() {
     runFormatTest(
         "ba" + repeat("r", 100),
@@ -65,7 +60,6 @@ public class ComparisonFailureWithFactsTest {
         "fu" + repeat("r", 20) + "…");
   }
 
-  @Test
   public void formatLongOverlapStartAlsoSmallAtEnd() {
     runFormatTest(
         repeat("b", 100) + "aa" + repeat("t", 7),
@@ -74,7 +68,6 @@ public class ComparisonFailureWithFactsTest {
         "…" + repeat("b", 20) + "oottttttt");
   }
 
-  @Test
   public void formatLongOverlapEndAlsoSmallAtStart() {
     runFormatTest(
         repeat("a", 7) + "ba" + repeat("r", 100),
@@ -83,7 +76,6 @@ public class ComparisonFailureWithFactsTest {
         "aaaaaaafu" + repeat("r", 20) + "…");
   }
 
-  @Test
   public void formatLongOverlapBoth() {
     runFormatTest(
         repeat("r", 60) + "a" + repeat("g", 60),
@@ -92,7 +84,6 @@ public class ComparisonFailureWithFactsTest {
         "…" + repeat("r", 20) + "u" + repeat("g", 20) + "…");
   }
 
-  @Test
   public void formatLongOverlapBothDifferentLength() {
     runFormatTest(
         repeat("r", 60) + "aaaaa" + repeat("g", 60),
@@ -101,7 +92,6 @@ public class ComparisonFailureWithFactsTest {
         "…" + repeat("r", 20) + "u" + repeat("g", 20) + "…");
   }
 
-  @Test
   public void prefixAndSuffixWouldOverlapSimple() {
     runFormatTest(
         repeat("a", 40) + "lmnopqrstuv" + repeat("a", 40),
@@ -110,12 +100,10 @@ public class ComparisonFailureWithFactsTest {
         "…aaaaaaaaalmnopqrstuvlmnopqrstuvaaaaaaaaa…");
   }
 
-  @Test
   public void prefixAndSuffixWouldOverlapAllSame() {
     runFormatTest(repeat("a", 100), repeat("a", 102), "…" + repeat("a", 20), "…" + repeat("a", 22));
   }
 
-  @Test
   public void formatNoSplitSurrogateStart() {
     runFormatTest(
         repeat("b", 100) + "\uD8AB\uDCAB" + repeat("b", 19) + "aa",
@@ -124,7 +112,6 @@ public class ComparisonFailureWithFactsTest {
         "…\uD8AB\uDCAB" + repeat("b", 19) + "oo");
   }
 
-  @Test
   public void formatNoSplitSurrogateEnd() {
     runFormatTest(
         "ba" + repeat("r", 19) + "\uD8AB\uDCAB" + repeat("r", 100),
@@ -133,8 +120,6 @@ public class ComparisonFailureWithFactsTest {
         "fu" + repeat("r", 19) + "\uD8AB\uDCAB…");
   }
 
-  @GwtIncompatible
-  @Test
   public void formatDiffOmitStart() {
     runFormatTest(
         repeat("a\n", 100) + "b",
@@ -142,8 +127,6 @@ public class ComparisonFailureWithFactsTest {
         Joiner.on('\n').join("@@ -98,4 +98,4 @@", " a", " a", " a", "-b", "+c"));
   }
 
-  @GwtIncompatible
-  @Test
   public void formatDiffOmitEnd() {
     runFormatTest(
         "a" + repeat("\nz", 100),
@@ -151,8 +134,6 @@ public class ComparisonFailureWithFactsTest {
         Joiner.on('\n').join("@@ -1,4 +1,4 @@", "-a", "+b", " z", " z", " z"));
   }
 
-  @GwtIncompatible
-  @Test
   public void formatDiffOmitBoth() {
     runFormatTest(
         repeat("a\n", 100) + "m" + repeat("\nz", 100),
@@ -160,8 +141,6 @@ public class ComparisonFailureWithFactsTest {
         Joiner.on('\n').join("@@ -98,7 +98,7 @@", " a", " a", " a", "-m", "+n", " z", " z", " z"));
   }
 
-  @GwtIncompatible
-  @Test
   public void formatDiffOmitBothMultipleDifferingLines() {
     runFormatTest(
         repeat("a\n", 100) + "m\nn\no\np" + repeat("\nz", 100),
@@ -185,8 +164,6 @@ public class ComparisonFailureWithFactsTest {
                 " z"));
   }
 
-  @GwtIncompatible
-  @Test
   public void formatDiffOmitBothMultipleDifferingLinesDifferentLength() {
     runFormatTest(
         repeat("a\n", 100) + "m\nn\no\np" + repeat("\nz", 100),
@@ -212,8 +189,6 @@ public class ComparisonFailureWithFactsTest {
                 " z"));
   }
 
-  @GwtIncompatible
-  @Test
   public void formatDiffPrefixAndSuffixWouldOverlapSimple() {
     runFormatTest(
         repeat("a\n", 40) + "l\nm\nn\no\np\n" + repeat("a\n", 40),
@@ -234,8 +209,6 @@ public class ComparisonFailureWithFactsTest {
                 " a"));
   }
 
-  @GwtIncompatible
-  @Test
   public void formatDiffPrefixAndSuffixWouldOverlapAllSame() {
     runFormatTest(
         repeat("a\n", 80),
@@ -247,8 +220,6 @@ public class ComparisonFailureWithFactsTest {
      */
   }
 
-  @GwtIncompatible
-  @Test
   public void formatDiffSameExceptNewlineStyle() {
     runFormatTest(
         repeat("a\n", 10),
@@ -256,8 +227,6 @@ public class ComparisonFailureWithFactsTest {
         "(line contents match, but line-break characters differ)");
   }
 
-  @GwtIncompatible
-  @Test
   public void formatDiffSameExceptTrailingNewline() {
     runFormatTest(
         repeat("a\n", 19) + "a",
@@ -265,8 +234,6 @@ public class ComparisonFailureWithFactsTest {
         Joiner.on('\n').join("@@ -18,3 +18,4 @@", " a", " a", " a", "+"));
   }
 
-  @GwtIncompatible
-  @Test
   public void testSerialization_ComparisonFailureWithFacts() {
     ImmutableList<String> messages = ImmutableList.of("hello");
     ImmutableList<Fact> facts = ImmutableList.of(fact("first", "value"), simpleFact("second"));
@@ -286,8 +253,6 @@ public class ComparisonFailureWithFactsTest {
     assertThat(reserialized.getActual()).isEqualTo("actual");
   }
 
-  @GwtIncompatible
-  @Test
   public void testSerialization_AssertionErrorWithFacts() {
     ImmutableList<String> messages = ImmutableList.of("hello");
     ImmutableList<Fact> facts = ImmutableList.of(fact("first", "value"), simpleFact("second"));
@@ -302,8 +267,6 @@ public class ComparisonFailureWithFactsTest {
     assertThat(reserialized.facts().get(1).key).isEqualTo("second");
   }
 
-  @GwtIncompatible
-  @Test
   public void testSerialization_Fact() {
     Fact original = fact("first", "value");
     Fact reserialized = reserialize(original);
@@ -326,7 +289,6 @@ public class ComparisonFailureWithFactsTest {
     assertThat(facts.get(1).value).isEqualTo(expectedActual);
   }
 
-  @GwtIncompatible
   private static void runFormatTest(String expected, String actual, String expectedDiff) {
     ImmutableList<Fact> facts = formatExpectedAndActual(expected, actual);
     assertThat(facts).hasSize(1);

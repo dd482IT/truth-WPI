@@ -18,7 +18,6 @@ package com.google.common.truth.extension;
 import com.google.auto.value.AutoValue;
 
 /** Represents an employee. */
-@AutoValue
 public abstract class Employee {
   public static Employee create(
       String username, long id, String name, Location location, boolean isCeo) {

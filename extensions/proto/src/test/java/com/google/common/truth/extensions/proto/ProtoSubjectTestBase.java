@@ -95,7 +95,7 @@ public class ProtoSubjectTestBase {
     return builder.build();
   }
 
-  @Rule public final Expect expect = Expect.create();
+  public final Expect expect = Expect.create();
 
   // Hackhackhack: 'ExpectFailure' does not support more than one call per test, but we have many
   // tests which require it.  So, we create an arbitrary number of these rules, and dole them out
@@ -103,7 +103,7 @@ public class ProtoSubjectTestBase {
   // TODO(user): See if 'expectFailure.enterRuleContext()' could be made public, or a '.reset()'
   // function could be added to mitigate the need for this.  Alternatively, if & when Truth moves
   // to Java 8, we can use the static API with lambdas instead.
-  @Rule public final MultiExpectFailure multiExpectFailure = new MultiExpectFailure(/* size= */ 20);
+  public final MultiExpectFailure multiExpectFailure = new MultiExpectFailure(/* size= */ 20);
 
   private final Message defaultInstance;
   private final boolean isProto3;
@@ -183,7 +183,7 @@ public class ProtoSubjectTestBase {
     return expect.about(truthFailures()).that(multiExpectFailure.getFailure());
   }
 
-  protected final ProtoSubject expectThat(@Nullable Message message) {
+  protected final ProtoSubject expectThat(Message message) {
     return expect.about(ProtoTruth.protos()).that(message);
   }
 
@@ -200,7 +200,7 @@ public class ProtoSubjectTestBase {
     return expect.about(ProtoTruth.protos()).that(multimap);
   }
 
-  protected final ProtoSubject expectThatWithMessage(String msg, @Nullable Message message) {
+  protected final ProtoSubject expectThatWithMessage(String msg, Message message) {
     return expect.withMessage(msg).about(ProtoTruth.protos()).that(message);
   }
 

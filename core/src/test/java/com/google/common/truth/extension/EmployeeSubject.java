@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public final class EmployeeSubject extends Subject {
 
   // User-defined entry point
-  public static EmployeeSubject assertThat(@Nullable Employee employee) {
+  public static EmployeeSubject assertThat(Employee employee) {
     return assertAbout(EMPLOYEE_SUBJECT_FACTORY).that(employee);
   }
 
@@ -48,7 +48,7 @@ public final class EmployeeSubject extends Subject {
 
   private final Employee actual;
 
-  private EmployeeSubject(FailureMetadata failureMetadata, @Nullable Employee subject) {
+  private EmployeeSubject(FailureMetadata failureMetadata, Employee subject) {
     super(failureMetadata, subject);
     this.actual = subject;
   }

@@ -44,7 +44,7 @@ public final class LongStreamSubject extends Subject {
 
   private final List<?> actualList;
 
-  private LongStreamSubject(FailureMetadata failureMetadata, @Nullable LongStream stream) {
+  private LongStreamSubject(FailureMetadata failureMetadata, LongStream stream) {
     super(failureMetadata, stream);
     this.actualList =
         (stream == null) ? null : stream.boxed().collect(toCollection(ArrayList::new));
@@ -115,7 +115,6 @@ public final class LongStreamSubject extends Subject {
    * within the actual elements, but they are not required to be consecutive.
    */
   @SuppressWarnings("GoodTime") // false positive; b/122617528
-  @CanIgnoreReturnValue
   public Ordered containsAtLeast(long first, long second, long... rest) {
     return check().that(actualList).containsAtLeast(first, second, box(rest));
   }
@@ -129,7 +128,6 @@ public final class LongStreamSubject extends Subject {
    * on the object returned by this method. The expected elements must appear in the given order
    * within the actual elements, but they are not required to be consecutive.
    */
-  @CanIgnoreReturnValue
   public Ordered containsAtLeastElementsIn(Iterable<?> expected) {
     return check().that(actualList).containsAtLeastElementsIn(expected);
   }
@@ -143,7 +141,6 @@ public final class LongStreamSubject extends Subject {
    * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
    * on the object returned by this method.
    */
-  @CanIgnoreReturnValue
   public Ordered containsExactly(long... varargs) {
     return check().that(actualList).containsExactly(box(varargs));
   }
@@ -157,7 +154,6 @@ public final class LongStreamSubject extends Subject {
    * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
    * on the object returned by this method.
    */
-  @CanIgnoreReturnValue
   public Ordered containsExactlyElementsIn(Iterable<?> expected) {
     return check().that(actualList).containsExactlyElementsIn(expected);
   }

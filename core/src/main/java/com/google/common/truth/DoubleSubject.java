@@ -38,7 +38,7 @@ public final class DoubleSubject extends ComparableSubject<Double> {
 
   private final Double actual;
 
-  DoubleSubject(FailureMetadata metadata, @Nullable Double actual) {
+  DoubleSubject(FailureMetadata metadata, Double actual) {
     super(metadata, actual);
     this.actual = actual;
   }
@@ -66,7 +66,7 @@ public final class DoubleSubject extends ComparableSubject<Double> {
      */
     @Deprecated
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(Object o) {
       throw new UnsupportedOperationException(
           "If you meant to compare doubles, use .of(double) instead.");
     }
@@ -178,7 +178,7 @@ public final class DoubleSubject extends ComparableSubject<Double> {
    * #isZero}.
    */
   @Override
-  public final void isEqualTo(@Nullable Object other) {
+  public final void isEqualTo(Object other) {
     super.isEqualTo(other);
   }
 
@@ -192,7 +192,7 @@ public final class DoubleSubject extends ComparableSubject<Double> {
    * #isNonZero}.
    */
   @Override
-  public final void isNotEqualTo(@Nullable Object other) {
+  public final void isNotEqualTo(Object other) {
     super.isNotEqualTo(other);
   }
 

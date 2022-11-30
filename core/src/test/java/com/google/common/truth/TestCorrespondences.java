@@ -38,14 +38,14 @@ final class TestCorrespondences {
           // TestCorrespondences::stringParsesToInteger,
           new Correspondence.BinaryPredicate<String, Integer>() {
             @Override
-            public boolean apply(@Nullable String actual, @Nullable Integer expected) {
+            public boolean apply(String actual, Integer expected) {
               return stringParsesToInteger(actual, expected);
             }
           },
           "parses to");
 
   private static boolean stringParsesToInteger(
-      @Nullable String actual, @Nullable Integer expected) {
+      String actual, Integer expected) {
     if (actual == null) {
       return expected == null;
     }
@@ -174,7 +174,7 @@ final class TestCorrespondences {
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(Object o) {
       if (o instanceof Record) {
         Record that = (Record) o;
         return this.id == that.id && this.score == that.score;
@@ -200,7 +200,7 @@ final class TestCorrespondences {
      * If the argument is the string form of a record, returns that record; otherwise returns {@code
      * null}.
      */
-    static @Nullable Record parse(String str) {
+    static Record parse(String str) {
       List<String> parts = Splitter.on('/').splitToList(str);
       if (parts.size() != 2) {
         return null;
@@ -288,13 +288,13 @@ final class TestCorrespondences {
               // });
               new Correspondence.DiffFormatter<String, Record>() {
                 @Override
-                public @Nullable String formatDiff(String actual, Record expected) {
+                public String formatDiff(String actual, Record expected) {
                   Record actualRecord = Record.parse(actual);
                   return actualRecord != null ? formatRecordDiff(actualRecord, expected) : null;
                 }
               });
 
-  private static boolean recordsAreCloseEnough(@Nullable Record actual, @Nullable Record expected) {
+  private static boolean recordsAreCloseEnough(Record actual, Record expected) {
     if (actual == null) {
       return expected == null;
     }
@@ -304,7 +304,7 @@ final class TestCorrespondences {
     return actual.hasSameId(expected) && Math.abs(actual.getScore() - expected.getScore()) <= 10;
   }
 
-  private static @Nullable String formatRecordDiff(Record actual, Record expected) {
+  private static String formatRecordDiff(Record actual, Record expected) {
     if (actual.hasId() && expected.hasId() && actual.getId() == expected.getId()) {
       return "score:" + (actual.getScore() - expected.getScore());
     } else {
@@ -320,7 +320,7 @@ final class TestCorrespondences {
       new Function<Record, Integer>() {
 
         @Override
-        public @Nullable Integer apply(Record record) {
+        public Integer apply(Record record) {
           return record.hasId() ? record.getId() : null;
         }
       };
@@ -333,7 +333,7 @@ final class TestCorrespondences {
       new Function<Record, Integer>() {
 
         @Override
-        public @Nullable Integer apply(Record record) {
+        public Integer apply(Record record) {
           if (record == null) {
             return 0;
           }
@@ -350,7 +350,7 @@ final class TestCorrespondences {
       new Function<String, Integer>() {
 
         @Override
-        public @Nullable Integer apply(String str) {
+        public Integer apply(String str) {
           Record record = Record.parse(str);
           return record != null ? RECORD_ID.apply(record) : null;
         }

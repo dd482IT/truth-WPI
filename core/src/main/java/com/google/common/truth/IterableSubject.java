@@ -95,7 +95,7 @@ public class IterableSubject extends Subject {
    * Constructor for use by subclasses. If you want to create an instance of this class itself, call
    * {@link Subject#check(String, Object...) check(...)}{@code .that(actual)}.
    */
-  protected IterableSubject(FailureMetadata metadata, @Nullable Iterable<?> iterable) {
+  protected IterableSubject(FailureMetadata metadata, Iterable<?> iterable) {
     super(metadata, iterable);
     this.actual = iterable;
   }
@@ -115,7 +115,7 @@ public class IterableSubject extends Subject {
   }
 
   @Override
-  public void isEqualTo(@Nullable Object expected) {
+  public void isEqualTo(Object expected) {
     @SuppressWarnings("UndefinedEquals") // method contract requires testing iterables for equality
     boolean equal = Objects.equal(actual, expected);
     if (equal) {
@@ -160,7 +160,7 @@ public class IterableSubject extends Subject {
   }
 
   /** Checks (with a side-effect failure) that the subject contains the supplied item. */
-  public final void contains(@Nullable Object element) {
+  public final void contains(Object element) {
     if (!Iterables.contains(actual, element)) {
       List<Object> elementList = newArrayList(element);
       if (hasMatchingToStringPair(actual, elementList)) {
@@ -180,7 +180,7 @@ public class IterableSubject extends Subject {
   }
 
   /** Checks (with a side-effect failure) that the subject does not contain the supplied item. */
-  public final void doesNotContain(@Nullable Object element) {
+  public final void doesNotContain(Object element) {
     if (Iterables.contains(actual, element)) {
       failWithActual("expected not to contain", element);
     }
@@ -204,7 +204,7 @@ public class IterableSubject extends Subject {
 
   /** Checks that the subject contains at least one of the provided objects or fails. */
   public final void containsAnyOf(
-      @Nullable Object first, @Nullable Object second, @Nullable Object @Nullable ... rest) {
+      Object first, Object second, Object ... rest) {
     containsAnyIn(accumulate(first, second, rest));
   }
 
@@ -251,11 +251,10 @@ public class IterableSubject extends Subject {
    * on the object returned by this method. The expected elements must appear in the given order
    * within the actual elements, but they are not required to be consecutive.
    */
-  @CanIgnoreReturnValue
   public final Ordered containsAtLeast(
-      @Nullable Object firstExpected,
-      @Nullable Object secondExpected,
-      @Nullable Object @Nullable ... restOfExpected) {
+      Object firstExpected,
+      Object secondExpected,
+      Object ... restOfExpected) {
     return containsAtLeastElementsIn(accumulate(firstExpected, secondExpected, restOfExpected));
   }
 
@@ -268,7 +267,6 @@ public class IterableSubject extends Subject {
    * on the object returned by this method. The expected elements must appear in the given order
    * within the actual elements, but they are not required to be consecutive.
    */
-  @CanIgnoreReturnValue
   public final Ordered containsAtLeastElementsIn(Iterable<?> expectedIterable) {
     List<?> actual = Lists.newLinkedList(this.actual);
     final Collection<?> expected = iterableToCollection(expectedIterable);
@@ -327,7 +325,6 @@ public class IterableSubject extends Subject {
    * on the object returned by this method. The expected elements must appear in the given order
    * within the actual elements, but they are not required to be consecutive.
    */
-  @CanIgnoreReturnValue
   public final Ordered containsAtLeastElementsIn(Object[] expected) {
     return containsAtLeastElementsIn(asList(expected));
   }
@@ -378,8 +375,7 @@ public class IterableSubject extends Subject {
    * #containsExactlyElementsIn(Object[])}. It makes clear that the given array is a list of
    * elements, not an element itself. This helps human readers and avoids a compiler warning.
    */
-  @CanIgnoreReturnValue
-  public final Ordered containsExactly(@Nullable Object @Nullable ... varargs) {
+  public final Ordered containsExactly(Object ... varargs) {
     List<Object> expected = (varargs == null) ? newArrayList((Object) null) : asList(varargs);
     return containsExactlyElementsIn(
         expected, varargs != null && varargs.length == 1 && varargs[0] instanceof Iterable);
@@ -395,7 +391,6 @@ public class IterableSubject extends Subject {
    * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
    * on the object returned by this method.
    */
-  @CanIgnoreReturnValue
   public final Ordered containsExactlyElementsIn(Iterable<?> expected) {
     return containsExactlyElementsIn(expected, false);
   }
@@ -409,7 +404,6 @@ public class IterableSubject extends Subject {
    * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
    * on the object returned by this method.
    */
-  @CanIgnoreReturnValue
   public final Ordered containsExactlyElementsIn(Object[] expected) {
     return containsExactlyElementsIn(asList(expected));
   }
@@ -692,9 +686,9 @@ public class IterableSubject extends Subject {
    * irrelevant to this test, which fails if any of the actual elements equal any of the excluded.)
    */
   public final void containsNoneOf(
-      @Nullable Object firstExcluded,
-      @Nullable Object secondExcluded,
-      @Nullable Object @Nullable ... restOfExcluded) {
+      Object firstExcluded,
+      Object secondExcluded,
+      Object ... restOfExcluded) {
     containsNoneIn(accumulate(firstExcluded, secondExcluded, restOfExcluded));
   }
 
@@ -847,7 +841,7 @@ public class IterableSubject extends Subject {
   @Override
   @Deprecated
   public void isNoneOf(
-      @Nullable Object first, @Nullable Object second, @Nullable Object @Nullable ... rest) {
+      Object first, Object second, Object ... rest) {
     super.isNoneOf(first, second, rest);
   }
 
@@ -1065,7 +1059,7 @@ public class IterableSubject extends Subject {
      * during comparisons? Or maybe we should take the risk for user convenience? If we make
      * changes, also make them in MapSubject, MultimapSubject, and possibly others.
      */
-    public void contains(@Nullable E expected) {
+    public void contains(E expected) {
       Correspondence.ExceptionStore exceptions = Correspondence.ExceptionStore.forIterable();
       for (A actual : getCastActual()) {
         if (correspondence.safeCompare(actual, expected, exceptions)) {
@@ -1115,7 +1109,7 @@ public class IterableSubject extends Subject {
     }
 
     /** Checks that none of the actual elements correspond to the given element. */
-    public void doesNotContain(@Nullable E excluded) {
+    public void doesNotContain(E excluded) {
       Correspondence.ExceptionStore exceptions = Correspondence.ExceptionStore.forIterable();
       List<A> matchingElements = new ArrayList<>();
       for (A actual : getCastActual()) {
@@ -1161,8 +1155,7 @@ public class IterableSubject extends Subject {
      * of elements, not an element itself. This helps human readers and avoids a compiler warning.
      */
     @SafeVarargs
-    @CanIgnoreReturnValue
-    public final Ordered containsExactly(@Nullable E @Nullable ... expected) {
+    public final Ordered containsExactly(E ... expected) {
       return containsExactlyElementsIn(
           (expected == null) ? newArrayList((E) null) : asList(expected));
     }
@@ -1175,7 +1168,6 @@ public class IterableSubject extends Subject {
      * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
      * on the object returned by this method.
      */
-    @CanIgnoreReturnValue
     public Ordered containsExactlyElementsIn(final Iterable<? extends E> expected) {
       List<A> actualList = iterableToList(getCastActual());
       List<? extends E> expectedList = iterableToList(expected);
@@ -1252,7 +1244,6 @@ public class IterableSubject extends Subject {
      * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
      * on the object returned by this method.
      */
-    @CanIgnoreReturnValue
     public Ordered containsExactlyElementsIn(E[] expected) {
       return containsExactlyElementsIn(asList(expected));
     }
@@ -1339,7 +1330,7 @@ public class IterableSubject extends Subject {
         List<? extends A> extra,
         Correspondence.ExceptionStore exceptions) {
       if (pairer.isPresent()) {
-        @Nullable Pairing pairing = pairer.get().pair(missing, extra, exceptions);
+        Pairing pairing = pairer.get().pair(missing, extra, exceptions);
         if (pairing != null) {
           return describeMissingOrExtraWithPairing(pairing, exceptions);
         } else {
@@ -1396,7 +1387,7 @@ public class IterableSubject extends Subject {
       boolean hasDiffs = false;
       for (int i = 0; i < extras.size(); i++) {
         A extra = extras.get(i);
-        @Nullable String diff = correspondence.safeFormatDiff(extra, missing, exceptions);
+        String diff = correspondence.safeFormatDiff(extra, missing, exceptions);
         diffs.add(diff);
         if (diff != null) {
           hasDiffs = true;
@@ -1511,9 +1502,8 @@ public class IterableSubject extends Subject {
      * subject, but they are not required to be consecutive.
      */
     @SafeVarargs
-    @CanIgnoreReturnValue
     public final Ordered containsAtLeast(
-        @Nullable E first, @Nullable E second, @Nullable E @Nullable ... rest) {
+        E first, E second, E ... rest) {
       return containsAtLeastElementsIn(accumulate(first, second, rest));
     }
 
@@ -1526,7 +1516,6 @@ public class IterableSubject extends Subject {
      * on the object returned by this method. The elements must appear in the given order within the
      * subject, but they are not required to be consecutive.
      */
-    @CanIgnoreReturnValue
     public Ordered containsAtLeastElementsIn(final Iterable<? extends E> expected) {
       List<A> actualList = iterableToList(getCastActual());
       List<? extends E> expectedList = iterableToList(expected);
@@ -1592,7 +1581,6 @@ public class IterableSubject extends Subject {
      * on the object returned by this method. The elements must appear in the given order within the
      * subject, but they are not required to be consecutive.
      */
-    @CanIgnoreReturnValue
     public Ordered containsAtLeastElementsIn(E[] expected) {
       return containsAtLeastElementsIn(asList(expected));
     }
@@ -1676,7 +1664,7 @@ public class IterableSubject extends Subject {
         List<? extends A> extra,
         Correspondence.ExceptionStore exceptions) {
       if (pairer.isPresent()) {
-        @Nullable Pairing pairing = pairer.get().pair(missing, extra, exceptions);
+        Pairing pairing = pairer.get().pair(missing, extra, exceptions);
         if (pairing != null) {
           return describeMissingWithPairing(pairing, exceptions);
         } else {
@@ -1762,7 +1750,7 @@ public class IterableSubject extends Subject {
      */
     @SafeVarargs
     public final void containsAnyOf(
-        @Nullable E first, @Nullable E second, @Nullable E @Nullable ... rest) {
+        E first, E second, E ... rest) {
       containsAnyIn(accumulate(first, second, rest));
     }
 
@@ -1868,9 +1856,9 @@ public class IterableSubject extends Subject {
      */
     @SafeVarargs
     public final void containsNoneOf(
-        @Nullable E firstExcluded,
-        @Nullable E secondExcluded,
-        @Nullable E @Nullable ... restOfExcluded) {
+        E firstExcluded,
+        E secondExcluded,
+        E ... restOfExcluded) {
       containsNoneIn(accumulate(firstExcluded, secondExcluded, restOfExcluded));
     }
 
@@ -1959,7 +1947,7 @@ public class IterableSubject extends Subject {
        * Returns a {@link Pairing} of the given expected and actual values, or {@code null} if the
        * expected values are not uniquely keyed.
        */
-      @Nullable Pairing pair(
+      Pairing pair(
           List<? extends E> expectedValues,
           List<? extends A> actualValues,
           Correspondence.ExceptionStore exceptions) {
@@ -1976,7 +1964,7 @@ public class IterableSubject extends Subject {
         // We will remove the unpaired keys later. Return null if we find a duplicate key.
         for (int i = 0; i < expectedValues.size(); i++) {
           E expected = expectedValues.get(i);
-          @Nullable Object key = expectedKeys.get(i);
+          Object key = expectedKeys.get(i);
           if (key != null) {
             if (pairing.pairedKeysToExpectedValues.containsKey(key)) {
               return null;
@@ -1988,7 +1976,7 @@ public class IterableSubject extends Subject {
 
         // Populate pairedKeysToActualValues and unpairedActualValues.
         for (A actual : actualValues) {
-          @Nullable Object key = actualKey(actual, exceptions);
+          Object key = actualKey(actual, exceptions);
           if (pairing.pairedKeysToExpectedValues.containsKey(key)) {
             pairing.pairedKeysToActualValues.put(key, actual);
           } else {
@@ -1999,7 +1987,7 @@ public class IterableSubject extends Subject {
         // Populate unpairedExpectedValues and remove unpaired keys from pairedKeysToExpectedValues.
         for (int i = 0; i < expectedValues.size(); i++) {
           E expected = expectedValues.get(i);
-          @Nullable Object key = expectedKeys.get(i);
+          Object key = expectedKeys.get(i);
           if (!pairing.pairedKeysToActualValues.containsKey(key)) {
             pairing.unpairedExpectedValues.add(expected);
             pairing.pairedKeysToExpectedValues.remove(key);
@@ -2013,7 +2001,7 @@ public class IterableSubject extends Subject {
           E expectedValue,
           Iterable<? extends A> actualValues,
           Correspondence.ExceptionStore exceptions) {
-        @Nullable Object key = expectedKey(expectedValue, exceptions);
+        Object key = expectedKey(expectedValue, exceptions);
         List<A> matches = new ArrayList<>();
         if (key != null) {
           for (A actual : actualValues) {
@@ -2025,7 +2013,7 @@ public class IterableSubject extends Subject {
         return matches;
       }
 
-      private @Nullable Object actualKey(A actual, Correspondence.ExceptionStore exceptions) {
+      private Object actualKey(A actual, Correspondence.ExceptionStore exceptions) {
         try {
           return actualKeyFunction.apply(actual);
         } catch (RuntimeException e) {
@@ -2035,7 +2023,7 @@ public class IterableSubject extends Subject {
         }
       }
 
-      private @Nullable Object expectedKey(E expected, Correspondence.ExceptionStore exceptions) {
+      private Object expectedKey(E expected, Correspondence.ExceptionStore exceptions) {
         try {
           return expectedKeyFunction.apply(expected);
         } catch (RuntimeException e) {

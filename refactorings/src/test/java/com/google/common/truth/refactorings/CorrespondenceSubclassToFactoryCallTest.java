@@ -24,12 +24,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** @author cpovirk@google.com (Chris Povirk) */
-@RunWith(JUnit4.class)
 public class CorrespondenceSubclassToFactoryCallTest {
   private BugCheckerRefactoringTestHelper refactoringHelper;
   private CompilationTestHelper compilationHelper;
 
-  @Before
   public void setUp() {
     compilationHelper =
         CompilationTestHelper.newInstance(CorrespondenceSubclassToFactoryCall.class, getClass());
@@ -38,28 +36,24 @@ public class CorrespondenceSubclassToFactoryCallTest {
             CorrespondenceSubclassToFactoryCall.class, getClass());
   }
 
-  @Test
   public void testPositiveCase() {
     compilationHelper
         .addSourceFile("CorrespondenceSubclassToFactoryCallPositiveCases.java")
         .doTest();
   }
 
-  @Test
   public void testPositiveCase2() {
     compilationHelper
         .addSourceFile("CorrespondenceSubclassToFactoryCallPositiveCases2.java")
         .doTest();
   }
 
-  @Test
   public void testNegativeCase() {
     compilationHelper
         .addSourceFile("CorrespondenceSubclassToFactoryCallNegativeCases.java")
         .doTest();
   }
 
-  @Test
   public void refactoring() {
     refactoringHelper
         .addInput("CorrespondenceSubclassToFactoryCallPositiveCases.java")
@@ -67,7 +61,6 @@ public class CorrespondenceSubclassToFactoryCallTest {
         .doTest();
   }
 
-  @Test
   public void refactoring2() {
     refactoringHelper
         .addInput("CorrespondenceSubclassToFactoryCallPositiveCases2.java")

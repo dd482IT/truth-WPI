@@ -44,7 +44,7 @@ public final class StreamSubject extends Subject {
 
   private final List<?> actualList;
 
-  private StreamSubject(FailureMetadata failureMetadata, @Nullable Stream<?> stream) {
+  private StreamSubject(FailureMetadata failureMetadata, Stream<?> stream) {
     super(failureMetadata, stream);
     this.actualList = (stream == null) ? null : stream.collect(toCollection(ArrayList::new));
   }
@@ -79,12 +79,12 @@ public final class StreamSubject extends Subject {
   }
 
   /** Fails if the subject does not contain the given element. */
-  public void contains(@Nullable Object element) {
+  public void contains(Object element) {
     check().that(actualList).contains(element);
   }
 
   /** Fails if the subject contains the given element. */
-  public void doesNotContain(@Nullable Object element) {
+  public void doesNotContain(Object element) {
     check().that(actualList).doesNotContain(element);
   }
 
@@ -95,7 +95,7 @@ public final class StreamSubject extends Subject {
 
   /** Fails if the subject does not contain at least one of the given elements. */
   public void containsAnyOf(
-      @Nullable Object first, @Nullable Object second, @Nullable Object @Nullable ... rest) {
+      Object first, Object second, Object ... rest) {
     check().that(actualList).containsAnyOf(first, second, rest);
   }
 
@@ -113,9 +113,8 @@ public final class StreamSubject extends Subject {
    * on the object returned by this method. The expected elements must appear in the given order
    * within the actual elements, but they are not required to be consecutive.
    */
-  @CanIgnoreReturnValue
   public Ordered containsAtLeast(
-      @Nullable Object first, @Nullable Object second, @Nullable Object @Nullable ... rest) {
+      Object first, Object second, Object ... rest) {
     return check().that(actualList).containsAtLeast(first, second, rest);
   }
 
@@ -128,7 +127,6 @@ public final class StreamSubject extends Subject {
    * on the object returned by this method. The expected elements must appear in the given order
    * within the actual elements, but they are not required to be consecutive.
    */
-  @CanIgnoreReturnValue
   public Ordered containsAtLeastElementsIn(Iterable<?> expected) {
     return check().that(actualList).containsAtLeastElementsIn(expected);
   }
@@ -144,8 +142,7 @@ public final class StreamSubject extends Subject {
    * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
    * on the object returned by this method.
    */
-  @CanIgnoreReturnValue
-  public Ordered containsExactly(@Nullable Object @Nullable ... varargs) {
+  public Ordered containsExactly(Object ... varargs) {
     return check().that(actualList).containsExactly(varargs);
   }
 
@@ -158,7 +155,6 @@ public final class StreamSubject extends Subject {
    * <p>To also test that the contents appear in the given order, make a call to {@code inOrder()}
    * on the object returned by this method.
    */
-  @CanIgnoreReturnValue
   public Ordered containsExactlyElementsIn(Iterable<?> expected) {
     return check().that(actualList).containsExactlyElementsIn(expected);
   }
@@ -168,7 +164,7 @@ public final class StreamSubject extends Subject {
    * test, which fails if any of the actual elements equal any of the excluded.)
    */
   public void containsNoneOf(
-      @Nullable Object first, @Nullable Object second, @Nullable Object @Nullable ... rest) {
+      Object first, Object second, Object ... rest) {
     check().that(actualList).containsNoneOf(first, second, rest);
   }
 
@@ -229,11 +225,9 @@ public final class StreamSubject extends Subject {
    *     stream reference
    */
   @Override
-  @DoNotCall(
-      "StreamSubject.isEqualTo() is not supported because Streams do not have well-defined"
           + " equality semantics")
   @Deprecated
-  public void isEqualTo(@Nullable Object expected) {
+  public void isEqualTo(Object expected) {
     throw new UnsupportedOperationException(
         "StreamSubject.isEqualTo() is not supported because Streams do not have well-defined"
             + " equality semantics");
@@ -244,11 +238,9 @@ public final class StreamSubject extends Subject {
    *     same stream reference
    */
   @Override
-  @DoNotCall(
-      "StreamSubject.isNotEqualTo() is not supported because Streams do not have well-defined"
           + " equality semantics")
   @Deprecated
-  public void isNotEqualTo(@Nullable Object unexpected) {
+  public void isNotEqualTo(Object unexpected) {
     throw new UnsupportedOperationException(
         "StreamSubject.isNotEqualTo() is not supported because Streams do not have well-defined"
             + " equality semantics");

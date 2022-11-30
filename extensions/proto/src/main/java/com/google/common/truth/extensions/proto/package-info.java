@@ -21,7 +21,6 @@
  * <p>This package is a part of the open-source <a href="https://github.com/google/truth">Truth</a>
  * project.
  */
-@CheckReturnValue
 package com.google.common.truth.extensions.proto;
 
 import com.google.errorprone.annotations.CheckReturnValue;

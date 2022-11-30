@@ -31,22 +31,18 @@ import org.junit.runners.JUnit4;
  *
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
 public class OptionalSubjectTest {
 
-  @Test
   public void isPresent() {
     assertThat(Optional.of("foo")).isPresent();
   }
 
-  @Test
   public void isPresentFailing() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(Optional.empty()).isPresent());
     assertThat(expected).factKeys().containsExactly("expected to be present");
   }
 
-  @Test
   public void isPresentFailingNull() {
     AssertionError expected = expectFailure(whenTesting -> whenTesting.that(null).isPresent());
     assertThat(expected)
@@ -55,12 +51,10 @@ public class OptionalSubjectTest {
         .inOrder();
   }
 
-  @Test
   public void isEmpty() {
     assertThat(Optional.empty()).isEmpty();
   }
 
-  @Test
   public void isEmptyFailing() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(Optional.of("foo")).isEmpty());
@@ -68,18 +62,15 @@ public class OptionalSubjectTest {
     assertThat(expected).factValue("but was present with value").isEqualTo("foo");
   }
 
-  @Test
   public void isEmptyFailingNull() {
     AssertionError expected = expectFailure(whenTesting -> whenTesting.that(null).isEmpty());
     assertThat(expected).factKeys().containsExactly("expected empty optional", "but was").inOrder();
   }
 
-  @Test
   public void hasValue() {
     assertThat(Optional.of("foo")).hasValue("foo");
   }
 
-  @Test
   public void hasValue_failingWithEmpty() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(Optional.empty()).hasValue("foo"));
@@ -90,7 +81,6 @@ public class OptionalSubjectTest {
     assertThat(expected).factValue("expected to have value").isEqualTo("foo");
   }
 
-  @Test
   public void hasValue_npeWithNullParameter() {
     try {
       assertThat(Optional.of("foo")).hasValue(null);
@@ -100,7 +90,6 @@ public class OptionalSubjectTest {
     }
   }
 
-  @Test
   public void hasValue_failingWithWrongValue() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(Optional.of("foo")).hasValue("boo"));

@@ -30,33 +30,27 @@ import org.junit.runners.JUnit4;
  *
  * @author Ben Douglass
  */
-@RunWith(JUnit4.class)
 public class OptionalIntSubjectTest {
 
-  @Test
   public void failOnNullSubject() {
     AssertionError expected = expectFailure(whenTesting -> whenTesting.that(null).isEmpty());
     assertThat(expected).factKeys().containsExactly("expected empty optional", "but was").inOrder();
   }
 
-  @Test
   public void isPresent() {
     assertThat(OptionalInt.of(1337)).isPresent();
   }
 
-  @Test
   public void isPresentFailing() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(OptionalInt.empty()).isPresent());
     assertThat(expected).factKeys().containsExactly("expected to be present");
   }
 
-  @Test
   public void isEmpty() {
     assertThat(OptionalInt.empty()).isEmpty();
   }
 
-  @Test
   public void isEmptyFailing() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(OptionalInt.of(1337)).isEmpty());
@@ -64,18 +58,15 @@ public class OptionalIntSubjectTest {
     assertThat(expected).factValue("but was present with value").isEqualTo("1337");
   }
 
-  @Test
   public void isEmptyFailingNull() {
     AssertionError expected = expectFailure(whenTesting -> whenTesting.that(null).isEmpty());
     assertThat(expected).factKeys().containsExactly("expected empty optional", "but was").inOrder();
   }
 
-  @Test
   public void hasValue() {
     assertThat(OptionalInt.of(1337)).hasValue(1337);
   }
 
-  @Test
   public void hasValue_FailingWithEmpty() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(OptionalInt.empty()).hasValue(1337));
@@ -86,7 +77,6 @@ public class OptionalIntSubjectTest {
     assertThat(expected).factValue("expected to have value").isEqualTo("1337");
   }
 
-  @Test
   public void hasValue_FailingWithWrongValue() {
     AssertionError expected =
         expectFailure(whenTesting -> whenTesting.that(OptionalInt.of(1337)).hasValue(42));

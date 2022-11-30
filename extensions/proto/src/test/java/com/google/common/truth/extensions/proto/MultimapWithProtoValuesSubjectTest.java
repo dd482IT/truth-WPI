@@ -34,7 +34,6 @@ import org.junit.runners.Parameterized.Parameters;
  * Thus, we simply check that all of the exposed methods work in basic cases, and trust that the
  * implementation ensures correctness in the cross-product of the many ways one can do things.
  */
-@RunWith(Parameterized.class)
 public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
 
   private final Message message1 = parse("o_int: 1 r_string: \"foo\" r_string: \"bar\"");
@@ -48,7 +47,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
 
   private final int ignoreFieldNumber = getFieldNumber("o_int");
 
-  @Parameters(name = "{0}")
   public static Collection<Object[]> parameters() {
     return ProtoSubjectTestBase.parameters();
   }
@@ -57,7 +55,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     super(testType);
   }
 
-  @Test
   public void testPlain_isEmpty() {
     expectThat(ImmutableMultimap.<Object, Message>of()).isEmpty();
     expectThat(multimapOf(1, message1)).isNotEmpty();
@@ -69,7 +66,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_hasSize() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1)).hasSize(3);
 
@@ -77,7 +73,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsKey() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1)).containsKey(1);
     expectThat(multimapOf(1, message1, 1, message2, 2, message1)).doesNotContainKey(3);
@@ -93,7 +88,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsEntry() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1)).containsEntry(1, eqMessage2);
     expectThat(multimapOf(1, message1, 1, message2, 2, message1))
@@ -110,7 +104,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsExactlyEntriesIn() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1))
         .containsExactlyEntriesIn(multimapOf(1, eqMessage2, 2, eqMessage1, 1, eqMessage1));
@@ -130,7 +123,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsExactlyNoArgs() {
     expectThat(ImmutableMultimap.<Object, Message>of()).containsExactly();
     expectThat(ImmutableMultimap.<Object, Message>of()).containsExactly().inOrder();
@@ -139,7 +131,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_containsExactly() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1))
         .containsExactly(1, eqMessage2, 2, eqMessage1, 1, eqMessage1);
@@ -159,7 +150,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testPlain_valuesForKey() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1))
         .valuesForKey(1)
@@ -174,7 +164,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testFluent_containsEntry() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1))
         .ignoringFieldsForValues(ignoreFieldNumber)
@@ -208,7 +197,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
                 + "assertThat(proto).ignoringRepeatedFieldOrder().isEqualTo(target)");
   }
 
-  @Test
   public void testFluent_containsExactlyEntriesIn() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1))
         .ignoringFieldsForValues(ignoreFieldNumber)
@@ -234,7 +222,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testFluent_containsExactly_noArgs() {
     expectThat(ImmutableMultimap.<Object, Message>of())
         .ignoringRepeatedFieldOrderForValues()
@@ -251,7 +238,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testFluent_containsExactly() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1))
         .ignoringFieldsForValues(ignoreFieldNumber)
@@ -275,7 +261,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testFluent_valuesForKey() {
     expectThat(multimapOf(1, message1, 1, message2, 2, message1))
         .valuesForKey(1)
@@ -294,7 +279,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
     expectThatFailure().isNotNull();
   }
 
-  @Test
   public void testCompareMultipleMessageTypes() {
     // Don't run this test twice.
     if (!testIsRunOnce()) {
@@ -320,7 +304,6 @@ public class MultimapWithProtoValuesSubjectTest extends ProtoSubjectTestBase {
                 TestMessage2.newBuilder().addRString("bar").addRString("foo").build()));
   }
 
-  @Test
   public void testMethodNamesEndWithForValues() {
     checkMethodNamesEndWithForValues(MultimapWithProtoValuesSubject.class, MultimapSubject.class);
     checkMethodNamesEndWithForValues(

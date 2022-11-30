@@ -29,7 +29,7 @@ public class IntegerSubject extends ComparableSubject<Integer> {
    * Constructor for use by subclasses. If you want to create an instance of this class itself, call
    * {@link Subject#check(String, Object...) check(...)}{@code .that(actual)}.
    */
-  protected IntegerSubject(FailureMetadata metadata, @Nullable Integer integer) {
+  protected IntegerSubject(FailureMetadata metadata, Integer integer) {
     super(metadata, integer);
   }
 
